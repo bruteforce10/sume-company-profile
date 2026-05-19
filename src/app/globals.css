@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* SUME design system colors */
+  --sume-blue: #0058be;
+  --sume-blue-hover: #004a9f;
+  --sume-ink: #191c1e;
+  --sume-body: #424754;
+  --sume-muted: #6b7280;
+  --sume-line: #c2c6d6;
+  --sume-white: #ffffff;
+
+  --sume-bg-page: #f8fbff;
+  --sume-bg-hero: #f8fafc;
+  --sume-bg-clients: #f2f4f7;
+  --sume-bg-about: #fafbfd;
+  --sume-bg-solutions: #e8edf7;
+  --sume-bg-contact: #f7f9fc;
+  --sume-bg-footer: #f8fafc;
+  --sume-bg-blue-soft: #e7f1ff;
+  --sume-bg-dark: #0e243c;
+
+  --sume-hero-surface: radial-gradient(circle at 78% 32%, color-mix(in srgb, var(--sume-blue) 12%, transparent), transparent 32%), linear-gradient(180deg, var(--sume-white) 0%, var(--sume-bg-hero) 100%);
+  --sume-process-surface: linear-gradient(180deg, var(--sume-white) 0%, var(--sume-bg-blue-soft) 100%);
+  --sume-dark-surface: radial-gradient(circle at 74% 22%, color-mix(in srgb, var(--sume-blue) 50%, transparent), transparent 32%), linear-gradient(135deg, color-mix(in srgb, var(--sume-bg-dark) 92%, transparent), color-mix(in srgb, var(--sume-blue) 34%, var(--sume-bg-dark)));
+  --sume-project-surface: radial-gradient(circle at 32% 20%, color-mix(in srgb, var(--sume-white) 65%, transparent), transparent 18%), linear-gradient(135deg, color-mix(in srgb, var(--sume-line) 72%, var(--sume-white)) 0%, color-mix(in srgb, var(--sume-blue) 42%, var(--sume-line)) 42%, color-mix(in srgb, var(--sume-bg-dark) 92%, var(--sume-blue)) 100%);
+
+  --sume-shadow-soft: 0 24px 80px color-mix(in srgb, var(--sume-ink) 10%, transparent);
+  --sume-shadow-blue: 0 16px 34px color-mix(in srgb, var(--sume-blue) 22%, transparent);
+  --sume-shadow-line: 0 1px 0 color-mix(in srgb, var(--sume-line) 16%, transparent);
+  --sume-shadow-card: 0 18px 60px color-mix(in srgb, var(--sume-ink) 8%, transparent);
+  --sume-shadow-image: 0 30px 80px color-mix(in srgb, var(--sume-ink) 12%, transparent);
+  --sume-shadow-hero: 0 40px 80px color-mix(in srgb, var(--sume-blue) 16%, transparent);
+
+  --background: var(--sume-bg-page);
+  --foreground: var(--sume-ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-sume-blue: var(--sume-blue);
+  --color-sume-blue-hover: var(--sume-blue-hover);
+  --color-sume-ink: var(--sume-ink);
+  --color-sume-body: var(--sume-body);
+  --color-sume-muted: var(--sume-muted);
+  --color-sume-line: var(--sume-line);
+  --color-sume-bg-page: var(--sume-bg-page);
+  --color-sume-bg-hero: var(--sume-bg-hero);
+  --color-sume-bg-clients: var(--sume-bg-clients);
+  --color-sume-bg-about: var(--sume-bg-about);
+  --color-sume-bg-solutions: var(--sume-bg-solutions);
+  --color-sume-bg-contact: var(--sume-bg-contact);
+  --color-sume-bg-footer: var(--sume-bg-footer);
+  --color-sume-bg-blue-soft: var(--sume-bg-blue-soft);
+  --color-sume-bg-dark: var(--sume-bg-dark);
+  --font-sans: var(--font-plus-jakarta);
+  --font-display: var(--font-manrope);
+  --font-hero: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-plus-jakarta), sans-serif;
+}
+
+button,
+a,
+input,
+textarea {
+  touch-action: manipulation;
+}
+
+::selection {
+  background: var(--sume-blue);
+  color: var(--sume-white);
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-12 xl:px-10;
+}
+
+.paper-heading {
+  @apply font-display text-[34px] font-extrabold leading-[1.08] tracking-[-0.02em] text-sume-ink sm:text-[42px] lg:text-[48px];
+}
+
+.paper-body {
+  @apply text-base leading-7 text-sume-body sm:text-lg sm:leading-8;
+}
+
+.paper-blue-button {
+  box-shadow: var(--sume-shadow-blue);
+  @apply inline-flex min-h-12 items-center justify-center rounded-lg bg-sume-blue px-8 text-sm font-bold text-white transition hover:bg-sume-blue-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sume-blue;
+}
+
+.paper-glass-card {
+  @apply border border-white/40 bg-white/70 shadow-2xl shadow-slate-900/10 backdrop-blur-xl;
+}
+
+.engineering-grid {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--sume-blue) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--sume-blue) 6%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
