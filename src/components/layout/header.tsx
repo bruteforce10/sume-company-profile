@@ -1,6 +1,7 @@
 "use client";
 
-import { Menu, Phone, X } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -22,13 +23,13 @@ export function Header() {
       // Track active section only on homepage
       if (pathname === "/") {
         let current = "";
-        
+
         for (const link of navLinks) {
           if (!link.href.includes("#")) continue;
-          
+
           const id = link.href.split("#")[1];
           if (!id) continue;
-          
+
           const element = document.getElementById(id);
           if (element) {
             const rect = element.getBoundingClientRect();
@@ -56,12 +57,12 @@ export function Header() {
 
   return (
     <>
-      <header 
+      <header
         className={cn(
           "fixed inset-x-0 top-0 z-40 transition-all duration-300",
-          isScrolled 
-            ? "bg-white/70 text-sume-ink shadow-[var(--sume-shadow-line)] backdrop-blur-xl" 
-            : "bg-transparent text-sume-ink py-2 lg:py-4"
+          isScrolled
+            ? "bg-white/70 text-sume-ink shadow-[var(--sume-shadow-line)] backdrop-blur-xl"
+            : "bg-transparent text-sume-ink py-2 lg:py-4",
         )}
       >
         <div className="section-shell flex h-20 items-center justify-between gap-4 lg:h-24">
@@ -84,16 +85,18 @@ export function Header() {
             aria-label="Primary navigation"
           >
             {navLinks.map((link) => {
-              const isActive = pathname === link.href || (pathname === "/" && activeSection === link.href);
+              const isActive =
+                pathname === link.href ||
+                (pathname === "/" && activeSection === link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={cn(
                     "min-h-11 py-3 text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue",
-                    isActive 
-                      ? "font-bold text-sume-blue" 
-                      : "font-medium text-sume-body hover:text-sume-blue"
+                    isActive
+                      ? "font-bold text-sume-blue"
+                      : "font-medium text-sume-body hover:text-sume-blue",
                   )}
                 >
                   {link.label}
@@ -110,7 +113,7 @@ export function Header() {
               href={company.whatsapp}
               className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-sume-blue px-6 text-sm font-bold text-white transition hover:bg-sume-blue-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue"
             >
-              <Phone className="h-4 w-4" />
+              <FaWhatsapp className="h-6 w-6" />
               Call Whatsapp
             </Link>
           </div>
@@ -160,12 +163,23 @@ export function Header() {
             </button>
           </div>
 
-          <nav className="flex-1 overflow-y-auto py-6" aria-label="Mobile navigation">
+          <nav
+            className="flex-1 overflow-y-auto py-6"
+            aria-label="Mobile navigation"
+          >
             <div className="flex flex-col">
               {navLinks.map((link, index) => {
-                const isActive = pathname === link.href || (pathname === "/" && activeSection === link.href);
+                const isActive =
+                  pathname === link.href ||
+                  (pathname === "/" && activeSection === link.href);
                 return (
-                  <div key={link.href} className={cn("border-slate-100", index !== navLinks.length - 1 && "border-b")}>
+                  <div
+                    key={link.href}
+                    className={cn(
+                      "border-slate-100",
+                      index !== navLinks.length - 1 && "border-b",
+                    )}
+                  >
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
@@ -173,7 +187,7 @@ export function Header() {
                         "flex min-h-[60px] items-center py-2 text-[15px] transition-colors",
                         isActive
                           ? "font-bold text-sume-blue"
-                          : "font-medium text-slate-700 hover:text-sume-blue"
+                          : "font-medium text-slate-700 hover:text-sume-blue",
                       )}
                     >
                       {link.label}
@@ -189,7 +203,7 @@ export function Header() {
               href={company.whatsapp}
               className="inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-lg bg-sume-blue px-5 text-[15px] font-bold text-white shadow-[0px_4px_3px_rgba(0,88,190,0.2),0px_10px_7.5px_rgba(0,88,190,0.2)] transition-all hover:bg-[#004a9e]"
             >
-              <Phone className="h-[18px] w-[18px]" />
+              <FaWhatsapp className="h-[18px] w-[18px]" />
               Call Whatsapp
             </Link>
           </div>

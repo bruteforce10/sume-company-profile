@@ -1,29 +1,83 @@
-import { ArrowUpRight } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { X, ArrowRight } from "lucide-react";
 
 export type Project = {
   title: string;
   category: string;
-  description: string;
   location: string;
+  image?: string;
 };
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <article className="group relative flex min-h-[480px] overflow-hidden rounded-[24px] bg-sume-bg-dark text-white shadow-[var(--sume-shadow-image)]">
-      <div className={`absolute inset-0 bg-[image:var(--sume-project-surface)] ${index % 2 === 1 ? "hue-rotate-15" : ""}`} />
-      <div className="absolute inset-0 bg-gradient-to-t from-sume-ink via-sume-ink/45 to-transparent" />
-      <div className="relative mt-auto w-full p-8">
-        <div className="mb-4 inline-flex rounded-md bg-white/85 px-3 py-1 text-xs font-bold text-sume-blue backdrop-blur">{project.category}</div>
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h3 className="font-display text-[24px] font-extrabold leading-8">{project.title}</h3>
-            <p className="mt-2 max-w-[283px] text-sm leading-5 text-white/85">{project.description}</p>
+    <>
+      <article 
+        className="group relative flex min-h-[480px] cursor-pointer overflow-hidden rounded-[24px] bg-sume-bg-dark text-white shadow-[var(--sume-shadow-image)] transition-all duration-500 hover:shadow-2xl"
+        onClick={() => setIsOpen(true)}
+      >
+        {project.image && (
+          <Image 
+            src={project.image} 
+            alt={project.title} 
+            fill 
+            className="object-cover transition-transform duration-700 group-hover:scale-110" 
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-sume-ink via-sume-ink/40 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+        
+        <div className="relative mt-auto w-full p-8 transition-transform duration-500 group-hover:-translate-y-2">
+          <div className="mb-6 inline-flex rounded-md bg-white/20 px-4 py-1.5 text-xs font-bold tracking-wider text-white backdrop-blur-md transition-colors group-hover:bg-sume-blue group-hover:text-white">
+            {project.category}
           </div>
-          <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-white/85 text-sume-blue transition group-hover:rotate-45">
-            <ArrowUpRight className="h-5 w-5" />
+          
+          <h3 className="font-display text-[28px] font-extrabold leading-[1.2]">
+            {project.title}
+          </h3>
+            
+          <div className="mt-4 flex items-center gap-2 overflow-hidden">
+            <div className="flex items-center gap-2 text-sm font-bold text-sume-blue opacity-0 transition-all duration-500 group-hover:opacity-100">
+              Learn more <ArrowRight className="h-4 w-4" />
+            </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm transition-all" onClick={() => setIsOpen(false)}>
+          <button 
+            className="absolute right-6 top-6 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/30 z-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(false);
+            }}
+          >
+            <X className="h-6 w-6" />
+          </button>
+          
+          <div 
+            className="relative h-[80vh] w-full max-w-[80vw] overflow-hidden rounded-2xl bg-transparent"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {project.image ? (
+              <Image 
+                src={project.image} 
+                alt={project.title} 
+                fill 
+                className="object-contain" 
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center bg-sume-ink text-white/50">
+                No detailed image available for this project.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

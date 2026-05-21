@@ -1,44 +1,91 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("loading");
-    window.setTimeout(() => setStatus("success"), 700);
+    setStatusMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          phone: formData.get("phone"),
+          company: formData.get("company"),
+          message: formData.get("message"),
+        }),
+      });
+
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to send message.");
+      }
+
+      setStatus("success");
+      setStatusMessage(result.message || "Message sent successfully.");
+      form.reset();
+    } catch (error) {
+      setStatus("error");
+      setStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "Failed to send message. Please try again.",
+      );
+    }
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-5" aria-label="Contact form">
+    <form onSubmit={onSubmit} className="grid gap-6" aria-label="Contact form">
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Name" name="name" required />
-        <Field label="Email" name="email" type="email" required />
-        <Field label="Phone" name="phone" type="tel" />
-        <Field label="Subject" name="subject" />
+        <Field label="FULL NAME" name="name" placeholder="John Doe" required />
+        <Field label="EMAIL ADDRESS" name="email" type="email" placeholder="john@company.com" required />
+        <Field label="PHONE NUMBER" name="phone" type="tel" placeholder="+62 ..." />
+        <Field label="COMPANY" name="company" placeholder="Your Organization" />
       </div>
       <div className="grid gap-2">
-        <label htmlFor="message" className="text-sm font-bold text-slate-800">Message <span className="text-cyan-700">*</span></label>
-        <textarea id="message" name="message" required rows={6} className="min-h-36 rounded-lg border border-sume-line/60 bg-white px-4 py-3 text-base outline-none transition focus:border-sume-blue focus:bg-white focus:ring-4 focus:ring-sume-blue/10" placeholder="Tell us about your project needs" />
+        <label htmlFor="message" className="text-[11px] font-bold uppercase tracking-wider text-slate-400">MESSAGE</label>
+        <textarea id="message" name="message" required rows={5} className="w-full bg-[#E5E7EB] p-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:bg-[#D1D5DB]" placeholder="How can we help you?" />
       </div>
-      <Button type="submit" disabled={status === "loading"} className="w-full rounded-2xl">
-        {status === "loading" ? "Sending..." : status === "success" ? "Message Prepared" : "Send Message"}
-      </Button>
-      {status === "success" && <p className="text-sm font-semibold text-sume-blue" role="status">Frontend demo ready. Email integration comes next.</p>}
+      <button type="submit" disabled={status === "loading"} className="mt-2 w-full rounded-md bg-[#0055c3] py-4 text-sm font-bold text-white transition hover:bg-[#00449c] disabled:opacity-50">
+        {status === "loading" ? "Sending..." : status === "success" ? "Message Sent" : "Send Inquiry"}
+      </button>
+      {statusMessage && (
+        <p
+          className={`text-sm font-semibold ${
+            status === "error" ? "text-red-600" : "text-sume-blue"
+          }`}
+          role="status"
+        >
+          {statusMessage}
+        </p>
+      )}
     </form>
   );
 }
 
-function Field({ label, name, type = "text", required = false }: { label: string; name: string; type?: string; required?: boolean }) {
+function Field({ label, name, type = "text", required = false, placeholder = "" }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string }) {
   return (
     <div className="grid gap-2">
-      <label htmlFor={name} className="text-sm font-bold text-slate-800">
-        {label} {required && <span className="text-cyan-700">*</span>}
+      <label htmlFor={name} className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+        {label}
       </label>
-      <input id={name} name={name} type={type} required={required} className="min-h-12 rounded-lg border border-sume-line/60 bg-white px-4 text-base outline-none transition focus:border-sume-blue focus:bg-white focus:ring-4 focus:ring-sume-blue/10" />
+      <input id={name} name={name} type={type} required={required} placeholder={placeholder} className="h-12 w-full bg-[#E5E7EB] px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:bg-[#D1D5DB]" />
     </div>
   );
 }

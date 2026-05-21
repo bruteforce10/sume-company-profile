@@ -1,3 +1,13 @@
+import {
+  Award,
+  CheckCircle2,
+  ShieldCheck,
+  TrendingUp,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
+
 export const navLinks = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/#about" },
@@ -13,70 +23,168 @@ export const company = {
   description:
     "PT. Solusi Utama Mekanikal Elektrikal (SUME) provides integrated mechanical and electrical solutions with innovation, quality, and reliability.",
   address: "Jl. Cideng Timur No. 59, Central Jakarta",
-  phone: "+62 812 9000 2014",
-  email: "hello@sume.co.id",
+  phone: "(021) 3864 160",
+  email: "info@ptsume.co.id",
   whatsapp: "https://wa.me/6281290002014",
 };
 
+export const heroContent = {
+  heading: {
+    prefix: "Modern Buildings Solution is Our ",
+    highlight: "Focus",
+  },
+  cards: [
+    {
+      icon: TrendingUp,
+      title: "Reliable Execution",
+      description:
+        "We deliver projects with precision and long-term performance.",
+      position: "left",
+    },
+    {
+      icon: Award,
+      title: "Certificate Global",
+      description: "Aligned with trusted manufacturers and certified systems.",
+      position: "right",
+    },
+  ],
+};
+
+export const aboutContent = {
+  preheading: "SINCE 2014",
+  heading: "About PT. SUME",
+  body: "We specialize in providing comprehensive, integrated M&E systems that serve as the backbone for modern buildings. Our mission is to combine technical precision with innovative technology to ensure safety, efficiency, and long-term reliability.",
+  buttonLabel: "Learn More",
+  buttonHref: "#solutions",
+  points: [
+    {
+      title: "Integrated M&E Systems",
+      desc: "Complete synergy between mechanical and electrical components.",
+      icon: CheckCircle2,
+    },
+    {
+      title: "Quality & Safety Focus",
+      desc: "Strict adherence to international standards and rigorous safety protocols.",
+      icon: ShieldCheck,
+    },
+  ],
+};
+
+export const contactContent = {
+  heading: "Get in Touch",
+  body: "Ready to start your next engineering project? Our experts are here to provide a detailed consultation for your specific M&E needs.",
+  items: [
+    { icon: MapPin, label: "Office", value: company.address },
+    { icon: Phone, label: "Phone", value: company.phone },
+    { icon: Mail, label: "Email", value: company.email },
+  ],
+};
+
+export const whyChooseContent = {
+  heading: "Why Choose PT. SUME",
+  description:
+    "We go beyond installation, providing a partnership focused on the long-term success of your engineering investment.",
+};
+
+export const processContent = {
+  heading: "How We Deliver Excellence",
+  description:
+    "A structured and reliable approach to delivering Mechanical and Electrical solutions — from planning to long-term performance.",
+};
+
 export const clients = [
-  { name: "BBC", image: "/images/clients/bbc.png", width: 194, height: 55 },
-  { name: "MEGA UTAMA", image: "/images/clients/mega-utama.png", width: 240, height: 55 },
-  { name: "SANTIKA", image: "/images/clients/santika.png", width: 170, height: 55 },
-  { name: "KEMENKUMHAM", image: "/images/clients/kemenkumham.png", width: 205, height: 81 },
-  { name: "OPPO", image: "/images/clients/oppo.png", width: 189, height: 45 },
+  { name: "REMAX", image: "/images/clients/REMAX.png", width: 308, height: 83 },
+  { name: "BCC", image: "/images/clients/bcc.png", width: 291, height: 83 },
+  { name: "BROAD", image: "/images/clients/broad.png", width: 287, height: 83 },
+  {
+    name: "Kerinduanku",
+    image: "/images/clients/kerinduanku.png",
+    width: 308,
+    height: 122,
+  },
+  {
+    name: "Pengayoman",
+    image: "/images/clients/pengayoman.png",
+    width: 111,
+    height: 122,
+  },
+  {
+    name: "Samsung",
+    image: "/images/clients/samsung.png",
+    width: 296,
+    height: 48,
+  },
+  { name: "Yonex", image: "/images/clients/yonex.png", width: 291, height: 83 },
+  {
+    name: "santika",
+    image: "/images/clients/santika.png",
+    width: 255,
+    height: 83,
+  },
+  {
+    name: "mega-utama",
+    image: "/images/clients/mega-utama.png",
+    width: 360,
+    height: 83,
+  },
 ];
 
 export const solutions = [
   {
-    title: "Chiller Systems",
+    title: "Air Conditioning Systems",
     eyebrow: "Cooling Infrastructure",
     description:
-      "Efficient centralized cooling solutions for commercial, hospitality, and industrial buildings.",
+      "Advanced VRF and chiller solutions for optimal climate control in commercial spaces.",
     metric: "24/7 Monitoring",
   },
   {
-    title: "Electrical Power",
-    eyebrow: "Distribution & Control",
+    title: "Elevators & Escalators",
+    eyebrow: "",
     description:
-      "Reliable power distribution, panel integration, and safety-first electrical execution.",
-    metric: "Certified Systems",
-  },
-  {
-    title: "M&E Integration",
-    eyebrow: "Comprehensive Control",
-    description:
-      "Seamless coordination between mechanical and electrical components for high-performance buildings.",
-    metric: "Single Delivery Team",
+      "High-speed, energy-efficient vertical transportation systems for skyscrapers.",
+    metric: "LINVOL",
   },
   {
     title: "Supporting Infrastructure",
-    eyebrow: "End-to-End Delivery",
+    eyebrow: "END-TO-END DELIVERY",
     description:
-      "Supporting systems and integrated building components to ensure efficient operations.",
-    metric: "Long-Term Support",
+      "Supporting systems and integrated building components to ensure efficient and reliable operations.",
+    metric: "END-TO-END DELIVERY",
+  },
+  {
+    title: "M&E Integration",
+    eyebrow: "COMPREHENSIVE CONTROL",
+    description:
+      "Seamless coordination between all mechanical and electrical infrastructure components.",
+    metric: "COMPREHENSIVE CONTROL",
   },
 ];
 
 export const whyChooseUs = [
   {
-    title: "Integrated Expertise",
-    description: "One coordinated M&E partner from planning, procurement, installation, to commissioning.",
+    title: "Reliable Execution",
+    description:
+      "Precision-driven engineering with consistent delivery across complex, large-scale projects.",
   },
   {
-    title: "Trusted Execution",
-    description: "Structured project delivery with transparent communication and measurable milestones.",
+    title: "Certified Quality",
+    description:
+      "Aligned with international standards (ISO) and supported by certified global manufacturing partners.",
   },
   {
-    title: "Quality Materials",
-    description: "We partner with trusted manufacturers and apply strict technical standards on-site.",
+    title: "Safety First",
+    description:
+      "Strict safety protocols embedded in every phase — from planning to execution on-site.",
   },
   {
-    title: "After-Sales Support",
-    description: "Maintenance-ready systems designed for operational continuity and long-term reliability.",
+    title: "Efficient Management",
+    description:
+      "Structured project workflows ensuring timely delivery without compromising performance.",
   },
   {
-    title: "Safety-First Engineering",
-    description: "Every installation is planned around safe operation, clear documentation, and dependable handover.",
+    title: "Sustainable Solutions",
+    description:
+      "Energy-efficient systems designed to reduce operational costs and long-term environmental impact.",
   },
 ];
 
@@ -84,63 +192,61 @@ export const projects = [
   {
     title: "Central Business Plaza",
     category: "Commercial",
-    description: "Integrated chiller and power distribution system for a high-traffic business facility.",
     location: "Jakarta",
     image: "/images/projects/project-1.png",
   },
   {
     title: "Techno Logistic Hub",
     category: "Industrial",
-    description: "Full HVAC and mechanical integration for modern logistics operations.",
     location: "Bekasi",
     image: "/images/projects/project-2.png",
   },
   {
     title: "Santika Hospitality Upgrade",
     category: "Hospitality",
-    description: "Electrical panel upgrades and comfort cooling optimization for hospitality spaces.",
     location: "Bandung",
     image: "/images/projects/project-3.png",
   },
   {
     title: "Public Service Facility",
     category: "Government",
-    description: "Reliable supporting infrastructure with clear documentation and handover protocol.",
     location: "Central Jakarta",
   },
   {
     title: "Retail Experience Center",
     category: "Retail",
-    description: "Power, lighting, and indoor comfort systems for customer-facing flagship space.",
     location: "Tangerang",
   },
   {
     title: "Data Support Room",
     category: "Technology",
-    description: "Precision cooling and electrical safety systems for critical equipment rooms.",
     location: "South Jakarta",
   },
 ];
 
 export const processSteps = [
   {
-    step: "01",
-    title: "Consultation & Survey",
-    description: "We map site conditions, project goals, and technical constraints before design begins.",
+    step: "1",
+    title: "Engineering & Planning",
+    description:
+      "We map site conditions and prepare system recommendations, specifications, and timelines before execution begins.",
   },
   {
-    step: "02",
-    title: "Technical Planning",
-    description: "Our team prepares system recommendations, specifications, timeline, and work method.",
+    step: "2",
+    title: "Integrated System Execution",
+    description:
+      "Installation is delivered by coordinated teams with precise execution and progress reporting.",
   },
   {
-    step: "03",
-    title: "Execution & Coordination",
-    description: "Installation is delivered by coordinated teams with safety checks and progress reporting.",
+    step: "3",
+    title: "Quality & Safety Control",
+    description:
+      "Strict adherence to international standards and rigorous safety protocols at every installation stage to ensure a zero-accident project environment.",
   },
   {
-    step: "04",
-    title: "Testing & Handover",
-    description: "Systems are tested, documented, and handed over with maintenance-ready guidance.",
+    step: "4",
+    title: "Long-Term Support & Maintenance",
+    description:
+      "Systems are tested, documented, and handed over with comprehensive maintenance-ready guidance for long-term reliability.",
   },
 ];
