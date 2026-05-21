@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { whyChooseContent, whyChooseUs } from "@/constants/site";
+import { cn } from "@/lib/utils";
 
 export function WhyChooseUs() {
   return (
@@ -26,9 +27,10 @@ export function WhyChooseUs() {
           {whyChooseUs.map((item, index) => (
             <article
               key={item.title}
-              className={`rounded-md border border-white/80 bg-white/[70%] p-8 shadow-[var(--sume-shadow-card)] backdrop-blur-md ${
-                index === 4 ? "md:col-span-2" : ""
-              }`}
+              className={cn(
+                "rounded-md border border-white/80 bg-white/[70%] p-8 shadow-[var(--sume-shadow-card)] backdrop-blur-md",
+                index === 4 && "md:col-span-2",
+              )}
             >
               <h3 className="font-display text-xl font-extrabold text-sume-blue">
                 {item.title}

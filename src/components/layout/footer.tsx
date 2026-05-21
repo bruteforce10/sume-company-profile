@@ -52,9 +52,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-4 pt-6 text-sm text-sume-body md:flex-row md:items-center md:justify-between">
-          <p>
-            © 2024 PT. SUME. {company.address}. {company.phone}
-          </p>
+          <p>(c) 2024 PT. SUME. {company.address}. {company.phone}</p>
           <div className="flex gap-5">
             <Link href="#" className="hover:text-sume-blue">
               Privacy Policy

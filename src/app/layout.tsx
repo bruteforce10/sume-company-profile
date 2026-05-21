@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Manrope, Plus_Jakarta_Sans } from "next/font/google";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -21,15 +23,26 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PT. SUME — Modern Buildings Solution",
+  title: "PT. SUME - Modern Buildings Solution",
   description:
     "PT. Solusi Utama Mekanikal Elektrikal provides integrated mechanical and electrical solutions for modern buildings.",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+type RootLayoutProps = Readonly<{
+  children: React.ReactNode;
+}>;
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${manrope.variable} ${inter.variable} antialiased`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${plusJakarta.variable} ${manrope.variable} ${inter.variable} antialiased`}
+    >
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

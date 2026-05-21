@@ -1,56 +1,59 @@
 "use client";
 
-import { FaWhatsapp } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { FaWhatsapp } from "react-icons/fa";
 import { company, navLinks } from "@/constants/site";
 import { cn } from "@/lib/utils";
+
+const SCROLLED_THRESHOLD = 20;
+const ACTIVE_SECTION_OFFSET = 200;
+const firstNavHref = navLinks[0]?.href ?? "";
+
+function getSectionId(href: string) {
+  return href.includes("#") ? href.split("#")[1] : undefined;
+}
+
+function getActiveSectionHref() {
+  for (const link of navLinks) {
+    const id = getSectionId(link.href);
+    if (!id) continue;
+
+    const element = document.getElementById(id);
+    if (!element) continue;
+
+    const rect = element.getBoundingClientRect();
+    if (
+      rect.top <= ACTIVE_SECTION_OFFSET &&
+      rect.bottom >= ACTIVE_SECTION_OFFSET
+    ) {
+      return link.href;
+    }
+  }
+
+  return window.scrollY < 100 ? firstNavHref : "";
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState(firstNavHref);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Toggle transparency based on scroll
-      setIsScrolled(window.scrollY > 20);
+    function handleScroll() {
+      setIsScrolled(window.scrollY > SCROLLED_THRESHOLD);
 
-      // Track active section only on homepage
       if (pathname === "/") {
-        let current = "";
-
-        for (const link of navLinks) {
-          if (!link.href.includes("#")) continue;
-
-          const id = link.href.split("#")[1];
-          if (!id) continue;
-
-          const element = document.getElementById(id);
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            // Check if the top is above a certain offset, and bottom is below it
-            // 200px from top is a reasonable threshold to trigger "active"
-            if (rect.top <= 200 && rect.bottom >= 200) {
-              current = link.href;
-            }
-          }
-        }
-
-        if (current) {
-          setActiveSection(current);
-        } else if (window.scrollY < 100) {
-          setActiveSection(navLinks[0]?.href || "");
-        }
+        setActiveSection(getActiveSectionHref());
       }
-    };
+    }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // init on mount
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
@@ -62,7 +65,7 @@ export function Header() {
           "fixed inset-x-0 top-0 z-40 transition-all duration-300",
           isScrolled
             ? "bg-white/70 text-sume-ink shadow-[var(--sume-shadow-line)] backdrop-blur-xl"
-            : "bg-transparent text-sume-ink py-2 lg:py-4",
+            : "bg-transparent py-2 text-sume-ink lg:py-4",
         )}
       >
         <div className="section-shell flex h-20 items-center justify-between gap-4 lg:h-24">
@@ -88,6 +91,7 @@ export function Header() {
               const isActive =
                 pathname === link.href ||
                 (pathname === "/" && activeSection === link.href);
+
               return (
                 <Link
                   key={link.href}
@@ -98,6 +102,7 @@ export function Header() {
                       ? "font-bold text-sume-blue"
                       : "font-medium text-sume-body hover:text-sume-blue",
                   )}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {link.label}
                 </Link>
@@ -122,6 +127,7 @@ export function Header() {
             type="button"
             aria-label="Open navigation menu"
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white/50 backdrop-blur-sm lg:hidden"
           >
@@ -137,20 +143,22 @@ export function Header() {
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
         )}
+        onClick={() => setOpen(false)}
       >
         <div
+          id="mobile-navigation"
           className={cn(
             "ml-auto flex min-h-dvh w-[85vw] max-w-sm flex-col bg-white p-6 shadow-2xl transition-transform duration-300 ease-out",
             open ? "translate-x-0" : "translate-x-full",
           )}
+          onClick={(event) => event.stopPropagation()}
         >
-          <div className="flex items-center justify-between pb-6 border-b border-slate-100">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-6">
             <Image
               src="/images/brand/logo-sume.webp"
               alt="PT. SUME logo"
               width={140}
               height={18}
-              priority
               className="h-auto w-32"
             />
             <button
@@ -172,6 +180,7 @@ export function Header() {
                 const isActive =
                   pathname === link.href ||
                   (pathname === "/" && activeSection === link.href);
+
                 return (
                   <div
                     key={link.href}
@@ -189,6 +198,7 @@ export function Header() {
                           ? "font-bold text-sume-blue"
                           : "font-medium text-slate-700 hover:text-sume-blue",
                       )}
+                      aria-current={isActive ? "page" : undefined}
                     >
                       {link.label}
                     </Link>
@@ -201,7 +211,7 @@ export function Header() {
           <div className="mt-auto border-t border-slate-100 pt-6">
             <Link
               href={company.whatsapp}
-              className="inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-lg bg-sume-blue px-5 text-[15px] font-bold text-white shadow-[0px_4px_3px_rgba(0,88,190,0.2),0px_10px_7.5px_rgba(0,88,190,0.2)] transition-all hover:bg-[#004a9e]"
+              className="inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-lg bg-sume-blue px-5 text-[15px] font-bold text-white shadow-[var(--sume-shadow-blue)] transition-all hover:bg-sume-blue-hover"
             >
               <FaWhatsapp className="h-[18px] w-[18px]" />
               Call Whatsapp

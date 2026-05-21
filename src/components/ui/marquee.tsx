@@ -1,35 +1,12 @@
-import { type ComponentPropsWithoutRef } from "react"
-import { cn } from "@/lib/utils"
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
-  /**
-   * Optional CSS class name to apply custom styles
-   */
-  className?: string
-  /**
-   * Whether to reverse the animation direction
-   * @default false
-   */
-  reverse?: boolean
-  /**
-   * Whether to pause the animation on hover
-   * @default false
-   */
-  pauseOnHover?: boolean
-  /**
-   * Content to be displayed in the marquee
-   */
-  children: React.ReactNode
-  /**
-   * Whether to animate vertically instead of horizontally
-   * @default false
-   */
-  vertical?: boolean
-  /**
-   * Number of times to repeat the content
-   * @default 4
-   */
-  repeat?: number
+  children: ReactNode;
+  pauseOnHover?: boolean;
+  repeat?: number;
+  reverse?: boolean;
+  vertical?: boolean;
 }
 
 export function Marquee({
@@ -46,28 +23,24 @@ export function Marquee({
       {...props}
       className={cn(
         "group flex gap-(--gap) overflow-hidden p-2 [--duration:40s] [--gap:1rem]",
-        {
-          "flex-row": !vertical,
-          "flex-col": vertical,
-        },
-        className
+        vertical ? "flex-col" : "flex-row",
+        className,
       )}
     >
-      {Array(repeat)
-        .fill(0)
-        .map((_, i) => (
-          <div
-            key={i}
-            className={cn("flex shrink-0 justify-around gap-(--gap)", {
-              "animate-marquee flex-row": !vertical,
-              "animate-marquee-vertical flex-col": vertical,
-              "group-hover:[animation-play-state:paused]": pauseOnHover,
-              "[animation-direction:reverse]": reverse,
-            })}
-          >
-            {children}
-          </div>
-        ))}
+      {Array.from({ length: repeat }, (_, index) => (
+        <div
+          key={index}
+          aria-hidden={index > 0}
+          className={cn(
+            "flex shrink-0 justify-around gap-(--gap)",
+            vertical ? "animate-marquee-vertical flex-col" : "animate-marquee flex-row",
+            pauseOnHover && "group-hover:[animation-play-state:paused]",
+            reverse && "[animation-direction:reverse]",
+          )}
+        >
+          {children}
+        </div>
+      ))}
     </div>
-  )
+  );
 }

@@ -1,14 +1,56 @@
 "use client";
 
+import type { FormEvent } from "react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
+type FieldProps = {
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+};
+
+const fields: FieldProps[] = [
+  {
+    label: "FULL NAME",
+    name: "name",
+    placeholder: "John Doe",
+    required: true,
+  },
+  {
+    label: "EMAIL ADDRESS",
+    name: "email",
+    type: "email",
+    placeholder: "john@company.com",
+    required: true,
+  },
+  {
+    label: "PHONE NUMBER",
+    name: "phone",
+    type: "tel",
+    placeholder: "+62 ...",
+  },
+  {
+    label: "COMPANY",
+    name: "company",
+    placeholder: "Your Organization",
+  },
+];
+
+function getFormValue(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value : "";
+}
 
 export function ContactForm() {
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<FormStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("loading");
     setStatusMessage("");
@@ -23,11 +65,11 @@ export function ContactForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.get("name"),
-          email: formData.get("email"),
-          phone: formData.get("phone"),
-          company: formData.get("company"),
-          message: formData.get("message"),
+          name: getFormValue(formData, "name"),
+          email: getFormValue(formData, "email"),
+          phone: getFormValue(formData, "phone"),
+          company: getFormValue(formData, "company"),
+          message: getFormValue(formData, "message"),
         }),
       });
 
@@ -51,25 +93,51 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-6" aria-label="Contact form">
+    <form
+      onSubmit={onSubmit}
+      className="grid gap-6"
+      aria-label="Contact form"
+      aria-describedby={statusMessage ? "contact-form-status" : undefined}
+    >
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="FULL NAME" name="name" placeholder="John Doe" required />
-        <Field label="EMAIL ADDRESS" name="email" type="email" placeholder="john@company.com" required />
-        <Field label="PHONE NUMBER" name="phone" type="tel" placeholder="+62 ..." />
-        <Field label="COMPANY" name="company" placeholder="Your Organization" />
+        {fields.map((field) => (
+          <Field key={field.name} {...field} />
+        ))}
       </div>
+
       <div className="grid gap-2">
-        <label htmlFor="message" className="text-[11px] font-bold uppercase tracking-wider text-slate-400">MESSAGE</label>
-        <textarea id="message" name="message" required rows={5} className="w-full bg-[#E5E7EB] p-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:bg-[#D1D5DB]" placeholder="How can we help you?" />
+        <label htmlFor="message" className="form-label">
+          MESSAGE
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={5}
+          className="form-control p-4"
+          placeholder="How can we help you?"
+        />
       </div>
-      <button type="submit" disabled={status === "loading"} className="mt-2 w-full rounded-md bg-[#0055c3] py-4 text-sm font-bold text-white transition hover:bg-[#00449c] disabled:opacity-50">
-        {status === "loading" ? "Sending..." : status === "success" ? "Message Sent" : "Send Inquiry"}
+
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="mt-2 w-full rounded-md bg-sume-blue py-4 text-sm font-bold text-white transition hover:bg-sume-blue-hover disabled:opacity-50"
+      >
+        {status === "loading"
+          ? "Sending..."
+          : status === "success"
+            ? "Message Sent"
+            : "Send Inquiry"}
       </button>
+
       {statusMessage && (
         <p
-          className={`text-sm font-semibold ${
-            status === "error" ? "text-red-600" : "text-sume-blue"
-          }`}
+          id="contact-form-status"
+          className={cn(
+            "text-sm font-semibold",
+            status === "error" ? "text-red-600" : "text-sume-blue",
+          )}
           role="status"
         >
           {statusMessage}
@@ -79,13 +147,26 @@ export function ContactForm() {
   );
 }
 
-function Field({ label, name, type = "text", required = false, placeholder = "" }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string }) {
+function Field({
+  label,
+  name,
+  type = "text",
+  required = false,
+  placeholder = "",
+}: FieldProps) {
   return (
     <div className="grid gap-2">
-      <label htmlFor={name} className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+      <label htmlFor={name} className="form-label">
         {label}
       </label>
-      <input id={name} name={name} type={type} required={required} placeholder={placeholder} className="h-12 w-full bg-[#E5E7EB] px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:bg-[#D1D5DB]" />
+      <input
+        id={name}
+        name={name}
+        type={type}
+        required={required}
+        placeholder={placeholder}
+        className="form-control h-12 px-4"
+      />
     </div>
   );
 }

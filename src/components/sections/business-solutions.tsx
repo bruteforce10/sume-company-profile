@@ -4,6 +4,7 @@ import { BiBuildingHouse } from "react-icons/bi";
 import { FiSliders } from "react-icons/fi";
 import type { IconType } from "react-icons";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 const airConditioningLogos = [
   {
@@ -42,7 +43,7 @@ function LogoStrip({
   className?: string;
 }) {
   return (
-    <div className={`border-t border-sume-line/50 ${className}`}>
+    <div className={cn("border-t border-sume-line/50", className)}>
       {children}
     </div>
   );
@@ -84,7 +85,7 @@ export function BusinessSolutions() {
     >
       <div className="section-shell">
         <div className="mx-auto max-w-[768px] text-center">
-          <h2 className="font-display text-[36px] font-extrabold leading-tight text-sume-blue sm:text-[48px] sm:leading-[48px]">
+          <h2 className="section-title-blue">
             Our Business Solutions
           </h2>
           <p className="mx-auto mt-6 max-w-[730px] text-lg leading-7 text-sume-body">
@@ -110,7 +111,7 @@ export function BusinessSolutions() {
                     alt={logo.alt}
                     width={80}
                     height={32}
-                    className={`${logo.className} w-auto object-contain`}
+                    className={cn("w-auto object-contain", logo.className)}
                   />
                 ))}
               </LogoStrip>

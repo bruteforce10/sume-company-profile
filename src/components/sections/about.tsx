@@ -30,7 +30,7 @@ export function About() {
         </div>
 
         <div className="order-1 lg:order-2 pt-0 lg:pt-0 w-fit mx-auto lg:w-full lg:mx-0">
-          <p className="mx-auto flex w-fit rounded bg-sume-bg-blue-soft px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-sume-blue lg:mx-0 lg:justify-start">
+          <p className="section-eyebrow mx-auto lg:mx-0">
             {aboutContent.preheading}
           </p>
           <h2 className="mt-6 paper-heading w-full text-center lg:text-left">
@@ -59,7 +59,7 @@ export function About() {
           </div>
           <LinkButton
             href={aboutContent.buttonHref}
-            className="mt-8 w-full sm:w-auto h-[52px] bg-[#E5E7EB] text-sume-ink shadow-none hover:bg-[#D1D5DB]"
+            className="mt-8 h-[52px] w-full bg-gray-200 text-sume-ink shadow-none hover:bg-gray-300 sm:w-auto"
           >
             {aboutContent.buttonLabel}
           </LinkButton>

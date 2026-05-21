@@ -1,11 +1,11 @@
 import {
   Award,
   CheckCircle2,
-  ShieldCheck,
-  TrendingUp,
   Mail,
   MapPin,
   Phone,
+  ShieldCheck,
+  TrendingUp,
 } from "lucide-react";
 
 export const navLinks = [
@@ -89,7 +89,7 @@ export const whyChooseContent = {
 export const processContent = {
   heading: "How We Deliver Excellence",
   description:
-    "A structured and reliable approach to delivering Mechanical and Electrical solutions — from planning to long-term performance.",
+    "A structured and reliable approach to delivering Mechanical and Electrical solutions - from planning to long-term performance.",
 };
 
 export const clients = [
@@ -174,7 +174,7 @@ export const whyChooseUs = [
   {
     title: "Safety First",
     description:
-      "Strict safety protocols embedded in every phase — from planning to execution on-site.",
+      "Strict safety protocols embedded in every phase - from planning to execution on-site.",
   },
   {
     title: "Efficient Management",
@@ -188,7 +188,14 @@ export const whyChooseUs = [
   },
 ];
 
-export const projects = [
+export type Project = {
+  title: string;
+  category: string;
+  location: string;
+  image?: string;
+};
+
+export const projects: Project[] = [
   {
     title: "Central Business Plaza",
     category: "Commercial",

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { processContent, processSteps } from "@/constants/site";
+import { cn } from "@/lib/utils";
 
 export function Process() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -22,34 +23,41 @@ export function Process() {
             <div className="absolute bottom-16 left-8 top-16 hidden border-l-2 border-dashed border-sume-blue/30 sm:block" />
             {processSteps.map((item, index) => {
               const isActive = activeIndex === index;
+              const panelId = `process-step-${item.step}`;
+
               return (
-                <article
+                <button
                   key={item.step}
-                  className="relative flex cursor-pointer items-start gap-6 transition-all"
+                  type="button"
+                  className="relative flex cursor-pointer appearance-none items-start gap-6 border-0 bg-transparent p-0 text-left transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue"
                   onClick={() => setActiveIndex(index)}
+                  aria-expanded={isActive}
+                  aria-controls={panelId}
                 >
-                  <div className="z-10 flex h-16 w-16 flex-none items-center justify-center rounded-xl bg-sume-blue text-lg font-bold text-white shadow-md">
+                  <span className="z-10 flex h-16 w-16 flex-none items-center justify-center rounded-xl bg-sume-blue text-lg font-bold text-white shadow-md">
                     {item.step}
-                  </div>
-                  <div className="flex w-full flex-col justify-center rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-900/5 transition-all hover:shadow-md">
-                    <h3 className="font-display text-[18px] font-bold text-sume-ink">
+                  </span>
+                  <span className="flex w-full flex-col justify-center rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-900/5 transition-all hover:shadow-md">
+                    <span className="font-display text-[18px] font-bold text-sume-ink">
                       {item.title}
-                    </h3>
-                    <div
-                      className={`grid transition-all duration-300 ease-in-out ${
+                    </span>
+                    <span
+                      id={panelId}
+                      className={cn(
+                        "grid transition-all duration-300 ease-in-out",
                         isActive
                           ? "mt-3 grid-rows-[1fr] opacity-100"
-                          : "mt-0 grid-rows-[0fr] opacity-0"
-                      }`}
+                          : "mt-0 grid-rows-[0fr] opacity-0",
+                      )}
                     >
-                      <div className="overflow-hidden">
-                        <p className="text-sm leading-6 text-sume-body">
+                      <span className="overflow-hidden">
+                        <span className="block text-sm leading-6 text-sume-body">
                           {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
+                        </span>
+                      </span>
+                    </span>
+                  </span>
+                </button>
               );
             })}
           </div>
