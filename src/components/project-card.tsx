@@ -7,9 +7,10 @@ import type { Project } from "@/constants/site";
 
 type ProjectCardProps = {
   project: Project;
+  priority?: boolean;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, priority = false }: ProjectCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -39,6 +40,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
               src={project.image}
               alt={project.title}
               fill
+              priority={priority}
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
               className="object-cover transition-transform duration-700 group-hover:scale-110"
             />
           )}
@@ -91,6 +94,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 src={project.image}
                 alt={project.title}
                 fill
+                sizes="80vw"
                 className="object-contain"
               />
             ) : (
