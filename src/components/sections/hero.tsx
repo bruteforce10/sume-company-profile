@@ -17,7 +17,7 @@ export function Hero() {
       className="relative overflow-hidden bg-linear-to-t from-[#E5EBF7] to-white pt-28 lg:pt-52 xl:pt-14"
     >
       <div className="absolute inset-0 max-sm:bg-[image:var(--sume-hero-surface)]" />
-      <div className="section-shell relative flex min-h-[755px] flex-col items-center justify-between py-12 lg:py-0 xl:flex-row">
+      <div className="section-shell relative flex min-h-[755px] flex-col items-center justify-between py-0 xl:flex-row">
         <div className="relative z-10 w-full flex-1 pt-10 text-center lg:pt-0 xl:text-left">
           <h1 className="font-hero text-[42px] font-bold leading-[1.1] text-sume-ink sm:text-[54px] lg:text-[64px] xl:text-[68px]">
             {heroContent.heading.prefix}

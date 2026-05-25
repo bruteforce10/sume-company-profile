@@ -85,9 +85,7 @@ export function BusinessSolutions() {
     >
       <div className="section-shell">
         <div className="mx-auto max-w-[768px] text-center">
-          <h2 className="section-title-blue">
-            Our Business Solutions
-          </h2>
+          <h2 className="section-title-blue">Our Business Solutions</h2>
           <p className="mx-auto mt-6 max-w-[730px] text-lg leading-7 text-sume-body">
             We partner with global leaders to bring you the highest quality
             infrastructure technology.
@@ -103,7 +101,7 @@ export function BusinessSolutions() {
               <p className="mt-5 text-base leading-7 text-sume-body">
                 {airConditioning.description}
               </p>
-              <LogoStrip className="mt-9 flex items-center gap-6 pt-6">
+              <LogoStrip className="mt-9 flex max-md:flex-wrap items-center gap-6 pt-6">
                 {airConditioningLogos.map((logo) => (
                   <Image
                     key={logo.alt}

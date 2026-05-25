@@ -23,9 +23,9 @@ export const company = {
   description:
     "PT. Solusi Utama Mekanikal Elektrikal (SUME) provides integrated mechanical and electrical solutions with innovation, quality, and reliability.",
   address: "Jl. Cideng Timur No. 59, Central Jakarta",
-  phone: "(021) 3864 160",
+  phone: "+6281388801886",
   email: "info@ptsume.co.id",
-  whatsapp: "https://wa.me/6281290002014",
+  whatsapp: "https://wa.me/6281388801886",
 };
 
 export const heroContent = {
