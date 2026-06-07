@@ -31,7 +31,7 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
       <article className="min-h-[480px]">
         <button
           type="button"
-          className="group relative flex min-h-[480px] w-full cursor-pointer overflow-hidden rounded-[24px] bg-sume-bg-dark text-left text-white shadow-[var(--sume-shadow-image)] transition-all duration-500 hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue"
+          className="group relative flex min-h-[480px] w-full cursor-pointer overflow-hidden bg-sume-bg-dark text-left text-white shadow-[var(--sume-shadow-image)] transition-all duration-500 hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue"
           onClick={() => setIsOpen(true)}
           aria-label={`View ${project.title} project detail`}
         >
@@ -48,7 +48,7 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-sume-ink via-sume-ink/40 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
 
           <div className="relative mt-auto w-full p-8 transition-transform duration-500 group-hover:-translate-y-2">
-            <div className="mb-6 inline-flex rounded-md bg-white/20 px-4 py-1.5 text-xs font-bold tracking-wider text-white backdrop-blur-md transition-colors group-hover:bg-sume-blue">
+            <div className="mb-6 inline-flex bg-white/20 px-4 py-1.5 text-xs font-bold tracking-wider text-white backdrop-blur-md transition-colors group-hover:bg-sume-blue">
               {project.category}
             </div>
 
@@ -86,7 +86,7 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
           </button>
 
           <div
-            className="relative h-[80vh] w-full max-w-[80vw] overflow-hidden rounded-2xl bg-transparent"
+            className="relative h-[80vh] w-full max-w-[80vw] overflow-hidden bg-transparent"
             onClick={(event) => event.stopPropagation()}
           >
             {project.image ? (

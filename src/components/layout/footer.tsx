@@ -1,68 +1,121 @@
 import Image from "next/image";
 import Link from "next/link";
-import { company, navLinks, solutions } from "@/constants/site";
+import { company, footerOffices, solutionsOverview } from "@/constants/site";
+
+const companyLinks = [
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/our-project" },
+  { label: "Contact", href: "/contact" },
+];
 
 export function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-sume-line/10 bg-sume-bg-hero text-sume-ink">
-      <div className="section-shell py-14 sm:py-16">
-        <div className="grid gap-10 border-b border-sume-line/30 pb-10 lg:grid-cols-[1.6fr_0.7fr_0.7fr]">
+    <footer className="bg-sume-navy pt-20 font-body text-white/[0.66]">
+      <div className="sume-wrap">
+        <div className="grid gap-10 border-b border-white/[0.12] pb-16 md:grid-cols-2 lg:grid-cols-[1.7fr_1fr_1fr_1fr_1.2fr]">
           <div>
             <Image
-              src="/images/brand/logo-sume-vertical.webp"
-              alt="PT. SUME logo"
-              width={192}
-              height={25}
-              className="h-auto w-44"
+              src="/images/home/sume-logo.png"
+              alt="SUME Group"
+              width={1745}
+              height={431}
+              className="mb-5 h-7 w-auto brightness-0 invert"
             />
-            <p className="mt-6 max-w-xl text-sm leading-7 text-sume-body">
-              {company.description}
+            <p className="max-w-[30ch] text-[15px] leading-[1.55] text-white/60">
+              Mechanical &amp; Electrical Infrastructure for Mission-Critical
+              Facilities.
             </p>
           </div>
 
-          <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-sume-blue">
-              Navigation
-            </h2>
-            <div className="mt-5 grid gap-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="min-h-8 text-sm text-sume-body transition hover:text-sume-blue"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
+          <FooterColumn title="Solutions">
+            {solutionsOverview.map((solution) => (
+              <FooterLink
+                key={solution.title}
+                href={`/solutions#${solution.anchor}`}
+              >
+                {solution.title}
+              </FooterLink>
+            ))}
+          </FooterColumn>
 
-          <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-sume-blue">
-              Solutions
-            </h2>
-            <div className="mt-5 grid gap-3">
-              {solutions.slice(0, 4).map((solution) => (
-                <span key={solution.title} className="text-sm text-sume-body">
-                  {solution.title}
-                </span>
-              ))}
-            </div>
-          </div>
+          <FooterColumn title="Company">
+            {companyLinks.map((link) => (
+              <FooterLink key={link.label} href={link.href}>
+                {link.label}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title="Offices">
+            {footerOffices.map((office) => (
+              <FooterLink key={office} href="/regional">
+                {office}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title="Contact">
+            <FooterLink href={`mailto:${company.email}`}>
+              {company.email}
+            </FooterLink>
+            <FooterLink href={`tel:${company.phone.replace(/[^+\d]/g, "")}`}>
+              {company.phone}
+            </FooterLink>
+          </FooterColumn>
         </div>
 
-        <div className="flex flex-col gap-4 pt-6 text-sm text-sume-body md:flex-row md:items-center md:justify-between">
-          <p>(c) 2024 PT. SUME. {company.address}. {company.phone}</p>
-          <div className="flex gap-5">
-            <Link href="#" className="hover:text-sume-blue">
+        <div className="flex flex-wrap items-center justify-between gap-5 py-6">
+          <p className="text-[13.5px] text-white/50">
+            © {year} {company.brand} · {company.legalName}. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link href="#" className="text-[13.5px] text-white/[0.62] hover:text-white">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-sume-blue">
+            <Link href="#" className="text-[13.5px] text-white/[0.62] hover:text-white">
               Terms of Service
             </Link>
           </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <h2 className="mb-5 font-head text-[13px] font-semibold uppercase tracking-[0.12em] text-white">
+        {title}
+      </h2>
+      <ul className="grid gap-3">{children}</ul>
+    </div>
+  );
+}
+
+function FooterLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="text-[15px] text-white/[0.64] transition hover:text-white"
+      >
+        {children}
+      </Link>
+    </li>
   );
 }

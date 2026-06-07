@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — SUME Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0058BE;
+  --navy:#0E243C;
+  --accent:#E7F1FF;
+  --ink:#191C1E;
+  --slate:#424754;
+  --gray:#6B7280;
+  --line:#C2C6D6;
+  --mist:#F8FBFF;
+  --white:#ffffff;
+  --maxw:1280px;
+  --pad:48px;
+  --head:'IBM Plex Sans',system-ui,sans-serif;
+  --body:'Source Sans 3',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--head);font-weight:600;line-height:1.1;letter-spacing:-0.02em;color:var(--navy)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-family:var(--head);font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--primary)}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--head);font-weight:600;font-size:15px;padding:15px 28px;border-radius:2px;border:1.5px solid transparent;cursor:pointer;transition:.2s;letter-spacing:.01em}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:#00499c;border-color:#00499c}
+.btn .arr{font-size:17px;line-height:1}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);height:78px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px}
+.brand img{height:26px;width:auto}
+.brand .gp{font-family:var(--head);font-weight:600;font-size:14px;letter-spacing:.22em;color:var(--gray);text-transform:uppercase;padding-left:11px;border-left:1px solid var(--line)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-family:var(--head);font-weight:500;font-size:15px;color:var(--slate);transition:.18s;position:relative;display:flex;align-items:center;gap:5px}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a.active{color:var(--navy);font-weight:600}
+.nav-links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-28px;height:2px;background:var(--primary)}
+.nav-cta{display:flex;align-items:center;gap:22px}
+.caret{font-size:9px;color:var(--gray)}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:8px}
+.menu-btn span{width:24px;height:2px;background:var(--navy);display:block}
+
+/* ===== PAGE HEADER ===== */
+.phead{position:relative;background:var(--navy);overflow:hidden}
+.phead-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.phead::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,36,60,.90) 0%,rgba(0,88,190,.38) 58%,rgba(0,88,190,.06) 100%);z-index:1}
+.phead-inner{position:relative;z-index:2;padding:130px 0 100px}
+.phead .eyebrow{color:#7FB4FF;display:inline-block;margin-bottom:22px}
+.phead h1{color:#fff;font-size:clamp(40px,5.4vw,70px);max-width:16ch;font-weight:600;line-height:1.05}
+.phead p{color:rgba(255,255,255,.80);font-size:clamp(16px,1.4vw,19px);max-width:54ch;margin-top:20px;line-height:1.58}
+
+/* ===== CONTACT BODY ===== */
+.contact-body{padding:96px 0 0;background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.55fr;gap:72px;align-items:start}
+
+/* LEFT — info panel */
+.info-panel{}
+.info-panel h2{font-size:clamp(24px,2.6vw,34px);margin-bottom:8px}
+.info-panel .sub{color:var(--slate);font-size:16.5px;max-width:36ch;line-height:1.6;margin-bottom:44px}
+.info-items{display:flex;flex-direction:column;gap:0}
+.info-item{display:flex;gap:18px;padding:22px 0;border-bottom:1px solid var(--line)}
+.info-item:first-child{padding-top:0}
+.info-item:last-child{border-bottom:none}
+.ii-icon{flex:0 0 40px;height:40px;background:var(--accent);border-radius:2px;display:flex;align-items:center;justify-content:center}
+.ii-icon svg{width:18px;height:18px;stroke:var(--primary);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ii-body{}
+.ii-label{font-family:var(--head);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:5px}
+.ii-val{font-size:15.5px;color:var(--navy);font-weight:500;line-height:1.5}
+.ii-val a:hover{color:var(--primary)}
+.offices-list{margin-top:6px;display:flex;flex-direction:column;gap:4px}
+.offices-list span{font-size:14.5px;color:var(--slate);display:flex;align-items:center;gap:7px}
+.offices-list span::before{content:"";display:block;width:5px;height:5px;border-radius:50%;background:var(--primary);flex:0 0 5px}
+
+/* RIGHT — form */
+.form-panel{}
+.form-panel h2{font-size:clamp(22px,2.2vw,30px);margin-bottom:28px}
+.form{display:flex;flex-direction:column;gap:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate)}
+.field input,
+.field select,
+.field textarea{font-family:var(--body);font-size:15.5px;color:var(--ink);background:var(--white);border:1.5px solid var(--line);border-radius:2px;padding:13px 16px;outline:none;transition:.18s;width:100%;appearance:none;-webkit-appearance:none}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,88,190,.1)}
+.field input::placeholder,
+.field textarea::placeholder{color:var(--line)}
+.field textarea{resize:vertical;min-height:130px;line-height:1.6}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;cursor:pointer}
+.field select option[value=""]{color:var(--gray)}
+.form-note{font-size:13.5px;color:var(--gray);line-height:1.5}
+.form-note a{color:var(--primary);border-bottom:1px solid transparent;transition:.15s}
+.form-note a:hover{border-color:var(--primary)}
+.form .btn-primary{align-self:flex-start;width:100%;justify-content:center;padding:17px 28px;font-size:16px}
+.form-success{display:none;align-items:center;gap:14px;background:var(--accent);border:1.5px solid var(--primary);border-radius:2px;padding:18px 22px;font-family:var(--head);font-weight:600;font-size:15px;color:var(--primary)}
+.form-success svg{flex:0 0 22px;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== MAP ===== */
+.map-wrap{margin-top:80px;padding-bottom:0;border-top:1px solid var(--line)}
+.map-head{padding:52px 0 0;margin-bottom:32px}
+.map-head .eyebrow{display:block;margin-bottom:14px}
+.map-head h2{font-size:clamp(22px,2.4vw,32px)}
+.map-head p{color:var(--slate);font-size:16px;margin-top:10px}
+#gmap{width:100%;height:480px;border:1px solid var(--line);display:block;filter:grayscale(18%) contrast(1.04)}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--navy);color:rgba(255,255,255,.66);padding:80px 0 0;border-top:1px solid rgba(255,255,255,.06)}
+.foot-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot-brand img{height:28px;filter:brightness(0) invert(1);margin-bottom:20px}
+.foot-brand p{font-size:15px;max-width:30ch;line-height:1.55;color:rgba(255,255,255,.6)}
+.foot-col h4{color:#fff;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px;font-family:var(--head)}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:12px}
+.foot-col a,.foot-col span{font-size:15px;color:rgba(255,255,255,.64);transition:.18s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;flex-wrap:wrap}
+.foot-bottom .cp{font-size:13.5px;color:rgba(255,255,255,.5)}
+.foot-bottom .legal{display:flex;gap:24px}
+.foot-bottom .legal a{font-size:13.5px;color:rgba(255,255,255,.62)}
+.foot-bottom .legal a:hover{color:#fff}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1000px){
+  :root{--pad:28px}
+  .nav-links{display:none}
+  .menu-btn{display:flex}
+  .contact-grid{grid-template-columns:1fr;gap:56px}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:36px}
+  #gmap{height:380px}
+}
+@media(max-width:640px){
+  .form-row{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .phead-inner{padding:90px 0 72px}
+}
+</style>
+</head>
+<body data-screen-label="Contact">
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Home.html" aria-label="SUME Group home">
+      <img src="assets/logo.png" alt="SUME">
+      <span class="gp">Group</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Home.html">Home</a>
+      <a href="Solutions.html">Solutions <span class="caret">▼</span></a>
+      <a href="#">Data Center</a>
+      <a href="#">About</a>
+      <a href="Projects.html">Projects</a>
+      <a href="Contact.html" class="active">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="Contact.html" class="btn btn-primary">Get in Touch</a>
+      <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 7.1 PAGE HEADER -->
+<section class="phead" data-screen-label="Header">
+  <div class="phead-bg" style="background-image:url('assets/bg-overlay-header.png')"></div>
+  <div class="wrap phead-inner" style="margin: 0px 0px 0px 40px">
+    <span class="eyebrow">Contact</span>
+    <h1>Let's Engineer Your Infrastructure.</h1>
+    <p>Whether you're building a new facility or optimizing an existing one, our team is ready to assess your requirements.</p>
+  </div>
+</section>
+
+<!-- 7.2 / 7.3 CONTACT BODY -->
+<section class="contact-body">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- LEFT: contact info -->
+      <div class="info-panel">
+        <h2>Get in Touch</h2>
+        <p class="sub">Reach our team directly or use the form — we respond within one business day.</p>
+
+        <div class="info-items">
+          <!-- Email -->
+          <div class="info-item">
+            <div class="ii-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            </div>
+            <div class="ii-body">
+              <div class="ii-label">Email</div>
+              <div class="ii-val"><a href="mailto:info@sume.co.id">info@sume.co.id</a></div>
+            </div>
+          </div>
+          <!-- Phone -->
+          <div class="info-item">
+            <div class="ii-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 5.18 2 2 0 015.07 3h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L9.09 10.9a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 17.92z"/></svg>
+            </div>
+            <div class="ii-body">
+              <div class="ii-label">Phone</div>
+              <div class="ii-val"><a href="tel:+62">+62 ___ ____ ____</a></div>
+            </div>
+          </div>
+          <!-- HQ Address -->
+          <div class="info-item">
+            <div class="ii-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="ii-body">
+              <div class="ii-label">HQ Address</div>
+              <div class="ii-val">Equity Tower, 17th Floor<br>SCBD — Jl. Jenderal Sudirman<br>Jakarta, Indonesia</div>
+            </div>
+          </div>
+          <!-- Offices -->
+          <div class="info-item">
+            <div class="ii-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            </div>
+            <div class="ii-body">
+              <div class="ii-label">Regional Offices</div>
+              <div class="ii-val">
+                <div class="offices-list">
+                  <span>Indonesia — Jakarta (HQ)</span>
+                  <span>Singapore</span>
+                  <span>Myanmar — Yangon</span>
+                  <span>Myanmar — Mandalay</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: form -->
+      <div class="form-panel">
+        <h2>Request a Consultation</h2>
+        <form class="form" id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="fname">Full Name</label>
+              <input type="text" id="fname" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="field">
+              <label for="fcompany">Company</label>
+              <input type="text" id="fcompany" name="company" placeholder="Your company" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="femail">Email Address</label>
+            <input type="email" id="femail" name="email" placeholder="you@company.com" required>
+          </div>
+          <div class="field">
+            <label for="ffacility">Facility Type</label>
+            <select id="ffacility" name="facility" required>
+              <option value="" disabled selected>Select facility type</option>
+              <option value="data-center">Data Center</option>
+              <option value="commercial">Commercial Building</option>
+              <option value="industrial">Industrial Facility</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fmsg">Message</label>
+            <textarea id="fmsg" name="message" placeholder="Describe your requirements — scope, location, timeline…" rows="5" required></textarea>
+          </div>
+          <p class="form-note">By submitting this form, you agree to our <a href="#">Privacy Policy</a>. We will not share your information with third parties.</p>
+          <button type="submit" class="btn btn-primary">Request a Consultation <span class="arr">→</span></button>
+          <div class="form-success" id="formSuccess">
+            <svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
+            Thank you — we'll be in touch within one business day.
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- 7.4 MAP -->
+    <div class="map-wrap" data-screen-label="Map">
+      <div class="map-head">
+        <span class="eyebrow">Headquarters</span>
+        <h2>Equity Tower, Jakarta</h2>
+        <p>SCBD — Jl. Jenderal Sudirman, Jakarta Selatan 12190, Indonesia</p>
+      </div>
+      <iframe
+        id="gmap"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.0887634985983!2d106.80356135!3d-6.22473335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f147b17835b1%3A0x6079d8c2c29b7e18!2sEquity%20Tower!5e0!3m2!1sen!2sid!4v1717000000000!5m2!1sen!2sid"
+        width="100%"
+        height="480"
+        style="border:0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="SUME Group Headquarters — Equity Tower, Jakarta">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top:96px">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo.png" alt="SUME Group">
+        <p>Mechanical &amp; Electrical Infrastructure for Mission-Critical Facilities.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">Power &amp; Energy</a></li>
+          <li><a href="#">Precision Cooling</a></li>
+          <li><a href="#">Monitoring &amp; Security</a></li>
+          <li><a href="#">Integrated M&amp;E</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="Projects.html">Projects</a></li>
+          <li><a href="Contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Offices</h4>
+        <ul>
+          <li><a href="Regional Presence.html">Indonesia (HQ)</a></li>
+          <li><a href="Regional Presence.html">Singapore</a></li>
+          <li><a href="Regional Presence.html">Myanmar — Yangon</a></li>
+          <li><a href="Regional Presence.html">Myanmar — Mandalay</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:info@sume.co.id">info@sume.co.id</a></li>
+          <li><a href="tel:+62">+62 ___ ____ ____</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="cp">© <span id="yr"></span> SUME Group · PT. SUME (Solusi Utama Mekanikal Elektrikal). All rights reserved.</div>
+      <div class="legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Form submit (UI demo — no backend)
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var btn = this.querySelector('button[type="submit"]');
+  var success = document.getElementById('formSuccess');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  setTimeout(function(){
+    btn.style.display = 'none';
+    success.style.display = 'flex';
+  }, 900);
+});
+</script>
+</body>
+</html>

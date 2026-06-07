@@ -1,91 +1,110 @@
-import { ArrowRight } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { LinkButton } from "@/components/ui/button";
-import { company, heroContent } from "@/constants/site";
+import Link from "next/link";
+import { company, heroSlides } from "@/constants/site";
 import { cn } from "@/lib/utils";
 
-const heroCardPositionClass = {
-  left: "left-[-2%] top-[45%] sm:left-[-5%] lg:left-[-15%] xl:left-[-60px]",
-  right:
-    "right-[-2%] bottom-[10%] sm:right-[-5%] lg:right-0 lg:bottom-[30%] xl:right-[11px]",
-};
+const DURATION = 6000;
 
 export function Hero() {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(
+      () => setCurrent((index) => (index + 1) % heroSlides.length),
+      DURATION,
+    );
+    return () => clearTimeout(timer);
+  }, [current]);
+
+  const slide = heroSlides[current];
+
   return (
     <section
-      id="home"
-      className="relative overflow-hidden bg-linear-to-t from-[#E5EBF7] to-white pt-28 lg:pt-52 xl:pt-14"
+      id="hero"
+      className="relative h-[min(90vh,950px)] min-h-[600px] overflow-hidden bg-sume-navy"
     >
-      <div className="absolute inset-0 max-sm:bg-[image:var(--sume-hero-surface)]" />
-      <div className="section-shell relative flex min-h-[755px] flex-col items-center justify-between py-0 xl:flex-row">
-        <div className="relative z-10 w-full flex-1 pt-10 text-center lg:pt-0 xl:text-left">
-          <h1 className="font-hero text-[42px] font-bold leading-[1.1] text-sume-ink sm:text-[54px] lg:text-[64px] xl:text-[68px]">
-            {heroContent.heading.prefix}
-            <span className="text-sume-blue">
-              {heroContent.heading.highlight}
-            </span>
+      {heroSlides.map((item, index) => (
+        <div
+          key={item.label}
+          aria-hidden
+          className={cn(
+            "absolute inset-0 transition-opacity duration-[1100ms] ease-in-out",
+            index === current ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <Image
+            src={item.image}
+            alt=""
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,36,60,0.88)_0%,rgba(14,36,60,0.66)_42%,rgba(14,36,60,0.22)_100%)]" />
+        </div>
+      ))}
+
+      <div className="sume-wrap relative z-[3] flex h-full flex-col justify-center">
+        <div key={current} className="max-w-[90ch] pb-20 animate-fade-in">
+          <h1 className="mt-5 max-w-[120ch]  font-head text-[clamp(38px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
+            {slide.title}
           </h1>
-          <p className="mx-auto mt-6 max-w-[526px] text-lg leading-relaxed text-sume-body sm:text-xl xl:mx-0">
-            {company.description}
+          <p className="mt-5 max-w-[50ch] text-[clamp(17px,1.5vw,21px)] leading-[1.5] text-white/80">
+            {slide.subtitle}
           </p>
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row xl:justify-start">
-            <LinkButton
-              href="#contact"
-              className="group h-[60px] w-full px-8 sm:w-auto"
+          <div className="mt-9 flex flex-wrap gap-4">
+            <Link href="/solutions" className="sume-btn sume-btn-primary">
+              Explore Our Solutions
+            </Link>
+            <Link
+              href={company.whatsapp}
+              className="sume-btn sume-btn-ghost"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Get Free Consultation
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </LinkButton>
-            <LinkButton
-              href="/our-project"
-              variant="secondary"
-              className="h-[60px] w-full px-8 sm:w-auto"
-            >
-              View Our Projects
-            </LinkButton>
+              Talk to Our Team
+            </Link>
           </div>
         </div>
+      </div>
 
-        <div className="relative flex min-h-[400px] w-full shrink-0 items-end justify-center sm:min-h-[500px] lg:min-h-[755px] lg:w-[600px] xl:w-[600px]">
-          <div className="relative mt-10 aspect-[583/578] w-full max-w-[480px] sm:max-w-[600px] lg:mt-0 lg:-mr-10 lg:max-w-none xl:-mr-16">
-            <Image
-              src="/images/sections/hero.webp"
-              alt="Modern mechanical and electrical building solution"
-              fill
-              priority
-              sizes="(min-width: 1280px) 750px, (min-width: 1024px) 550px, 90vw"
-              className="object-cover object-bottom drop-shadow-2xl"
-            />
+      <div className="absolute inset-x-0 bottom-0 z-[4]">
+        <div className="sume-wrap grid grid-cols-2 md:grid-cols-4">
+          {heroSlides.map((item, index) => {
+            const isActive = index === current;
 
-            {heroContent.cards.map((card) => {
-              const Icon = card.icon;
-
-              return (
-                <article
-                  key={card.title}
-                  className={cn(
-                    "absolute w-[180px] sm:w-[220px] lg:w-[240px]",
-                    card.position === "left"
-                      ? heroCardPositionClass.left
-                      : heroCardPositionClass.right,
-                    card.position === "right" && "sm:w-[240px] lg:w-[266px]",
-                  )}
-                >
-                  <div className="flex flex-col items-start justify-center gap-2 rounded-xl border border-white/40 bg-white/70 px-5 py-3 shadow-xl backdrop-blur-md transition-transform duration-300 hover:-translate-y-1">
-                    <Icon className="h-8 w-8 shrink-0 text-sume-blue lg:h-11 lg:w-11" />
-                    <div className="flex flex-col items-start">
-                      <h3 className="text-[14px] font-bold leading-snug text-sume-ink lg:text-base">
-                        {card.title}
-                      </h3>
-                      <p className="mt-1 hidden text-[11px] leading-relaxed text-slate-600 sm:block lg:text-xs">
-                        {card.description}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+            return (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => setCurrent(index)}
+                aria-label={`Show ${item.label} slide`}
+                aria-current={isActive ? "true" : undefined}
+                className={cn(
+                  "group cursor-pointer pb-6 pr-6 pt-4 text-left font-head transition md:pt-[22px]",
+                  isActive ? "text-white" : "text-white/60 hover:text-white",
+                )}
+              >
+                <div className="relative mb-4 h-0.5 overflow-hidden bg-white/20">
+                  {isActive ? (
+                    <span
+                      key={current}
+                      className="absolute inset-y-0 left-0 w-0 animate-rail-fill bg-white"
+                    />
+                  ) : null}
+                </div>
+                <div className="text-xs font-semibold tracking-[0.14em] opacity-70">
+                  {item.num}
+                </div>
+                <div className="mt-0.5 text-base font-semibold">
+                  {item.label}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

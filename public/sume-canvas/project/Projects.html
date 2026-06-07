@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — SUME Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0058BE;
+  --navy:#0E243C;
+  --accent:#E7F1FF;
+  --ink:#191C1E;
+  --slate:#424754;
+  --gray:#6B7280;
+  --line:#C2C6D6;
+  --mist:#F8FBFF;
+  --white:#ffffff;
+  --maxw:1280px;
+  --pad:48px;
+  --head:'IBM Plex Sans',system-ui,sans-serif;
+  --body:'Source Sans 3',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--head);font-weight:600;line-height:1.1;letter-spacing:-0.02em;color:var(--navy)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-family:var(--head);font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--primary)}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--head);font-weight:600;font-size:15px;padding:15px 28px;border-radius:2px;border:1.5px solid transparent;cursor:pointer;transition:.2s;letter-spacing:.01em}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:#00499c}
+.btn-white{background:#fff;color:var(--primary)}
+.btn-white:hover{background:var(--accent)}
+.arr{font-size:17px;line-height:1}
+
+/* ============ NAV ============ */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);height:78px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px}
+.brand img{height:26px;width:auto}
+.brand .gp{font-family:var(--head);font-weight:600;font-size:14px;letter-spacing:.22em;color:var(--gray);text-transform:uppercase;padding-left:11px;border-left:1px solid var(--line)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-family:var(--head);font-weight:500;font-size:15px;color:var(--slate);transition:.18s;position:relative;display:flex;align-items:center;gap:5px}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a.active{color:var(--navy);font-weight:600}
+.nav-links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-28px;height:2px;background:var(--primary)}
+.nav-cta{display:flex;align-items:center;gap:22px}
+.caret{font-size:9px;color:var(--gray)}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:8px}
+.menu-btn span{width:24px;height:2px;background:var(--navy);display:block}
+
+/* ============ PAGE HEADER ============ */
+.phead{position:relative;background:var(--navy);overflow:hidden}
+.phead-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.phead::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,36,60,.90) 0%,rgba(0,88,190,.38) 62%,rgba(0,88,190,.10) 100%);z-index:1}
+.phead-inner{position:relative;z-index:2;padding:140px 0 110px}
+.phead .eyebrow{color:#7FB4FF;display:inline-block;margin-bottom:22px}
+.phead h1{color:#fff;font-size:clamp(42px,5.8vw,76px);max-width:16ch;font-weight:600;line-height:1.04}
+.phead p{color:rgba(255,255,255,.80);font-size:clamp(17px,1.4vw,20px);max-width:60ch;margin-top:24px;line-height:1.55}
+.phead-stats{margin-top:60px;display:flex;gap:56px;flex-wrap:wrap;padding-top:32px;border-top:1px solid rgba(255,255,255,.16);max-width:860px}
+.phead-stats .si .n{font-family:var(--head);font-weight:600;font-size:34px;color:#fff;line-height:1}
+.phead-stats .si .n .ph{opacity:.4;font-weight:500}
+.phead-stats .si .l{font-size:12.5px;color:rgba(255,255,255,.65);margin-top:9px;letter-spacing:.06em;text-transform:uppercase;font-family:var(--head);font-weight:500}
+
+/* ============ PROJECT GRID ============ */
+.projs{padding:104px 0;background:var(--white)}
+
+.sec-head{margin-bottom:44px}
+.sec-head .eyebrow{display:block;margin-bottom:16px}
+.sec-head h2{font-size:clamp(28px,3.2vw,44px)}
+.sec-head p{color:var(--slate);font-size:17.5px;max-width:58ch;margin-top:16px;line-height:1.55}
+
+/* filter bar */
+.filters{display:flex;gap:10px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid var(--line);margin-bottom:48px}
+.filter-btn{font-family:var(--head);font-weight:500;font-size:13.5px;padding:9px 20px;border:1.5px solid var(--line);background:transparent;color:var(--slate);cursor:pointer;transition:.18s;border-radius:2px;letter-spacing:.01em}
+.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
+.filter-btn.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* cards grid */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.proj-card{border:1px solid var(--line);overflow:hidden;transition:.24s;display:flex;flex-direction:column;background:#fff}
+.proj-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 18px 44px -26px rgba(14,36,60,.38)}
+
+/* placeholder image */
+.proj-ph{width:100%;aspect-ratio:16/10;background-color:#EDF3FB;
+  background-image:
+    linear-gradient(rgba(0,88,190,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,88,190,.055) 1px,transparent 1px);
+  background-size:22px 22px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;position:relative;overflow:hidden}
+.proj-ph .ph-label{font-family:monospace;font-size:10px;color:rgba(0,88,190,.42);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:0 28px;line-height:1.6}
+.cat-tag{position:absolute;top:14px;left:14px;font-family:var(--head);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:2px;background:rgba(14,36,60,.74);color:#fff}
+
+.proj-body{padding:24px 26px 28px;flex:1;display:flex;flex-direction:column;gap:10px}
+.proj-name{font-family:var(--head);font-weight:600;font-size:18.5px;color:var(--navy);line-height:1.2}
+.proj-loc{font-size:13px;color:var(--gray);font-family:var(--head);font-weight:500;letter-spacing:.02em;display:flex;align-items:center;gap:7px}
+.proj-loc::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--primary);flex-shrink:0}
+.proj-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.proj-pill{font-size:12px;font-family:var(--head);font-weight:500;padding:4px 11px;background:var(--mist);border:1px solid var(--line);border-radius:2px;color:var(--slate)}
+.proj-pill.hi{background:var(--accent);border-color:rgba(0,88,190,.18);color:var(--primary)}
+
+/* ============ FEATURED RESULTS ============ */
+.results{padding:104px 0;background:var(--navy);position:relative;overflow:hidden}
+.results::after{content:"";position:absolute;inset:0;background:url('assets/city-building.png') center/cover no-repeat;opacity:.18;pointer-events:none;mix-blend-mode:luminosity}
+.results::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,36,60,.88) 0%,rgba(0,88,190,.55) 60%,rgba(14,36,60,.82) 100%);z-index:1;pointer-events:none}
+.results .wrap{position:relative;z-index:2}
+.results .eyebrow{color:#7FB4FF;display:block;margin-bottom:16px}
+.results-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:56px}
+.results-head h2{color:#fff;font-size:clamp(28px,3.2vw,44px);max-width:22ch}
+.results-head p{color:rgba(255,255,255,.68);font-size:17px;max-width:44ch;line-height:1.55;flex-shrink:0}
+
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-bottom:44px}
+.feat-card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.13);padding:36px 38px 40px;transition:.22s}
+.feat-card:hover{background:rgba(255,255,255,.085);border-color:rgba(255,255,255,.26)}
+.feat-tag{font-family:var(--head);font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.44);margin-bottom:18px}
+.feat-name{font-family:var(--head);font-weight:600;font-size:22px;color:#fff;margin-bottom:5px;letter-spacing:-.01em}
+.feat-cap{font-size:14px;color:rgba(255,255,255,.58);margin-bottom:28px;font-family:var(--head)}
+.feat-metrics{display:flex;flex-direction:column;gap:0}
+.feat-metric{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+.feat-metric:last-child{border-bottom:none;padding-bottom:0}
+.feat-metric .mk{font-size:13.5px;color:rgba(255,255,255,.58)}
+.feat-metric .mv{font-family:var(--head);font-weight:600;font-size:17px;color:#fff}
+.feat-metric .mv.pos{color:#5BC8A0}
+
+/* portfolio table */
+.port-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.port-table{width:100%;border-collapse:collapse;font-size:15px}
+.port-table th{font-family:var(--head);font-weight:600;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.44);padding:13px 20px;text-align:left;border-bottom:1px solid rgba(255,255,255,.14)}
+.port-table td{padding:14px 20px;color:rgba(255,255,255,.78);border-bottom:1px solid rgba(255,255,255,.07)}
+.port-table tr:last-child td{border-bottom:none}
+.port-table tr:hover td{background:rgba(255,255,255,.04)}
+.port-table td:first-child{font-family:var(--head);font-weight:500;color:#fff}
+.port-table td:last-child{font-size:13.5px;color:rgba(255,255,255,.52)}
+
+/* ============ POWER CAPABILITY ============ */
+.power{padding:104px 0;background:var(--mist);border-top:1px solid var(--line);position:relative;overflow:hidden}
+.power::before{content:"";position:absolute;inset:0;background:url('assets/pattern-2.png') center/cover no-repeat;opacity:.07;pointer-events:none}
+.power .wrap{position:relative;z-index:1}
+.power-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.power .eyebrow{display:block;margin-bottom:16px}
+.power h2{font-size:clamp(26px,2.8vw,40px);line-height:1.2}
+.power .intro{color:var(--slate);font-size:17px;margin-top:20px;max-width:52ch;line-height:1.55}
+
+.power-list{margin-top:44px;display:flex;flex-direction:column}
+.power-item{display:flex;gap:22px;padding:22px 0;border-bottom:1px solid var(--line)}
+.power-item:first-child{border-top:1px solid var(--line)}
+.pi-num{font-family:var(--head);font-weight:600;font-size:12.5px;color:var(--primary);letter-spacing:.12em;min-width:28px;padding-top:3px;flex-shrink:0}
+.pi-body h4{font-family:var(--head);font-size:15.5px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.pi-body p{font-size:14.5px;color:var(--slate);line-height:1.55}
+
+.power-sidebar{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:var(--white)}
+.ps-stat{padding:32px 36px;border-bottom:1px solid var(--line)}
+.ps-stat:last-child{border-bottom:none}
+.ps-n{font-family:var(--head);font-weight:600;font-size:38px;color:var(--navy);line-height:1;letter-spacing:-.02em}
+.ps-n .ph{color:var(--line);font-weight:500}
+.ps-l{font-size:13.5px;color:var(--gray);margin-top:10px;line-height:1.45;max-width:26ch}
+
+/* ============ CTA ============ */
+.cta{position:relative;background:var(--primary);overflow:hidden}
+.cta-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.42;mix-blend-mode:luminosity}
+.cta::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,88,190,.96),rgba(14,36,60,.86))}
+.cta-inner{position:relative;z-index:2;padding:120px 0;text-align:center}
+.cta h2{color:#fff;font-size:clamp(30px,4vw,52px);max-width:22ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.82);font-size:19px;max-width:58ch;margin:24px auto 38px;line-height:1.55}
+
+/* ============ FOOTER ============ */
+.footer{background:var(--navy);color:rgba(255,255,255,.66);padding:80px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot-brand img{height:28px;filter:brightness(0) invert(1);margin-bottom:20px}
+.foot-brand p{font-size:15px;max-width:30ch;line-height:1.55;color:rgba(255,255,255,.6)}
+.foot-col h4{color:#fff;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px;font-family:var(--head)}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:12px}
+.foot-col a,.foot-col span{font-size:15px;color:rgba(255,255,255,.64);transition:.18s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;flex-wrap:wrap}
+.foot-bottom .cp{font-size:13.5px;color:rgba(255,255,255,.5)}
+.foot-bottom .legal{display:flex;gap:24px}
+.foot-bottom .legal a{font-size:13.5px;color:rgba(255,255,255,.62)}
+.foot-bottom .legal a:hover{color:#fff}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1000px){
+  :root{--pad:28px}
+  .nav-links{display:none}
+  .menu-btn{display:flex}
+  .proj-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{grid-template-columns:1fr}
+  .power-grid{grid-template-columns:1fr;gap:48px}
+  .results-head{flex-direction:column;align-items:flex-start}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .phead-inner{padding:96px 0 80px}
+  .phead-stats{gap:36px}
+}
+@media(max-width:600px){
+  .proj-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .phead-stats{gap:28px}
+  .phead-stats .si .n{font-size:26px}
+  .filters{gap:8px}
+}
+</style>
+</head>
+<body data-screen-label="Projects">
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Home.html" aria-label="SUME Group home">
+      <img src="assets/logo.png" alt="SUME">
+      <span class="gp">Group</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Home.html">Home</a>
+      <a href="Solutions.html">Solutions <span class="caret">▼</span></a>
+      <a href="#">Data Center</a>
+      <a href="#">About</a>
+      <a href="Projects.html" class="active">Projects</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-primary">Get in Touch</a>
+      <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PAGE HEADER ============ -->
+<section class="phead" data-screen-label="Page Header">
+  <div class="phead-bg" style="background-image:url('assets/bg-overlay-header.png')"></div>
+  <div class="wrap phead-inner" style="padding: 140px 0px 110px 45px">
+    <span class="eyebrow">Our Work</span>
+    <h1>Selected Projects</h1>
+    <p>A track record across commercial, industrial, and mission-critical facilities — delivering power, cooling, monitoring, and integrated M&amp;E infrastructure.</p>
+    <div class="phead-stats">
+      <div class="si">
+        <div class="n"><span class="ph">[ ]</span>+</div>
+        <div class="l">Projects Delivered</div>
+      </div>
+      <div class="si">
+        <div class="n">50+ MWp</div>
+        <div class="l">Solar PV Installed</div>
+      </div>
+      <div class="si">
+        <div class="n"><span class="ph">[ ]</span>+ TR</div>
+        <div class="l">Cooling Optimized</div>
+      </div>
+      <div class="si">
+        <div class="n">3</div>
+        <div class="l">Countries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECT GRID ============ -->
+<section class="projs" data-screen-label="Project Grid">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Project Portfolio</span>
+      <h2>Delivering infrastructure across<br>industries and geographies.</h2>
+      <p>From precision cooling retrofits to integrated M&amp;E contracting — built for facilities that operate without interruption.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filter projects by category">
+      <button class="filter-btn on" data-f="all">All Projects</button>
+      <button class="filter-btn" data-f="power">Power &amp; Energy</button>
+      <button class="filter-btn" data-f="cooling">Precision Cooling</button>
+      <button class="filter-btn" data-f="monitoring">Monitoring &amp; Security</button>
+      <button class="filter-btn" data-f="integrated">Integrated M&amp;E</button>
+    </div>
+
+    <div class="proj-grid" id="projGrid"></div>
+  </div>
+</section>
+
+<!-- ============ FEATURED RESULTS ============ -->
+<section class="results" data-screen-label="Featured Results">
+  <div class="wrap">
+    <div class="results-head">
+      <div>
+        <span class="eyebrow">Proven Results</span>
+        <h2>Precision Cooling —<br>Measured Outcomes</h2>
+      </div>
+      <p>Cooling is the single largest energy load in any high-density facility. These results demonstrate the chiller and energy-efficiency capability SUME brings to critical environments.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-tag">Industrial · Precision Cooling</div>
+        <div class="feat-name">PT Autoplastik Indonesia</div>
+        <div class="feat-cap">Chiller Retrofit · 2 × 500 TR</div>
+        <div class="feat-metrics">
+          <div class="feat-metric">
+            <span class="mk">COP Before Optimization</span>
+            <span class="mv">3.34</span>
+          </div>
+          <div class="feat-metric">
+            <span class="mk">COP After Optimization</span>
+            <span class="mv pos">3.61</span>
+          </div>
+          <div class="feat-metric">
+            <span class="mk">Annual Energy Savings</span>
+            <span class="mv pos">IDR 651.6M</span>
+          </div>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-tag">Industrial · Precision Cooling</div>
+        <div class="feat-name">SKF Factory</div>
+        <div class="feat-cap">Cakung, Jakarta · 3 × 550 TR</div>
+        <div class="feat-metrics">
+          <div class="feat-metric">
+            <span class="mk">Plant Efficiency Before</span>
+            <span class="mv">1.10 kW/TR</span>
+          </div>
+          <div class="feat-metric">
+            <span class="mk">Plant Efficiency After</span>
+            <span class="mv pos">0.77 kW/TR</span>
+          </div>
+          <div class="feat-metric">
+            <span class="mk">Annual Energy Savings</span>
+            <span class="mv pos">IDR 1.117B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="port-wrap">
+      <table class="port-table" aria-label="Additional chiller optimization portfolio">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Location</th>
+            <th>Cooling Capacity</th>
+            <th>Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Festival Citilink</td><td>Bandung</td><td>3 × 1,000 TR</td><td>Chiller Optimization</td></tr>
+          <tr><td>Lenmarc Mall</td><td>Surabaya</td><td>3 × 1,050 TR</td><td>Chiller Optimization</td></tr>
+          <tr><td>Sheraton Gandaria</td><td>Jakarta</td><td>3 × 500 TR</td><td>Chiller Optimization</td></tr>
+          <tr><td>Aston Simatupang</td><td>Jakarta</td><td>3 × 400 TR</td><td>Chiller Systems</td></tr>
+          <tr><td>Papandayan Hotel</td><td>Bandung</td><td>300 + 200 TR</td><td>Cooling Systems</td></tr>
+          <tr><td>Santos Jaya Abadi</td><td>Semarang</td><td>8 × 150 TR</td><td>Air-cooled Plant</td></tr>
+          <tr><td>Isuzu</td><td>Karawang</td><td>6 × 150 TR</td><td>Air-cooled Plant</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POWER CAPABILITY ============ -->
+<section class="power" data-screen-label="Power Capability">
+  <div class="wrap">
+    <div class="power-grid">
+      <div>
+        <span class="eyebrow">Power &amp; Engine Capability</span>
+        <h2>Power Reliability<br>You Can Verify</h2>
+        <p class="intro">Backup power is non-negotiable for uptime. SUME's engine capability is built on authorized, certified service — backed by engineers trained directly in Japan.</p>
+        <div class="power-list">
+          <div class="power-item">
+            <div class="pi-num">01</div>
+            <div class="pi-body">
+              <h4>Authorized IHI / Niigata Service Partner</h4>
+              <p>Authorized distributor and service for IHI / Niigata land and marine engines — one of the few certified operations in the region.</p>
+            </div>
+          </div>
+          <div class="power-item">
+            <div class="pi-num">02</div>
+            <div class="pi-body">
+              <h4>Japan-Trained Engineers</h4>
+              <p>8 certified engineers trained at Niigata Power Systems, Japan — with combined 20+ years of maintenance, overhaul, and troubleshooting experience.</p>
+            </div>
+          </div>
+          <div class="power-item">
+            <div class="pi-num">03</div>
+            <div class="pi-body">
+              <h4>National-Scale Operations Serviced</h4>
+              <p>Engines serviced by SUME power critical operations at PLN and Pertamina — operators with non-negotiable uptime requirements.</p>
+            </div>
+          </div>
+          <div class="power-item">
+            <div class="pi-num">04</div>
+            <div class="pi-body">
+              <h4>Yuchai Genset Supply &amp; Commissioning</h4>
+              <p>Diesel and gas gensets in containerized and site-built configurations, sized and commissioned to facility load requirements.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="power-sidebar">
+        <div class="ps-stat">
+          <div class="ps-n">8</div>
+          <div class="ps-l">Certified Engineers · IHI / Niigata Trained, Japan</div>
+        </div>
+        <div class="ps-stat">
+          <div class="ps-n">20+</div>
+          <div class="ps-l">Years Combined Engine Service Experience</div>
+        </div>
+        <div class="ps-stat">
+          <div class="ps-n">50+ MWp</div>
+          <div class="ps-l">Solar PV Installed Across Commercial &amp; Industrial Sites</div>
+        </div>
+        <div class="ps-stat">
+          <div class="ps-n"><span class="ph" style="color:var(--line);font-weight:500">[ ]</span>+</div>
+          <div class="ps-l">Gensets Maintained, Serviced &amp; Commissioned</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING CTA ============ -->
+<section class="cta">
+  <div class="cta-bg" style="background-image:url('assets/pattern-1.png')"></div>
+  <div class="wrap cta-inner">
+    <h2>Let's engineer your infrastructure.</h2>
+    <p>From mission-critical power systems to data center environments, we build infrastructure designed for performance, reliability, and uptime.</p>
+    <a href="#" class="btn btn-white">Request a Consultation <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo.png" alt="SUME Group">
+        <p>Mechanical &amp; Electrical Infrastructure for Mission-Critical Facilities.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">Power &amp; Energy</a></li>
+          <li><a href="#">Precision Cooling</a></li>
+          <li><a href="#">Monitoring &amp; Security</a></li>
+          <li><a href="#">Integrated M&amp;E</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="Projects.html">Projects</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Offices</h4>
+        <ul>
+          <li><a href="Regional Presence.html">Indonesia (HQ)</a></li>
+          <li><a href="Regional Presence.html">Singapore</a></li>
+          <li><a href="Regional Presence.html">Myanmar — Yangon</a></li>
+          <li><a href="Regional Presence.html">Myanmar — Mandalay</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">info@sume.co.id</a></li>
+          <li><a href="#">+62 ___ ____ ____</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="cp">© <span id="yr"></span> SUME Group · PT. SUME (Solusi Utama Mekanikal Elektrikal). All rights reserved.</div>
+      <div class="legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---- Project data ---- */
+var PROJECTS = [
+  { name:'Mega Bekasi Hypermall', loc:'Bekasi, West Java', scope:'Genset Maintenance', cap:'~8 Units', type:'Commercial', cat:'power',      ph:'power system · genset maintenance' },
+  { name:'Hotel Project',          loc:'Bali',             scope:'Integrated M&E',    cap:'[scope TBC]', type:'Hospitality', cat:'integrated', ph:'integrated M&E · hospitality' },
+  { name:'Industrial Facility',    loc:'Balikpapan',       scope:'Integrated M&E',    cap:'[scope TBC]', type:'Industrial',  cat:'integrated', ph:'integrated M&E · industrial' },
+  { name:'Commercial Project',     loc:'Makassar',         scope:'Integrated M&E',    cap:'[scope TBC]', type:'Commercial',  cat:'integrated', ph:'integrated M&E · commercial' },
+  { name:'SKF Factory',            loc:'Cakung, Jakarta',  scope:'Chiller Optimization', cap:'3 × 550 TR', type:'Industrial', cat:'cooling', ph:'precision cooling · industrial' },
+  { name:'PT Autoplastik Indonesia',loc:'Industrial Site', scope:'Chiller Retrofit',  cap:'2 × 500 TR',  type:'Industrial',  cat:'cooling',    ph:'precision cooling · chiller retrofit' },
+  { name:'Festival Citilink',      loc:'Bandung',          scope:'Chiller Optimization', cap:'3 × 1,000 TR', type:'Commercial', cat:'cooling', ph:'precision cooling · commercial mall' },
+  { name:'Lenmarc Mall',           loc:'Surabaya',         scope:'Chiller Optimization', cap:'3 × 1,050 TR', type:'Commercial', cat:'cooling', ph:'precision cooling · shopping mall' },
+  { name:'Sheraton Gandaria',      loc:'Jakarta',          scope:'Chiller Optimization', cap:'3 × 500 TR', type:'Hospitality', cat:'cooling', ph:'precision cooling · hotel' },
+  { name:'Aston Simatupang',       loc:'Jakarta',          scope:'Chiller Systems',   cap:'3 × 400 TR',  type:'Hospitality', cat:'cooling',    ph:'precision cooling · hotel' },
+  { name:'Papandayan Hotel',       loc:'Bandung',          scope:'Cooling Systems',   cap:'300 + 200 TR', type:'Hospitality', cat:'cooling',   ph:'precision cooling · hospitality' },
+  { name:'Santos Jaya Abadi',      loc:'Semarang',         scope:'Air-cooled Plant',  cap:'8 × 150 TR',  type:'Industrial',  cat:'cooling',    ph:'precision cooling · industrial' },
+  { name:'Isuzu',                  loc:'Karawang',         scope:'Air-cooled Plant',  cap:'6 × 150 TR',  type:'Industrial',  cat:'cooling',    ph:'precision cooling · manufacturing' },
+];
+
+var CAT_LABEL = {
+  power:'Power & Energy',
+  cooling:'Precision Cooling',
+  monitoring:'Monitoring & Security',
+  integrated:'Integrated M&E'
+};
+
+/* ---- Build cards ---- */
+var grid = document.getElementById('projGrid');
+
+PROJECTS.forEach(function(p) {
+  var card = document.createElement('div');
+  card.className = 'proj-card';
+  card.dataset.cat = p.cat;
+  card.innerHTML =
+    '<div class="proj-ph">' +
+      '<span class="cat-tag">' + CAT_LABEL[p.cat] + '</span>' +
+      '<span class="ph-label">' + p.ph + '</span>' +
+    '</div>' +
+    '<div class="proj-body">' +
+      '<div class="proj-name">' + p.name + '</div>' +
+      '<div class="proj-loc">' + p.loc + '</div>' +
+      '<div class="proj-meta">' +
+        '<span class="proj-pill">' + p.scope + '</span>' +
+        '<span class="proj-pill hi">' + p.cap + '</span>' +
+        '<span class="proj-pill">' + p.type + '</span>' +
+      '</div>' +
+    '</div>';
+  grid.appendChild(card);
+});
+
+/* ---- Filter ---- */
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var f = btn.dataset.f;
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    document.querySelectorAll('.proj-card').forEach(function(c) {
+      c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,27 +1,21 @@
-import { Suspense } from "react";
-import { About } from "@/components/sections/about";
-import { BusinessSolutions } from "@/components/sections/business-solutions";
-import { Clients } from "@/components/sections/clients";
-import { Contact } from "@/components/sections/contact";
+import { ClosingCta } from "@/components/sections/closing-cta";
+import { DataCenterTeaser } from "@/components/sections/data-center-teaser";
 import { Hero } from "@/components/sections/hero";
-import { Process } from "@/components/sections/process";
-import { ProjectsPreview } from "@/components/sections/projects-preview";
-import { ProjectsPreviewSkeleton } from "@/components/project-skeleton";
-import { WhyChooseUs } from "@/components/sections/why-choose-us";
+import { PositioningStrip } from "@/components/sections/positioning-strip";
+import { SolutionsOverview } from "@/components/sections/solutions-overview";
+import { TrustedBy } from "@/components/sections/trusted-by";
+import { WhySume } from "@/components/sections/why-sume";
 
 export default function Home() {
   return (
-    <main>
+    <main className="font-body">
       <Hero />
-      <Clients />
-      <About />
-      <BusinessSolutions />
-      <WhyChooseUs />
-      <Suspense fallback={<ProjectsPreviewSkeleton />}>
-        <ProjectsPreview />
-      </Suspense>
-      <Process />
-      <Contact />
+      <PositioningStrip />
+      <SolutionsOverview />
+      <DataCenterTeaser />
+      <WhySume />
+      <TrustedBy />
+      <ClosingCta />
     </main>
   );
 }

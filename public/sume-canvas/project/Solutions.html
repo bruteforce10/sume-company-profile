@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solutions — SUME Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0058BE;
+  --navy:#0E243C;
+  --accent:#E7F1FF;
+  --ink:#191C1E;
+  --slate:#424754;
+  --gray:#6B7280;
+  --line:#C2C6D6;
+  --mist:#F8FBFF;
+  --white:#ffffff;
+  --maxw:1280px;
+  --pad:48px;
+  --head:'IBM Plex Sans',system-ui,sans-serif;
+  --body:'Source Sans 3',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--head);font-weight:600;line-height:1.1;letter-spacing:-0.02em;color:var(--navy)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-family:var(--head);font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--primary)}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--head);font-weight:600;font-size:15px;padding:15px 28px;border-radius:2px;border:1.5px solid transparent;cursor:pointer;transition:.2s;letter-spacing:.01em}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:#00499c;border-color:#00499c}
+.btn-white{background:#fff;color:var(--primary)}
+.btn-white:hover{background:var(--accent)}
+.arr{font-size:17px;line-height:1}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);height:78px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px}
+.brand img{height:26px;width:auto}
+.brand .gp{font-family:var(--head);font-weight:600;font-size:14px;letter-spacing:.22em;color:var(--gray);text-transform:uppercase;padding-left:11px;border-left:1px solid var(--line)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-family:var(--head);font-weight:500;font-size:15px;color:var(--slate);transition:.18s;position:relative;display:flex;align-items:center;gap:5px}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a.active{color:var(--navy);font-weight:600}
+.nav-links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-28px;height:2px;background:var(--primary)}
+.nav-cta{display:flex;align-items:center;gap:22px}
+.caret{font-size:9px;color:var(--gray)}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:8px}
+.menu-btn span{width:24px;height:2px;background:var(--navy);display:block}
+
+/* ===== PAGE HEADER ===== */
+.phead{position:relative;background:var(--navy);overflow:hidden}
+.phead-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.phead::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,36,60,.90) 0%,rgba(0,88,190,.38) 60%,rgba(0,88,190,.08) 100%);z-index:1}
+.phead-inner{position:relative;z-index:2;padding:140px 0 108px}
+.phead .eyebrow{color:#7FB4FF;display:inline-block;margin-bottom:22px}
+.phead h1{color:#fff;font-size:clamp(42px,5.6vw,72px);max-width:16ch;font-weight:600;line-height:1.05}
+.phead p{color:rgba(255,255,255,.80);font-size:clamp(17px,1.4vw,20px);max-width:58ch;margin-top:22px;line-height:1.56}
+
+/* ===== PILLAR (alternating editorial) ===== */
+.pillar{padding:104px 0;border-bottom:1px solid var(--line)}
+.pillar:nth-child(even){background:var(--mist)}
+.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.pillar.flip .pillar-media{order:2}
+.pillar-media{position:relative;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line)}
+.pillar-media img{width:100%;height:100%;object-fit:cover}
+.pillar-media .tagnum{position:absolute;top:18px;left:18px;font-family:var(--head);font-weight:600;font-size:12px;letter-spacing:.16em;color:#fff;background:rgba(14,36,60,.78);padding:7px 13px;border-radius:2px}
+.pillar-copy .eyebrow{display:block;margin-bottom:16px}
+.pillar-copy h2{font-size:clamp(28px,3vw,40px);margin-bottom:18px}
+.pillar-copy .lead{color:var(--slate);font-size:17.5px;line-height:1.6;max-width:46ch;margin-bottom:34px}
+.caps{list-style:none;display:flex;flex-direction:column}
+.cap{padding:20px 0;border-top:1px solid var(--line);display:flex;gap:18px}
+.cap:last-child{border-bottom:1px solid var(--line)}
+.cap-mark{flex:0 0 8px;height:8px;border-radius:50%;background:var(--primary);margin-top:9px}
+.cap-body h4{font-family:var(--head);font-size:17px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.cap-body p{font-size:15px;color:var(--slate);line-height:1.55}
+
+/* ===== AFTERSALES sub-block ===== */
+.aftersales{margin-top:34px;background:var(--white);border:1px solid var(--line);border-left:3px solid var(--primary);padding:28px 30px 30px}
+.pillar:nth-child(even) .aftersales{background:#fff}
+.aftersales h3{font-family:var(--head);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.aftersales .as-sub{font-size:14.5px;color:var(--slate);margin-bottom:20px;max-width:50ch;line-height:1.55}
+.as-list{list-style:none;display:grid;grid-template-columns:1fr;gap:14px}
+.as-item{display:flex;gap:13px;font-size:14.5px;color:var(--slate);line-height:1.5}
+.as-item svg{flex:0 0 18px;height:18px;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.as-item b{color:var(--navy);font-weight:600}
+
+/* ===== INTEGRATED M&E (pattern-3 bg) ===== */
+.integrated{position:relative;padding:120px 0;background:var(--white);overflow:hidden;border-bottom:1px solid var(--line)}
+.integrated-bg{position:absolute;inset:0;background:url('assets/pattern-3.png') right center/cover no-repeat;opacity:1}
+.integrated::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.92) 38%,rgba(248,251,255,.55) 70%,rgba(248,251,255,.1) 100%);z-index:1}
+.integrated-inner{position:relative;z-index:2;max-width:620px}
+.integrated .eyebrow{display:block;margin-bottom:16px}
+.integrated h2{font-size:clamp(30px,3.4vw,46px);margin-bottom:20px;line-height:1.12}
+.integrated p{color:var(--slate);font-size:18px;line-height:1.6;max-width:44ch;margin-bottom:14px}
+.integrated p strong{color:var(--navy);font-weight:600}
+
+/* ===== CAPABILITIES & BRANDS ===== */
+.brands{padding:104px 0;background:var(--navy);position:relative;overflow:hidden}
+.brands .eyebrow{color:#7FB4FF;display:block;margin-bottom:16px}
+.brands h2{color:#fff;font-size:clamp(28px,3vw,42px);max-width:20ch}
+.brands p{color:rgba(255,255,255,.68);font-size:17px;max-width:48ch;margin-top:14px;margin-bottom:52px;line-height:1.55}
+.brand-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12)}
+.brand-cell{background:var(--navy);aspect-ratio:3/2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:.2s;padding:16px}
+.brand-cell:hover{background:#13304d}
+.brand-logo{width:46px;height:46px;border:1.5px dashed rgba(255,255,255,.28);border-radius:3px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-family:var(--head);font-weight:600;font-size:18px}
+.brand-name{font-family:var(--head);font-weight:500;font-size:13px;color:rgba(255,255,255,.7);text-align:center;letter-spacing:.02em}
+.brands-note{margin-top:24px;font-size:13px;color:rgba(255,255,255,.4);font-style:italic}
+
+/* ===== CTA ===== */
+.cta{position:relative;background:var(--primary);overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:url('assets/pattern-1.png') center/cover no-repeat;opacity:.45;mix-blend-mode:luminosity}
+.cta::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,88,190,.93),rgba(14,36,60,.82))}
+.cta-inner{position:relative;z-index:2;padding:112px 0;text-align:center}
+.cta h2{color:#fff;font-size:clamp(32px,4.2vw,54px);max-width:20ch;margin:0 auto}
+.cta p{color:rgba(255,255,255,.82);font-size:19px;max-width:56ch;margin:22px auto 38px;line-height:1.55}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--navy);color:rgba(255,255,255,.66);padding:80px 0 0;border-top:1px solid rgba(255,255,255,.06)}
+.foot-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot-brand img{height:28px;filter:brightness(0) invert(1);margin-bottom:20px}
+.foot-brand p{font-size:15px;max-width:30ch;line-height:1.55;color:rgba(255,255,255,.6)}
+.foot-col h4{color:#fff;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px;font-family:var(--head)}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:12px}
+.foot-col a,.foot-col span{font-size:15px;color:rgba(255,255,255,.64);transition:.18s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;flex-wrap:wrap}
+.foot-bottom .cp{font-size:13.5px;color:rgba(255,255,255,.5)}
+.foot-bottom .legal{display:flex;gap:24px}
+.foot-bottom .legal a{font-size:13.5px;color:rgba(255,255,255,.62)}
+.foot-bottom .legal a:hover{color:#fff}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1000px){
+  :root{--pad:28px}
+  .nav-links{display:none}
+  .menu-btn{display:flex}
+  .pillar-grid{grid-template-columns:1fr;gap:44px}
+  .pillar.flip .pillar-media{order:0}
+  .brand-grid{grid-template-columns:repeat(3,1fr)}
+  .integrated::before{background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.9) 60%,rgba(255,255,255,.55) 100%)}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:560px){
+  .brand-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr}
+  .phead-inner{padding:96px 0 80px}
+  .as-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-screen-label="Solutions">
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Home.html" aria-label="SUME Group home">
+      <img src="assets/logo.png" alt="SUME">
+      <span class="gp">Group</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Home.html">Home</a>
+      <a href="Solutions.html" class="active">Solutions <span class="caret">▼</span></a>
+      <a href="#">Data Center</a>
+      <a href="#">About</a>
+      <a href="Projects.html">Projects</a>
+      <a href="Contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="Contact.html" class="btn btn-primary">Get in Touch</a>
+      <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="phead" data-screen-label="Header">
+  <div class="phead-bg" style="background-image:url('assets/bg-overlay-header.png')"></div>
+  <div class="wrap phead-inner" style="padding: 140px 0px 108px 40px">
+    <span class="eyebrow">Solutions</span>
+    <h1>The Full Mechanical &amp; Electrical Scope.</h1>
+    <p>Engineered for environments where downtime is not an option — drawing on a network of specialist capabilities that mission-critical facilities depend on.</p>
+  </div>
+</section>
+
+<!-- 2.1 POWER & ENERGY -->
+<section class="pillar" id="power" data-screen-label="Power &amp; Energy">
+  <div class="wrap pillar-grid">
+    <div class="pillar-media">
+      <span class="tagnum">01 — Power</span>
+      <img src="assets/solution-1.png" alt="Power and energy systems">
+    </div>
+    <div class="pillar-copy">
+      <span class="eyebrow">Power &amp; Energy</span>
+      <h2>The backbone of any critical facility.</h2>
+      <p class="lead">Primary and standby power engineered for continuous operation, with the monitoring and maintenance to keep it reliable across its full life.</p>
+      <ul class="caps">
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Standby &amp; Prime Generators</h4><p>Yuchai diesel &amp; gas gensets; containerized and site-built configurations, sized to facility load.</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Solar PV Systems</h4><p>Rooftop and ground-mount design and installation, delivered with Powerbrain; 50+ MWp installed.</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Fuel Monitoring Systems</h4><p>Real-time fuel level, consumption, and theft detection, powered by Ramus instrumentation.</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Engine Maintenance &amp; Overhaul</h4><p>Authorized spare parts and overhaul for IHI / Niigata land and marine engines through Ramoco.</p></div></li>
+      </ul>
+
+      <!-- Aftersales Service -->
+      <div class="aftersales">
+        <h3>Aftersales Service — IHI / Niigata Engines</h3>
+        <p class="as-sub">Reliability does not end at commissioning. Engine systems are backed by a structured aftersales program delivered with the manufacturer.</p>
+        <ul class="as-list">
+          <li class="as-item"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg><span><b>8 certified Indonesian engineers</b> trained in Niigata Power Systems, Japan.</span></li>
+          <li class="as-item"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg><span><b>20+ years</b> combined experience in maintenance, overhaul, and troubleshooting — marine and land-use engines.</span></li>
+          <li class="as-item"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg><span><b>Dedicated Niigata engineers</b> from the Customer Support Center for the Indonesian region — troubleshooting, supervision, and overhaul.</span></li>
+          <li class="as-item"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg><span><b>Annual courtesy visits</b> to each customer in Indonesia by the principal.</span></li>
+          <li class="as-item"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg><span><b>Open communication channel</b> between manufacturer and customer for any clarification or troubleshooting.</span></li>
+          <li class="as-item"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg><span><b>Case-by-case field reports</b> — photo details, findings, and manufacturer recommendations.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2.2 PRECISION COOLING -->
+<section class="pillar flip" id="cooling" data-screen-label="Precision Cooling">
+  <div class="wrap pillar-grid">
+    <div class="pillar-media">
+      <span class="tagnum">02 — Cooling</span>
+      <img src="assets/solution-2.png" alt="Precision cooling and HVAC">
+    </div>
+    <div class="pillar-copy">
+      <span class="eyebrow">Precision Cooling &amp; HVAC</span>
+      <h2>Cooling that performs under load.</h2>
+      <p class="lead">Cooling typically consumes 40–60% of a facility's electricity. We design and optimize for both performance and energy efficiency.</p>
+      <ul class="caps">
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Chiller Plants &amp; VRF Systems</h4><p>Midea, Broad, and Hisense systems for high-density and commercial loads.</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Chiller Optimization &amp; Retrofit</h4><p>Plant automation, VSD retrofits, pump rewinding; measurable gains (e.g. 1.10 → 0.77 kW/TR on a 3×550 TR plant).</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Cooling-as-a-Service</h4><p>Zero-CAPEX cooling under a performance-guaranteed energy service agreement, delivered with Powerbrain; backed by an insurance-grade performance bond and IPMVP measurement &amp; verification.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2.3 MONITORING & SECURITY -->
+<section class="pillar" id="monitoring" data-screen-label="Monitoring &amp; Security">
+  <div class="wrap pillar-grid">
+    <div class="pillar-media">
+      <span class="tagnum">03 — Monitoring</span>
+      <img src="assets/solution-3.png" alt="Monitoring and security">
+    </div>
+    <div class="pillar-copy">
+      <span class="eyebrow">Monitoring &amp; Security</span>
+      <h2>Total visibility over critical infrastructure.</h2>
+      <p class="lead">Critical infrastructure requires constant visibility. We integrate instrumentation and surveillance into a unified operational view.</p>
+      <ul class="caps">
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Flow Metering</h4><p>Emerson and Endress+Hauser meters for chilled-water and process monitoring, integrated by Ramus.</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Surveillance Systems</h4><p>KINGSAT surveillance solutions through Ramus.</p></div></li>
+        <li class="cap"><span class="cap-mark"></span><div class="cap-body"><h4>Smart Control &amp; Monitoring</h4><p>Centralized monitoring of power, cooling, and fuel systems.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2.4 INTEGRATED M&E (pattern-3 bg) -->
+<section class="integrated" id="integrated" data-screen-label="Integrated M&amp;E">
+  <div class="integrated-bg"></div>
+  <div class="wrap">
+    <div class="integrated-inner">
+      <span class="eyebrow">Integrated M&amp;E Contracting</span>
+      <h2>One partner, not a dozen vendors.</h2>
+      <p>SUME's core: a single accountable contractor across the full mechanical and electrical scope — <strong>design, procurement, installation, commissioning, and ongoing maintenance.</strong></p>
+      <p>Where most projects coordinate across many specialists, SUME delivers the entire M&amp;E lifecycle under one line of accountability — reducing risk, simplifying delivery, and keeping every critical system aligned.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2.5 CAPABILITIES & BRANDS -->
+<section class="brands" data-screen-label="Capabilities &amp; Brands">
+  <div class="wrap">
+    <span class="eyebrow">Capabilities &amp; Brands</span>
+    <h2>The specialist names behind every solution.</h2>
+    <p>The technologies and capabilities that mission-critical facilities depend on — delivered as one connected network.</p>
+    <div class="brand-grid" id="brandGrid"></div>
+    <p class="brands-note">Logos shown as placeholders — replace with brand marks before launch.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="wrap cta-inner">
+    <h2>Discuss your requirements.</h2>
+    <p>Tell us about your facility — power, cooling, monitoring, or full M&amp;E scope. Our engineering team will assess and respond.</p>
+    <a href="Contact.html" class="btn btn-white">Discuss Your Requirements <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo.png" alt="SUME Group">
+        <p>Mechanical &amp; Electrical Infrastructure for Mission-Critical Facilities.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="Solutions.html#power">Power &amp; Energy</a></li>
+          <li><a href="Solutions.html#cooling">Precision Cooling</a></li>
+          <li><a href="Solutions.html#monitoring">Monitoring &amp; Security</a></li>
+          <li><a href="Solutions.html#integrated">Integrated M&amp;E</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="Projects.html">Projects</a></li>
+          <li><a href="Contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Offices</h4>
+        <ul>
+          <li><a href="Regional Presence.html">Indonesia (HQ)</a></li>
+          <li><a href="Regional Presence.html">Singapore</a></li>
+          <li><a href="Regional Presence.html">Myanmar — Yangon</a></li>
+          <li><a href="Regional Presence.html">Myanmar — Mandalay</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:info@sume.co.id">info@sume.co.id</a></li>
+          <li><a href="tel:+62">+62 ___ ____ ____</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="cp">© <span id="yr"></span> SUME Group · PT. SUME (Solusi Utama Mekanikal Elektrikal). All rights reserved.</div>
+      <div class="legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Capabilities & Brands placeholder grid
+var BRANDS = ['Ramus','Powerbrain','Ramoco','Yuchai','Midea','Broad','Hisense','Emerson','Endress+Hauser','KINGSAT','IHI / Niigata','+ more'];
+var grid = document.getElementById('brandGrid');
+BRANDS.forEach(function(b){
+  var initials = b === '+ more' ? '…' : b.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase();
+  var cell = document.createElement('div');
+  cell.className = 'brand-cell';
+  cell.innerHTML = '<div class="brand-logo">'+initials+'</div><div class="brand-name">'+b+'</div>';
+  grid.appendChild(cell);
+});
+</script>
+</body>
+</html>

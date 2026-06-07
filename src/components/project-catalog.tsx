@@ -42,7 +42,7 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
               key={category}
               type="button"
               className={cn(
-                "min-h-11 whitespace-nowrap rounded-lg px-5 py-3 text-sm font-bold capitalize transition",
+                "min-h-11 whitespace-nowrap px-5 py-3 text-sm font-bold capitalize transition",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue",
                 isActive
                   ? "bg-sume-blue text-white shadow-[0_10px_24px_rgba(0,94,184,0.24)]"

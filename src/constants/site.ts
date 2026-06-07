@@ -8,16 +8,45 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-export const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
-  { label: "Solutions", href: "/#solutions" },
+export type NavChild = { label: string; href: string };
+
+export type NavLink = {
+  label: string;
+  href: string;
+  children?: NavChild[];
+  /** Horizontal alignment of the dropdown panel relative to its trigger. */
+  menuAlign?: "left" | "right";
+};
+
+export const navLinks: NavLink[] = [
+  { label: "Home", href: "/" },
+  {
+    label: "Solutions",
+    href: "/solutions",
+    children: [
+      { label: "Power & Energy", href: "/solutions#power" },
+      { label: "Precision Cooling & HVAC", href: "/solutions#cooling" },
+      { label: "Monitoring & Security", href: "/solutions#monitoring" },
+    ],
+  },
+  { label: "Data Center", href: "/data-center" },
+  { label: "About", href: "/about" },
   { label: "Projects", href: "/our-project" },
-  { label: "Contact", href: "/#contact" },
+  {
+    label: "Contact",
+    href: "/contact",
+    menuAlign: "right",
+    children: [
+      { label: "Contact Us", href: "/contact" },
+      { label: "Regional Presence", href: "/regional" },
+    ],
+  },
 ];
 
 export const company = {
   name: "PT. Solusi Utama Mekanikal Elektrikal",
+  brand: "SUME Group",
+  legalName: "PT. SUME (Solusi Utama Mekanikal Elektrikal)",
   shortName: "PT. SUME",
   tagline: "Modern Buildings Solution is Our Focus",
   description:
@@ -27,6 +56,145 @@ export const company = {
   email: "projects@sumeid.com",
   whatsapp: "https://wa.me/6281388801886",
 };
+
+/* ============ Home (SUME Group enterprise redesign) ============ */
+
+// Hero slideshow — slides map to the four solution pillars (intruction.md §1.1)
+export const heroSlides = [
+  {
+    num: "01",
+    label: "Power",
+    eyebrow: "01 — Power",
+    title: "Critical Power, Engineered for Uptime",
+    subtitle:
+      "Standby generation, fuel monitoring, and solar — built for facilities that cannot afford to go dark.",
+    image: "/images/home/hiro-1.png",
+  },
+  {
+    num: "02",
+    label: "Cooling",
+    eyebrow: "02 — Cooling",
+    title: "Cooling That Performs Under Load",
+    subtitle:
+      "HVAC and chiller solutions engineered for continuous, high-density thermal loads.",
+    image: "/images/home/hiro-2.png",
+  },
+  {
+    num: "03",
+    label: "Monitoring",
+    eyebrow: "03 — Monitoring",
+    title: "Total Visibility Over Critical Infrastructure",
+    subtitle:
+      "Fuel monitoring, flow metering, and surveillance in one operational picture.",
+    image: "/images/home/hiro-5.png",
+  },
+  {
+    num: "04",
+    label: "Integrated",
+    eyebrow: "04 — Integrated",
+    title: "One Partner, End-to-End Infrastructure",
+    subtitle:
+      "From design to commissioning to operation — delivered as a single accountable scope.",
+    image: "/images/home/city-building.png",
+  },
+];
+
+// Trust bar — figures kept as placeholders pending verification before launch (spec §1.2)
+export const trustStats = [
+  { value: "[ ]", suffix: "+", placeholder: true, label: "Years of Operation" },
+  { value: "[ ]", suffix: "+", placeholder: true, label: "Projects Delivered" },
+  { value: "3", label: "Countries" },
+  { value: "ISO", placeholder: true, label: "Certified & Accredited" },
+];
+
+export const solutionsOverview = [
+  {
+    num: "01",
+    title: "Power & Energy",
+    anchor: "power",
+    description: "Generators · solar PV · fuel monitoring · engine maintenance.",
+    image: "/images/home/solution-1.png",
+  },
+  {
+    num: "02",
+    title: "Precision Cooling",
+    anchor: "cooling",
+    description: "Chillers · VRF · optimization · Cooling-as-a-Service.",
+    image: "/images/home/solution-2.png",
+  },
+  {
+    num: "03",
+    title: "Monitoring & Security",
+    anchor: "monitoring",
+    description: "Flow metering · CCTV · smart control.",
+    image: "/images/home/solution-3.png",
+  },
+  {
+    num: "04",
+    title: "Integrated M&E",
+    anchor: "integrated",
+    description: "Design · install · commission · maintain.",
+    image: "/images/home/solution-4.png",
+  },
+];
+
+export const whySume = [
+  {
+    num: "01",
+    title: "Proven Track Record",
+    placeholderPrefix: "[ ]",
+    description:
+      "+ projects across commercial, industrial & mission-critical facilities.",
+  },
+  {
+    num: "02",
+    title: "Certified & Accredited",
+    description:
+      "ISO 9001 / 14001 / 45001 quality, environmental & safety standards.",
+  },
+  {
+    num: "03",
+    title: "Recognized Clients",
+    description: "Samsung · Yonex · Santika · RE/MAX · Mega Bekasi Hypermall.",
+  },
+  {
+    num: "04",
+    title: "End-to-End Accountability",
+    description: "One partner across design, delivery, and lifetime maintenance.",
+  },
+];
+
+// Trusted-by marquee — real logos from trusted-logo directory
+export const trustedLogos = [
+  { name: "ASDP", image: "/trusted-logo/asdp-logo.webp" },
+  { name: "Asset 65", image: "/trusted-logo/asset-65.webp" },
+  { name: "Astra", image: "/trusted-logo/astra.webp" },
+  { name: "Badak LNG", image: "/trusted-logo/badak-lng.webp" },
+  { name: "BBC", image: "/trusted-logo/bbc.webp" },
+  { name: "Econnection Space", image: "/trusted-logo/econnection-space.webp" },
+  { name: "Hisense", image: "/trusted-logo/hisense.webp" },
+  { name: "Jowell", image: "/trusted-logo/jowell.webp" },
+  { name: "Kompas Gramedia", image: "/trusted-logo/kompas-gramedia.webp" },
+  { name: "Linvol", image: "/trusted-logo/linvol.webp" },
+  { name: "PLN", image: "/trusted-logo/logo-pln.webp" },
+  { name: "Mega Bekasi", image: "/trusted-logo/mega-bekasi.webp" },
+  { name: "Mega Utama", image: "/trusted-logo/mega-utama.webp" },
+  { name: "Megacity", image: "/trusted-logo/megacity.webp" },
+  { name: "Midea", image: "/trusted-logo/midea.webp" },
+  { name: "Pertamina", image: "/trusted-logo/pertamina.webp" },
+  { name: "Remax", image: "/trusted-logo/remax.webp" },
+  { name: "Santika", image: "/trusted-logo/santika.webp" },
+  { name: "Vistra", image: "/trusted-logo/vistra.webp" },
+  { name: "Wijaya Karya", image: "/trusted-logo/wijaya-karya.webp" },
+  { name: "Yonex", image: "/trusted-logo/yonex.webp" },
+];
+
+export const footerOffices = [
+  "Indonesia (HQ)",
+  "Singapore",
+  "Myanmar — Yangon",
+  "Myanmar — Mandalay",
+];
 
 export const heroContent = {
   heading: {

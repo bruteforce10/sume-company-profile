@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Manrope, Plus_Jakarta_Sans } from "next/font/google";
+import {
+  IBM_Plex_Sans,
+  Inter,
+  Manrope,
+  Plus_Jakarta_Sans,
+  Source_Sans_3,
+} from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import "./globals.css";
@@ -22,10 +28,25 @@ const inter = Inter({
   display: "swap",
 });
 
+// Enterprise design direction: IBM Plex Sans (headings) + Source Sans 3 (body)
+const ibmPlexSans = IBM_Plex_Sans({
+  variable: "--font-ibm-plex",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "PT. SUME - Modern Buildings Solution",
+  title:
+    "SUME Group — Mechanical & Electrical Infrastructure for Mission-Critical Facilities",
   description:
-    "PT. Solusi Utama Mekanikal Elektrikal provides integrated mechanical and electrical solutions for modern buildings.",
+    "SUME designs, installs, and maintains the power, cooling, and monitoring systems that keep data centers, commercial properties, and industrial facilities running — without interruption.",
 };
 
 type RootLayoutProps = Readonly<{
@@ -36,7 +57,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${manrope.variable} ${inter.variable} antialiased`}
+      className={`${plusJakarta.variable} ${manrope.variable} ${inter.variable} ${ibmPlexSans.variable} ${sourceSans.variable} antialiased`}
     >
       <body>
         <Header />
