@@ -2,18 +2,13 @@ import Link from "next/link";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader, PageHeaderStats } from "@/components/sections/page-header";
 import { RegionalMap } from "@/components/regional-map";
+import { regionalStats } from "@/constants/regional";
 
 export const metadata = {
   title: "Regional Presence — SUME Group",
   description:
     "Regional reach across Southeast Asia. Offices anchoring delivery in Indonesia, Singapore, and Myanmar — with on-the-ground engineering, distribution, and lifetime maintenance.",
 };
-
-const headerStats = [
-  { value: "3", label: "Countries" },
-  { value: "4", label: "Offices" },
-  { value: "24/7", label: "Regional Support" },
-];
 
 export default function RegionalPage() {
   return (
@@ -23,7 +18,7 @@ export default function RegionalPage() {
         title="Regional Reach Across Southeast Asia."
         description="Offices anchoring delivery in Indonesia, Singapore, and Myanmar — supporting clients across the region with on-the-ground engineering, distribution, and lifetime maintenance."
       >
-        <PageHeaderStats stats={headerStats} />
+        <PageHeaderStats stats={regionalStats} />
       </PageHeader>
 
       {/* ── Map + Locations ──────────────────────────────────────── */}

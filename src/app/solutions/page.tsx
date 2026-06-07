@@ -3,141 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
+import { OverlaySection } from "@/components/ui/overlay-section";
+import {
+  aftersalesPoints,
+  partnerBrands,
+  solutionPillars,
+} from "@/constants/solutions";
 
 export const metadata = {
   title: "Solutions — SUME Group",
   description:
     "The full mechanical & electrical scope — power & energy, precision cooling, monitoring & security, and integrated M&E contracting for mission-critical facilities.",
 };
-
-type Cap = { title: string; body: string };
-
-type Pillar = {
-  id: string;
-  tagnum: string;
-  eyebrow: string;
-  title: string;
-  lead: string;
-  image: string;
-  flip?: boolean;
-  caps: Cap[];
-};
-
-const pillars: Pillar[] = [
-  {
-    id: "power",
-    tagnum: "01 — Power",
-    eyebrow: "Power & Energy",
-    title: "The backbone of any critical facility.",
-    lead: "Primary and standby power engineered for continuous operation, with the monitoring and maintenance to keep it reliable across its full life.",
-    image: "/images/home/solution-1.png",
-    caps: [
-      {
-        title: "Standby & Prime Generators",
-        body: "Yuchai diesel & gas gensets; containerized and site-built configurations, sized to facility load.",
-      },
-      {
-        title: "Solar PV Systems",
-        body: "Rooftop and ground-mount design and installation, delivered with Powerbrain; 50+ MWp installed.",
-      },
-      {
-        title: "Fuel Monitoring Systems",
-        body: "Real-time fuel level, consumption, and theft detection, powered by Ramus instrumentation.",
-      },
-      {
-        title: "Engine Maintenance & Overhaul",
-        body: "Authorized spare parts and overhaul for IHI / Niigata land and marine engines through Ramoco.",
-      },
-    ],
-  },
-  {
-    id: "cooling",
-    tagnum: "02 — Cooling",
-    eyebrow: "Precision Cooling & HVAC",
-    title: "Cooling that performs under load.",
-    lead: "Cooling typically consumes 40–60% of a facility's electricity. We design and optimize for both performance and energy efficiency.",
-    image: "/images/home/solution-2.png",
-    flip: true,
-    caps: [
-      {
-        title: "Chiller Plants & VRF Systems",
-        body: "Midea, Broad, and Hisense systems for high-density and commercial loads.",
-      },
-      {
-        title: "Chiller Optimization & Retrofit",
-        body: "Plant automation, VSD retrofits, pump rewinding; measurable gains (e.g. 1.10 → 0.77 kW/TR on a 3×550 TR plant).",
-      },
-      {
-        title: "Cooling-as-a-Service",
-        body: "Zero-CAPEX cooling under a performance-guaranteed energy service agreement, delivered with Powerbrain; backed by an insurance-grade performance bond and IPMVP measurement & verification.",
-      },
-    ],
-  },
-  {
-    id: "monitoring",
-    tagnum: "03 — Monitoring",
-    eyebrow: "Monitoring & Security",
-    title: "Total visibility over critical infrastructure.",
-    lead: "Critical infrastructure requires constant visibility. We integrate instrumentation and surveillance into a unified operational view.",
-    image: "/images/home/solution-3.png",
-    caps: [
-      {
-        title: "Flow Metering",
-        body: "Emerson and Endress+Hauser meters for chilled-water and process monitoring, integrated by Ramus.",
-      },
-      {
-        title: "Surveillance Systems",
-        body: "KINGSAT surveillance solutions through Ramus.",
-      },
-      {
-        title: "Smart Control & Monitoring",
-        body: "Centralized monitoring of power, cooling, and fuel systems.",
-      },
-    ],
-  },
-];
-
-const aftersales = [
-  {
-    bold: "8 certified Indonesian engineers",
-    rest: " trained in Niigata Power Systems, Japan.",
-  },
-  {
-    bold: "20+ years",
-    rest: " combined experience in maintenance, overhaul, and troubleshooting — marine and land-use engines.",
-  },
-  {
-    bold: "Dedicated Niigata engineers",
-    rest: " from the Customer Support Center for the Indonesian region — troubleshooting, supervision, and overhaul.",
-  },
-  {
-    bold: "Annual courtesy visits",
-    rest: " to each customer in Indonesia by the principal.",
-  },
-  {
-    bold: "Open communication channel",
-    rest: " between manufacturer and customer for any clarification or troubleshooting.",
-  },
-  {
-    bold: "Case-by-case field reports",
-    rest: " — photo details, findings, and manufacturer recommendations.",
-  },
-];
-
-const brands = [
-  { name: "Ramus", image: "/partner/ramus.webp" },
-  { name: "Powerbrain", image: "/partner/powerbrain.webp" },
-  { name: "Ramoco", image: "/partner/ramoco.webp" },
-  { name: "Yuchai", image: "/partner/yuchai.jpg" },
-  { name: "Midea", image: "/partner/midea.png" },
-  { name: "Broad", image: "/partner/broad.webp" },
-  { name: "Hisense", image: "/partner/hisense.webp" },
-  { name: "Emerson", image: "/partner/emerson.png" },
-  { name: "Endress+Hauser", image: "/partner/endress-hauser.webp" },
-  { name: "KINGSAT", image: "/partner/kingsat.webp" },
-  { name: "IHI", image: "/partner/ihi.webp" },
-  { name: "Niigata", image: "/partner/niigata.webp" },
-];
 
 function brandInitials(name: string) {
   if (name === "+ more") return "…";
@@ -158,7 +35,7 @@ export default function SolutionsPage() {
       />
 
       {/* ── Pillars ──────────────────────────────────────────────── */}
-      {pillars.map((pillar, index) => (
+      {solutionPillars.map((pillar, index) => (
         <section
           key={pillar.id}
           id={pillar.id}
@@ -235,7 +112,7 @@ export default function SolutionsPage() {
                     manufacturer.
                   </p>
                   <ul className="grid gap-3.5">
-                    {aftersales.map((item) => (
+                    {aftersalesPoints.map((item) => (
                       <li
                         key={item.bold}
                         className="flex gap-[13px] text-[14.5px] leading-[1.5] text-sume-body"
@@ -267,45 +144,36 @@ export default function SolutionsPage() {
       ))}
 
       {/* ── Integrated M&E ───────────────────────────────────────── */}
-      <section
+      <OverlaySection
         id="integrated"
-        className="relative scroll-mt-20 overflow-hidden border-b border-sume-line bg-white py-30"
+        className="scroll-mt-20 border-b border-sume-line bg-white py-30"
+        image="/images/home/pattern-3.png"
+        imageClassName="object-cover object-right"
+        overlayClassName="bg-[linear-gradient(90deg,#fff_0%,rgba(255,255,255,0.92)_38%,rgba(248,251,255,0.55)_70%,rgba(248,251,255,0.1)_100%)]"
       >
-        <Image
-          src="/images/home/pattern-3.png"
-          alt=""
-          aria-hidden
-          fill
-          sizes="100vw"
-          className="object-cover object-right"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#fff_0%,rgba(255,255,255,0.92)_38%,rgba(248,251,255,0.55)_70%,rgba(248,251,255,0.1)_100%)]" />
-
-        <div className="sume-wrap relative z-[2]">
-          <div className="max-w-[620px]">
-            <span className="sume-eyebrow mb-4 block">
-              Integrated M&amp;E Contracting
-            </span>
-            <h2 className="mb-5 font-head text-[clamp(30px,3.4vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-sume-navy">
-              One partner, not a dozen vendors.
-            </h2>
-            <p className="mb-3.5 max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
-              SUME&apos;s core: a single accountable contractor across the full
-              mechanical and electrical scope —{" "}
-              <strong className="font-semibold text-sume-navy">
-                design, procurement, installation, commissioning, and ongoing
-                maintenance.
-              </strong>
-            </p>
-            <p className="max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
-              Where most projects coordinate across many specialists, SUME
-              delivers the entire M&amp;E lifecycle under one line of
-              accountability — reducing risk, simplifying delivery, and keeping
-              every critical system aligned.
-            </p>
-          </div>
+        <div className="max-w-[620px]">
+          <span className="sume-eyebrow mb-4 block">
+            Integrated M&amp;E Contracting
+          </span>
+          <h2 className="mb-5 font-head text-[clamp(30px,3.4vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-sume-navy">
+            One partner, not a dozen vendors.
+          </h2>
+          <p className="mb-3.5 max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
+            SUME&apos;s core: a single accountable contractor across the full
+            mechanical and electrical scope —{" "}
+            <strong className="font-semibold text-sume-navy">
+              design, procurement, installation, commissioning, and ongoing
+              maintenance.
+            </strong>
+          </p>
+          <p className="max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
+            Where most projects coordinate across many specialists, SUME
+            delivers the entire M&amp;E lifecycle under one line of
+            accountability — reducing risk, simplifying delivery, and keeping
+            every critical system aligned.
+          </p>
         </div>
-      </section>
+      </OverlaySection>
 
       {/* ── Capabilities & Brands ────────────────────────────────── */}
       <section className="relative overflow-hidden bg-sume-navy py-26">
@@ -322,7 +190,7 @@ export default function SolutionsPage() {
           </p>
 
           <div className="grid grid-cols-2 gap-px border border-white/[0.12] bg-white/[0.12] sm:grid-cols-3 lg:grid-cols-6">
-            {brands.map((brand) => (
+            {partnerBrands.map((brand) => (
               <div
                 key={brand.name}
                 className={`group relative flex aspect-[3/2] flex-col items-center justify-center gap-2.5 p-4 transition ${

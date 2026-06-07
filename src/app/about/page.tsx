@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
+import { OverlaySection } from "@/components/ui/overlay-section";
+import { certifications, milestones, whatSetsApart } from "@/constants/about";
 
 export const metadata = {
   title: "About — SUME Group",
@@ -14,79 +15,6 @@ export const metadata = {
 function Ph({ children }: { children: ReactNode }) {
   return <span className="font-semibold text-sume-muted">{children}</span>;
 }
-
-const milestones: { event: ReactNode }[] = [
-  { event: <>PT. SUME founded as a mechanical &amp; electrical contractor.</> },
-  {
-    event: (
-      <>
-        First major commercial project delivered (
-        <span className="text-sume-line">[name]</span>).
-      </>
-    ),
-  },
-  { event: <>Expanded into power generation and standby systems.</> },
-  { event: <>Established regional presence (Singapore, Myanmar).</> },
-  { event: <>Entered data center / mission-critical segment.</> },
-  { event: <>Added solar PV and Cooling-as-a-Service capabilities.</> },
-];
-
-const apart = [
-  {
-    num: "01",
-    title: "End-to-End Accountability",
-    body: "One partner across design, procurement, installation, commissioning, and lifetime maintenance — no coordination gaps.",
-  },
-  {
-    num: "02",
-    title: "Certified & Accredited",
-    body: "ISO 9001 / 14001 / 45001 quality, environmental, and safety standards, with EDGE and BNSP accreditation.",
-  },
-  {
-    num: "03",
-    title: "Recognized Clients",
-    body: "Trusted by Samsung, Yonex, Santika, RE/MAX, and Mega Bekasi Hypermall, among others across the region.",
-  },
-  {
-    num: "04",
-    title: "Regional Reach",
-    body: "Headquartered in Jakarta with offices in Singapore and Myanmar — delivered and supported locally.",
-  },
-];
-
-const certs: {
-  name: string;
-  detail: string;
-  icon: ReactNode;
-}[] = [
-  {
-    name: "Quality Management",
-    detail: "ISO 9001",
-    icon: (
-      <path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2-6.3-4.6L5.7 21l2.3-7.2-6-4.4h7.6z" />
-    ),
-  },
-  {
-    name: "Environmental Management",
-    detail: "ISO 14001",
-    icon: (
-      <>
-        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.18 2 8a7 7 0 0 1-7 7c-1 0-2 0-3-.5" />
-        <path d="M2 22c0-3 1-5 3-7" />
-      </>
-    ),
-  },
-  {
-    name: "Occupational Health & Safety",
-    detail: "ISO 45001",
-    icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
-  },
-  {
-    name: "International Product Compliance",
-    detail: "CE / EAC / Industry Certifications",
-    icon: <path d="M20 6L9 17l-5-5" />,
-  },
-];
 
 export default function AboutPage() {
   return (
@@ -184,7 +112,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
-            {apart.map((card) => (
+            {whatSetsApart.map((card) => (
               <div
                 key={card.num}
                 className="border-b border-r border-sume-line px-8 pb-11 pt-10 transition hover:bg-sume-mist"
@@ -205,57 +133,51 @@ export default function AboutPage() {
       </section>
 
       {/* ── Certifications ───────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-sume-navy py-24">
-        <Image
-          src="/section-licence-bg.webp"
-          alt=""
-          aria-hidden
-          fill
-          sizes="100vw"
-          className="object-cover  mix-blend-luminosity"
-        />
-        <div className="absolute inset-0 bg-sume-navy/80" />
-        <div className="sume-wrap relative z-[2]">
-          <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
-            Certifications &amp; Accreditation
-          </span>
-          <h2 className="max-w-[22ch] font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-            Standards verified, not just stated.
-          </h2>
-          <p className="mb-12 mt-3.5 max-w-[52ch] text-[16px] leading-[1.55] text-white/[0.66]">
-            Quality, environmental, and safety management systems backing every
-            project we deliver.
-          </p>
+      <OverlaySection
+        className="bg-sume-navy py-24"
+        image="/section-licence-bg.webp"
+        imageClassName="object-cover mix-blend-luminosity"
+        overlayClassName="bg-sume-navy/80"
+      >
+        <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
+          Certifications &amp; Accreditation
+        </span>
+        <h2 className="max-w-[22ch] font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+          Standards verified, not just stated.
+        </h2>
+        <p className="mb-12 mt-3.5 max-w-[52ch] text-[16px] leading-[1.55] text-white/[0.66]">
+          Quality, environmental, and safety management systems backing every
+          project we deliver.
+        </p>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {certs.map((cert) => (
-              <div
-                key={cert.name}
-                className="flex flex-col items-start gap-3.5 rounded-[3px] border border-white/[0.14] bg-white/[0.04] p-[22px] pt-[30px] transition hover:border-[#7fb4ff]/50 hover:bg-white/[0.08]"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#7fb4ff]">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 stroke-[#7fb4ff]"
-                  >
-                    {cert.icon}
-                  </svg>
-                </div>
-                <h4 className="text-[15px] font-semibold leading-[1.35] text-white">
-                  {cert.name}
-                </h4>
-                <div className="font-head text-[13px] font-semibold tracking-[0.04em] text-[#7fb4ff]">
-                  {cert.detail}
-                </div>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {certifications.map((cert) => (
+            <div
+              key={cert.name}
+              className="flex flex-col items-start gap-3.5 rounded-[3px] border border-white/[0.14] bg-white/[0.04] p-[22px] pt-[30px] transition hover:border-[#7fb4ff]/50 hover:bg-white/[0.08]"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#7fb4ff]">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5 stroke-[#7fb4ff]"
+                >
+                  {cert.icon}
+                </svg>
               </div>
-            ))}
-          </div>
+              <h4 className="text-[15px] font-semibold leading-[1.35] text-white">
+                {cert.name}
+              </h4>
+              <div className="font-head text-[13px] font-semibold tracking-[0.04em] text-[#7fb4ff]">
+                {cert.detail}
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </OverlaySection>
 
       {/* ── Company Profile Download ─────────────────────────────── */}
       <section className="bg-sume-mist py-24">

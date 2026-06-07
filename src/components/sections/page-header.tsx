@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
+import { OverlaySection } from "@/components/ui/overlay-section";
 
 type PageHeaderProps = {
   eyebrow: string;
@@ -21,33 +21,26 @@ export function PageHeader({
   children,
 }: PageHeaderProps) {
   return (
-    <section className="relative overflow-hidden bg-sume-navy">
-      <Image
-        src="/images/home/bg-overlay-header.png"
-        alt=""
-        aria-hidden
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
-      <div className="absolute inset-0 z-[1] bg-[linear-gradient(105deg,rgba(14,36,60,0.9)_0%,rgba(0,88,190,0.38)_60%,rgba(0,88,190,0.08)_100%)]" />
-
-      <div className="sume-wrap relative z-[2] pb-24 pt-[140px] sm:pb-[108px]">
-        <span className="sume-eyebrow mb-[22px] inline-block text-[#7fb4ff]">
-          {eyebrow}
-        </span>
-        <h1 className="max-w-[16ch] font-head text-[clamp(40px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
-          {title}
-        </h1>
-        {description ? (
-          <p className="mt-[22px] max-w-[58ch] text-[clamp(17px,1.4vw,20px)] leading-[1.56] text-white/80">
-            {description}
-          </p>
-        ) : null}
-        {children}
-      </div>
-    </section>
+    <OverlaySection
+      className="bg-sume-navy"
+      image="/images/home/bg-overlay-header.png"
+      priority
+      overlayClassName="z-[1] bg-[linear-gradient(105deg,rgba(14,36,60,0.9)_0%,rgba(0,88,190,0.38)_60%,rgba(0,88,190,0.08)_100%)]"
+      contentClassName="sume-wrap relative z-[2] pb-24 pt-[140px] sm:pb-[108px]"
+    >
+      <span className="sume-eyebrow mb-[22px] inline-block text-[#7fb4ff]">
+        {eyebrow}
+      </span>
+      <h1 className="max-w-[16ch] font-head text-[clamp(40px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
+        {title}
+      </h1>
+      {description ? (
+        <p className="mt-[22px] max-w-[58ch] text-[clamp(17px,1.4vw,20px)] leading-[1.56] text-white/80">
+          {description}
+        </p>
+      ) : null}
+      {children}
+    </OverlaySection>
   );
 }
 
