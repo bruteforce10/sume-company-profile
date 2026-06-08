@@ -209,6 +209,19 @@ textarea {
   @apply bg-sume-accent;
 }
 
+/* Diagonal corner-cut: chamfers the top-right and bottom-left corners. */
+.sume-chamfer {
+  --chamfer: 40px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--chamfer)) 0,
+    100% var(--chamfer),
+    100% 100%,
+    var(--chamfer) 100%,
+    0 calc(100% - var(--chamfer))
+  );
+}
+
 .paper-heading {
   @apply font-display text-[34px] font-extrabold leading-[1.08] text-sume-ink sm:text-[42px] lg:text-[48px];
 }

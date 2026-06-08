@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { OverlaySection } from "@/components/ui/overlay-section";
+import { YouTubeEmbed } from "@/components/ui/youtube-embed";
 import {
   aftersalesPoints,
   partnerBrands,
@@ -45,7 +46,7 @@ export default function SolutionsPage() {
         >
           <div className="sume-wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-[72px]">
             <div className={`flex flex-col gap-6 w-full ${pillar.flip ? "lg:order-2" : ""}`}>
-              <div className="relative aspect-[4/3] w-full overflow-hidden border border-sume-line">
+              <div className="sume-chamfer relative aspect-[4/3] w-full overflow-hidden">
                 <span className="absolute left-[18px] top-[18px] z-[2] rounded-[2px] bg-sume-navy/[0.78] px-[13px] py-[7px] font-head text-[12px] font-semibold tracking-[0.16em] text-white">
                   {pillar.tagnum}
                 </span>
@@ -143,6 +144,41 @@ export default function SolutionsPage() {
         </section>
       ))}
 
+      {/* ── Yuchai Industrial Plant Video ────────────────────────── */}
+      <section
+        id="yuchai-plant"
+        className="scroll-mt-20 border-b border-sume-line bg-sume-navy py-26"
+      >
+        <div className="sume-wrap grid items-center gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
+          <div>
+            <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
+              Power &amp; Energy · Yuchai
+            </span>
+            <h2 className="mb-[18px] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+              Inside the Yuchai industrial plant.
+            </h2>
+            <p className="mb-7 max-w-[46ch] text-[17.5px] leading-[1.6] text-white/[0.7]">
+              The manufacturing backbone behind the gensets we supply and
+              commission — a look inside Yuchai&apos;s industrial plant, where the
+              diesel and gas engines that power critical facilities are built.
+            </p>
+            <Link
+              href="#power"
+              className="inline-flex items-center gap-2 font-head text-[15px] font-semibold text-[#7fb4ff] transition hover:text-white"
+            >
+              Explore Power &amp; Energy
+              <ArrowRight className="h-[18px] w-[18px]" />
+            </Link>
+          </div>
+
+          <YouTubeEmbed
+            id="zUhNpLl-DxE"
+            title="Yuchai Industrial Plant"
+            poster="/yuchai-plant-poster.jpg"
+          />
+        </div>
+      </section>
+
       {/* ── Integrated M&E ───────────────────────────────────────── */}
       <OverlaySection
         id="integrated"
@@ -193,25 +229,23 @@ export default function SolutionsPage() {
             {partnerBrands.map((brand) => (
               <div
                 key={brand.name}
-                className={`group relative flex aspect-[3/2] flex-col items-center justify-center gap-2.5 p-4 transition ${
-                  brand.image
-                    ? "bg-white"
-                    : "bg-sume-navy hover:bg-[#13304d]"
-                }`}
+                className="group relative flex aspect-[3/2] flex-col items-center justify-center gap-2.5 bg-white p-4 transition hover:bg-gray-50"
               >
                 {brand.image ? (
                   <Image
                     src={brand.image}
                     alt={brand.name}
                     fill
-                    className="object-contain p-6 mix-blend-multiply opacity-90 transition duration-300 group-hover:scale-105 group-hover:opacity-100"
+                    className={`object-contain mix-blend-multiply opacity-90 transition duration-300 group-hover:scale-105 group-hover:opacity-100 ${
+                      "className" in brand && brand.className ? brand.className : "p-6"
+                    }`}
                   />
                 ) : (
                   <>
-                    <div className="flex h-[46px] w-[46px] items-center justify-center rounded-[3px] border-[1.5px] border-dashed border-white/[0.28] font-head text-[18px] font-semibold text-white/40">
+                    <div className="flex h-[46px] w-[46px] items-center justify-center rounded-[3px] border-[1.5px] border-dashed border-sume-navy/20 font-head text-[18px] font-semibold text-sume-navy/40 transition group-hover:border-sume-navy/40 group-hover:text-sume-navy/60">
                       {brandInitials(brand.name)}
                     </div>
-                    <div className="text-center font-head text-[13px] font-medium tracking-[0.02em] text-white/70">
+                    <div className="text-center font-head text-[13px] font-medium tracking-[0.02em] text-sume-navy/70 transition group-hover:text-sume-navy">
                       {brand.name}
                     </div>
                   </>

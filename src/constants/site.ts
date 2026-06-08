@@ -101,8 +101,8 @@ export const heroSlides = [
 
 // Trust bar — figures kept as placeholders pending verification before launch (spec §1.2)
 export const trustStats = [
-  { value: "[ ]", suffix: "+", placeholder: true, label: "Years of Operation" },
-  { value: "[ ]", suffix: "+", placeholder: true, label: "Projects Delivered" },
+  { value: "2014", suffix: "", placeholder: true, label: "Years of Operation" },
+  { value: "185", suffix: "+", placeholder: true, label: "Projects Delivered" },
   { value: "3", label: "Countries" },
   { value: "ISO", placeholder: true, label: "Certified & Accredited" },
 ];
@@ -112,7 +112,8 @@ export const solutionsOverview = [
     num: "01",
     title: "Power & Energy",
     anchor: "power",
-    description: "Generators · solar PV · fuel monitoring · engine maintenance.",
+    description:
+      "Generators · solar PV · fuel monitoring · engine maintenance.",
     image: "/images/home/solution-1.png",
   },
   {
@@ -160,7 +161,8 @@ export const whySume = [
   {
     num: "04",
     title: "End-to-End Accountability",
-    description: "One partner across design, delivery, and lifetime maintenance.",
+    description:
+      "One partner across design, delivery, and lifetime maintenance.",
   },
 ];
 
@@ -173,18 +175,18 @@ export const trustedLogos = [
   { name: "BBC", image: "/trusted-logo/bbc.webp" },
   { name: "Econnection Space", image: "/trusted-logo/econnection-space.webp" },
   { name: "Hisense", image: "/trusted-logo/hisense.webp" },
+  { name: "Mega Utama", image: "/trusted-logo/mega-utama.webp" },
   { name: "Jowell", image: "/trusted-logo/jowell.webp" },
   { name: "Kompas Gramedia", image: "/trusted-logo/kompas-gramedia.webp" },
   { name: "Linvol", image: "/trusted-logo/linvol.webp" },
   { name: "PLN", image: "/trusted-logo/logo-pln.webp" },
   { name: "Mega Bekasi", image: "/trusted-logo/mega-bekasi.webp" },
-  { name: "Mega Utama", image: "/trusted-logo/mega-utama.webp" },
-  { name: "Megacity", image: "/trusted-logo/megacity.webp" },
   { name: "Midea", image: "/trusted-logo/midea.webp" },
   { name: "Pertamina", image: "/trusted-logo/pertamina.webp" },
   { name: "Remax", image: "/trusted-logo/remax.webp" },
   { name: "Santika", image: "/trusted-logo/santika.webp" },
   { name: "Vistra", image: "/trusted-logo/vistra.webp" },
+  { name: "Megacity", image: "/trusted-logo/megacity.webp" },
   { name: "Wijaya Karya", image: "/trusted-logo/wijaya-karya.webp" },
   { name: "Yonex", image: "/trusted-logo/yonex.webp" },
 ];

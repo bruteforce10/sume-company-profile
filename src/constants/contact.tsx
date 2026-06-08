@@ -66,14 +66,13 @@ export const contactInfoItems: {
     value: (
       <div className="mt-1.5 flex flex-col gap-1">
         {[
-          "Indonesia — Jakarta (HQ)",
+          "Jl. Jendral Sudirman No. 660 Bandung 40184 Indonesia (RO)",
           "Singapore",
           "Myanmar — Yangon",
-          "Myanmar — Mandalay",
         ].map((office) => (
           <span
             key={office}
-            className="flex items-center gap-[7px] text-[14.5px] font-normal text-sume-body before:block before:h-[5px] before:w-[5px] before:flex-none before:rounded-full before:bg-sume-blue before:content-['']"
+            className="flex items-start gap-[7px] text-[14.5px] font-normal leading-[1.5] text-sume-body before:mt-[8px] before:block before:h-[5px] before:w-[5px] before:flex-none before:rounded-full before:bg-sume-blue before:content-['']"
           >
             {office}
           </span>

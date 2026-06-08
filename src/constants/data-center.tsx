@@ -10,6 +10,7 @@ const iconProps = {
 };
 
 export type CapabilityTag = { label: string; green?: boolean };
+export type PartnerLogo = { name: string; image: string };
 
 /** Data-center need → SUME capability mapping rows. */
 export const dataCenterCapabilities: {
@@ -17,6 +18,7 @@ export const dataCenterCapabilities: {
   need: string;
   capability: string;
   tags: CapabilityTag[];
+  logos?: PartnerLogo[];
 }[] = [
   {
     icon: (
@@ -28,6 +30,10 @@ export const dataCenterCapabilities: {
     capability:
       "Standby gensets, fuel monitoring, engine maintenance — sized and serviced for 24/7 critical load.",
     tags: [{ label: "Power & Energy" }, { label: "Yuchai · IHI / Niigata" }],
+    logos: [
+      { name: "Yuchai", image: "/partner/yuchai.jpg" },
+      { name: "IHI", image: "/partner/ihi.webp" },
+    ],
   },
   {
     icon: (
@@ -42,6 +48,11 @@ export const dataCenterCapabilities: {
     tags: [
       { label: "Precision Cooling" },
       { label: "Midea · Broad · Hisense" },
+    ],
+    logos: [
+      { name: "Midea", image: "/partner/midea.png" },
+      { name: "Broad", image: "/partner/broad.webp" },
+      { name: "Hisense", image: "/partner/hisense.webp" },
     ],
   },
   {
@@ -59,6 +70,7 @@ export const dataCenterCapabilities: {
       { label: "Cooling-as-a-Service" },
       { label: "Solar PV · 50+ MWp", green: true },
     ],
+    logos: [{ name: "Powerbrain", image: "/partner/powerbrain.webp" }],
   },
   {
     icon: (
@@ -74,6 +86,11 @@ export const dataCenterCapabilities: {
       { label: "Monitoring" },
       { label: "Emerson · Endress+Hauser · Ramus" },
     ],
+    logos: [
+      { name: "Emerson", image: "/partner/emerson.png" },
+      { name: "Endress+Hauser", image: "/partner/endress-hauser.webp" },
+      { name: "Ramus", image: "/partner/ramus.webp" },
+    ],
   },
   {
     icon: (
@@ -85,6 +102,10 @@ export const dataCenterCapabilities: {
     capability:
       "CCTV and surveillance integration via Ramus and KINGSAT — protecting physical access to critical infrastructure.",
     tags: [{ label: "Monitoring & Security" }, { label: "KINGSAT · Ramus" }],
+    logos: [
+      { name: "KINGSAT", image: "/partner/kingsat.webp" },
+      { name: "Ramus", image: "/partner/ramus.webp" },
+    ],
   },
   {
     icon: (

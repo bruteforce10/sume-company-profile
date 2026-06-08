@@ -1,20 +1,31 @@
 import type { ReactNode } from "react";
 
 /** Company timeline rows (year labels are confirmed before launch). */
-export const milestones: { event: ReactNode }[] = [
-  { event: <>PT. SUME founded as a mechanical &amp; electrical contractor.</> },
+export const milestones: { year: string; event: ReactNode }[] = [
   {
-    event: (
-      <>
-        First major commercial project delivered (
-        <span className="text-sume-line">[name]</span>).
-      </>
-    ),
+    year: "2014",
+    event: <>PT. SUME founded as a mechanical &amp; electrical contractor.</>,
   },
-  { event: <>Expanded into power generation and standby systems.</> },
-  { event: <>Established regional presence (Singapore, Myanmar).</> },
-  { event: <>Entered data center / mission-critical segment.</> },
-  { event: <>Added solar PV and Cooling-as-a-Service capabilities.</> },
+  {
+    year: "2015",
+    event: <>Megabekasi Hypermall Project Maintenance dan BroadChiller.</>,
+  },
+  {
+    year: "2017",
+    event: <>Expanded into power generation and standby systems.</>,
+  },
+  {
+    year: "2025",
+    event: <>Established regional presence (Singapore, Myanmar).</>,
+  },
+  {
+    year: "2025",
+    event: <>Added solar PV and Cooling-as-a-Service capabilities.</>,
+  },
+  {
+    year: "2026",
+    event: <>Entered data center / mission-critical segment.</>,
+  },
 ];
 
 /** "What sets us apart" feature cards. */

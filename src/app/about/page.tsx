@@ -89,7 +89,7 @@ export default function AboutPage() {
                     <span className="h-[9px] w-[9px] rounded-full bg-sume-blue" />
                   </div>
                   <div className="font-head text-[22px] font-semibold tracking-[-0.01em] text-sume-navy lg:mt-6">
-                    <span className="text-sume-line">[year]</span>
+                    <span className="text-sume-line">{m.year}</span>
                   </div>
                   <div className="mt-2 text-[14.5px] leading-[1.5] text-sume-body lg:max-w-[22ch]">
                     {m.event}
@@ -180,7 +180,7 @@ export default function AboutPage() {
       </OverlaySection>
 
       {/* ── Company Profile Download ─────────────────────────────── */}
-      <section className="bg-sume-mist py-24">
+      {/* <section className="bg-sume-mist py-24">
         <div className="sume-wrap">
           <div className="grid items-center gap-8 border border-sume-line bg-white p-8 sm:p-[52px] lg:grid-cols-[1fr_auto] lg:gap-10">
             <div>
@@ -207,7 +207,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
       <CtaBand

@@ -5,7 +5,7 @@ export const projectStats: { value: ReactNode; label: string }[] = [
   {
     value: (
       <>
-        <span className="text-white/40">[ ]</span>+
+        <span className="text-white/40">185</span>+
       </>
     ),
     label: "Projects Delivered",
@@ -14,12 +14,12 @@ export const projectStats: { value: ReactNode; label: string }[] = [
   {
     value: (
       <>
-        <span className="text-white/40">[ ]</span>+ TR
+        <span className="text-white/40">500</span> TR
       </>
     ),
     label: "Cooling Optimized",
   },
-  { value: "3", label: "Countries" },
+  // { value: "3", label: "Countries" },
 ];
 
 export type ProjectMetric = { k: string; v: string; pos?: boolean };

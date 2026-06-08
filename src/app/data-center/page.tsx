@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/sections/cta-band";
 import { OverlaySection } from "@/components/ui/overlay-section";
@@ -100,6 +101,24 @@ export default function DataCenterPage() {
                           </span>
                         ))}
                       </div>
+                      {row.logos && (
+                        <div className="mt-3.5 flex flex-wrap items-center gap-2.5">
+                          {row.logos.map((logo) => (
+                            <span
+                              key={logo.name}
+                              className="inline-flex h-[54px] items-center justify-center rounded-[3px] border border-sume-line bg-white px-[15px]"
+                            >
+                              <Image
+                                src={logo.image}
+                                alt={logo.name}
+                                width={180}
+                                height={54}
+                                className="max-h-[33px] w-auto object-contain"
+                              />
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

@@ -113,16 +113,17 @@ export const aftersalesPoints = [
 ];
 
 export const partnerBrands = [
-  { name: "Ramus", image: "/partner/ramus.webp" },
-  { name: "Powerbrain", image: "/partner/powerbrain.webp" },
-  { name: "Ramoco", image: "/partner/ramoco.webp" },
-  { name: "Yuchai", image: "/partner/yuchai.jpg" },
+  // { name: "Ramoco", image: "/partner/ramoco.webp" },
   { name: "Midea", image: "/partner/midea.png" },
+  { name: "Yuchai", image: "/partner/yuchai.jpg", className: "p-2 scale-[1.15]" },
   { name: "Broad", image: "/partner/broad.webp" },
   { name: "Hisense", image: "/partner/hisense.webp" },
-  { name: "Emerson", image: "/partner/emerson.png" },
+  { name: "Emerson", image: "/partner/emerson.png", className: "p-3 scale-[1.1]" },
   { name: "Endress+Hauser", image: "/partner/endress-hauser.webp" },
   { name: "KINGSAT", image: "/partner/kingsat.webp" },
   { name: "IHI", image: "/partner/ihi.webp" },
   { name: "Niigata", image: "/partner/niigata.webp" },
+  { name: "Ramus", image: "/partner/ramus.webp" },
+  { name: "Powerbrain", image: "/partner/powerbrain.webp" },
+  { name: "+ more" },
 ];

@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(curl -s -o \"public/yuchai-plant-poster.jpg\" \"https://i.ytimg.com/vi/zUhNpLl-DxE/sddefault.jpg\")",
+      "Bash(rm -f \"public/yuchai-plant-poster.jpg.tmp\")",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "Bash(curl -s http://localhost:3000/solutions)",
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0jrpn1u._.css\" -o /tmp/served.css)",
+      "Read(//tmp/**)"
     ]
   }
 }
