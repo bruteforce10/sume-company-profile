@@ -43,6 +43,9 @@ export const navLinks: NavLink[] = [
   },
 ];
 
+/** Canonical production URL — used for SEO metadata, sitemap, and robots. */
+export const siteUrl = "https://www.sumeid.com";
+
 export const company = {
   name: "PT. Solusi Utama Mekanikal Elektrikal",
   brand: "SUME Group",

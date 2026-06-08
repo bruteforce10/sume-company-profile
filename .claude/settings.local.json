@@ -11,7 +11,8 @@
       "PowerShell(Get-NetTCPConnection *)",
       "Bash(curl -s http://localhost:3000/solutions)",
       "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0jrpn1u._.css\" -o /tmp/served.css)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(git rm *)"
     ]
   }
 }
