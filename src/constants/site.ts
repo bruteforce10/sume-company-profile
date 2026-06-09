@@ -198,7 +198,6 @@ export const footerOffices = [
   "Indonesia (HQ)",
   "Singapore",
   "Myanmar — Yangon",
-  "Myanmar — Mandalay",
 ];
 
 export const heroContent = {
