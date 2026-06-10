@@ -1,8 +1,11 @@
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export function DataCenterTeaser() {
+  const t = useTranslations("Home");
+
   return (
     <section
       id="data-center"
@@ -20,17 +23,16 @@ export function DataCenterTeaser() {
 
       <div className="sume-wrap relative z-[2]">
         <span className="sume-eyebrow mb-5 block text-[#7fb4ff]">
-          Data Center Infrastructure
+          {t("dataCenterEyebrow")}
         </span>
         <h2 className="max-w-[18ch] font-head text-[clamp(32px,4.4vw,56px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-          Built for the demands of the data center.
+          {t("dataCenterHeading")}
         </h2>
         <p className="my-6 max-w-[54ch] text-xl text-white/80">
-          Power, cooling, monitoring, and security — engineered for 24/7
-          operation with zero tolerance for downtime.
+          {t("dataCenterBody")}
         </p>
         <Link href="/data-center" className="sume-btn sume-btn-primary">
-          See Our Data Center Capabilities
+          {t("dataCenterCta")}
           <ArrowRight className="h-[18px] w-[18px]" />
         </Link>
       </div>

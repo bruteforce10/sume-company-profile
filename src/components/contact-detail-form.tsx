@@ -2,15 +2,9 @@
 
 import { type FormEvent, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Status = "idle" | "loading" | "success" | "error";
-
-const facilityOptions = [
-  { value: "data-center", label: "Data Center" },
-  { value: "commercial", label: "Commercial Building" },
-  { value: "industrial", label: "Industrial Facility" },
-  { value: "other", label: "Other" },
-];
 
 const fieldClass =
   "w-full appearance-none rounded-[2px] border-[1.5px] border-sume-line bg-white px-4 py-[13px] font-body text-[15.5px] text-sume-ink outline-none transition placeholder:text-sume-line focus:border-sume-blue focus:shadow-[0_0_0_3px_rgba(0,88,190,0.1)]";
@@ -24,8 +18,16 @@ function getValue(data: FormData, key: string) {
 }
 
 export function ContactDetailForm() {
+  const t = useTranslations("ConsultationForm");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+
+  const facilityOptions = [
+    { value: "data-center", label: t("facilityDataCenter") },
+    { value: "commercial", label: t("facilityCommercial") },
+    { value: "industrial", label: t("facilityIndustrial") },
+    { value: "other", label: t("facilityOther") },
+  ];
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,7 +43,7 @@ export function ContactDetailForm() {
       facilityValue;
     const baseMessage = getValue(data, "message");
     const message = facilityLabel
-      ? `Facility type: ${facilityLabel}\n\n${baseMessage}`
+      ? `${t("facilityPrefix")}: ${facilityLabel}\n\n${baseMessage}`
       : baseMessage;
 
     try {
@@ -59,18 +61,14 @@ export function ContactDetailForm() {
       const result = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to send message.");
+        throw new Error(result.message || t("errorFallback"));
       }
 
       setStatus("success");
       form.reset();
     } catch (err) {
       setStatus("error");
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to send message. Please try again.",
-      );
+      setError(err instanceof Error ? err.message : t("errorFallback"));
     }
   }
 
@@ -79,27 +77,27 @@ export function ContactDetailForm() {
       <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
         <div className="flex flex-col gap-[7px]">
           <label htmlFor="cd-name" className={labelClass}>
-            Full Name
+            {t("fullName")}
           </label>
           <input
             id="cd-name"
             name="name"
             type="text"
             required
-            placeholder="Your full name"
+            placeholder={t("fullNamePlaceholder")}
             className={fieldClass}
           />
         </div>
         <div className="flex flex-col gap-[7px]">
           <label htmlFor="cd-company" className={labelClass}>
-            Company
+            {t("company")}
           </label>
           <input
             id="cd-company"
             name="company"
             type="text"
             required
-            placeholder="Your company"
+            placeholder={t("companyPlaceholder")}
             className={fieldClass}
           />
         </div>
@@ -107,21 +105,21 @@ export function ContactDetailForm() {
 
       <div className="flex flex-col gap-[7px]">
         <label htmlFor="cd-email" className={labelClass}>
-          Email Address
+          {t("email")}
         </label>
         <input
           id="cd-email"
           name="email"
           type="email"
           required
-          placeholder="you@company.com"
+          placeholder={t("emailPlaceholder")}
           className={fieldClass}
         />
       </div>
 
       <div className="flex flex-col gap-[7px]">
         <label htmlFor="cd-facility" className={labelClass}>
-          Facility Type
+          {t("facilityType")}
         </label>
         <div className="relative">
           <select
@@ -132,7 +130,7 @@ export function ContactDetailForm() {
             className={`${fieldClass} cursor-pointer pr-10`}
           >
             <option value="" disabled>
-              Select facility type
+              {t("facilitySelect")}
             </option>
             {facilityOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -146,27 +144,29 @@ export function ContactDetailForm() {
 
       <div className="flex flex-col gap-[7px]">
         <label htmlFor="cd-message" className={labelClass}>
-          Message
+          {t("message")}
         </label>
         <textarea
           id="cd-message"
           name="message"
           required
           rows={5}
-          placeholder="Describe your requirements — scope, location, timeline…"
+          placeholder={t("messagePlaceholder")}
           className={`${fieldClass} min-h-[130px] resize-y leading-[1.6]`}
         />
       </div>
 
       <p className="text-[13.5px] leading-[1.5] text-sume-muted">
-        By submitting this form, you agree to our{" "}
-        <a
-          href="#"
-          className="border-b border-transparent text-sume-blue transition hover:border-sume-blue"
-        >
-          Privacy Policy
-        </a>
-        . We will not share your information with third parties.
+        {t.rich("agreement", {
+          link: (chunks) => (
+            <a
+              href="#"
+              className="border-b border-transparent text-sume-blue transition hover:border-sume-blue"
+            >
+              {chunks}
+            </a>
+          ),
+        })}
       </p>
 
       {status === "success" ? (
@@ -181,7 +181,7 @@ export function ContactDetailForm() {
           >
             <polyline points="20,6 9,17 4,12" />
           </svg>
-          Thank you — we&apos;ll be in touch within one business day.
+          {t("success")}
         </div>
       ) : (
         <button
@@ -190,10 +190,10 @@ export function ContactDetailForm() {
           className="sume-btn sume-btn-primary w-full justify-center py-[17px] text-[16px] disabled:opacity-60"
         >
           {status === "loading" ? (
-            "Sending…"
+            t("sending")
           ) : (
             <>
-              Request a Consultation
+              {t("submit")}
               <ArrowRight className="h-[18px] w-[18px]" />
             </>
           )}

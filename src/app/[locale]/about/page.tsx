@@ -1,62 +1,76 @@
-import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import { certifications, milestones, whatSetsApart } from "@/constants/about";
+import { languageAlternates } from "@/i18n/metadata";
+import type { Locale } from "@/i18n/routing";
 
-export const metadata = {
-  title: "About — SUME Group",
-  description:
-    "A decade of building what cannot fail. PT. SUME (Solusi Utama Mekanikal Elektrikal) delivers integrated power, cooling, monitoring, and security systems for facilities that operate around the clock.",
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
 
-function Ph({ children }: { children: ReactNode }) {
-  return <span className="font-semibold text-sume-muted">{children}</span>;
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale: locale as Locale,
+    namespace: "AboutPage",
+  });
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: languageAlternates("/about")[locale],
+      languages: languageAlternates("/about"),
+    },
+  };
 }
 
-export default function AboutPage() {
+export default async function AboutPage({ params }: PageProps) {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  setRequestLocale(loc);
+  const t = await getTranslations("AboutPage");
+
   return (
     <main>
       <PageHeader
-        eyebrow="About SUME Group"
-        title="A Decade of Building What Cannot Fail."
-        description="The systems behind a building — its power, its cooling, its controls — deserve the same rigor as the structure itself."
+        eyebrow={t("headerEyebrow")}
+        title={t("headerTitle")}
+        description={t("headerDescription")}
       />
 
       {/* ── Mission ──────────────────────────────────────────────── */}
       <section className="border-b border-sume-line py-26">
         <div className="sume-wrap grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-[72px]">
           <div>
-            <span className="sume-eyebrow mb-[18px] block">Who We Are</span>
+            <span className="sume-eyebrow mb-[18px] block">
+              {t("whoWeAreEyebrow")}
+            </span>
             <h2 className="font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.2] tracking-[-0.02em] text-sume-navy">
-              Engineering the infrastructure that cannot afford to fail.
+              {t("whoWeAreHeading")}
             </h2>
           </div>
           <div className="max-w-[56ch] space-y-[22px] text-[18px] leading-[1.7] text-sume-body">
+            <p>{t("missionP1")}</p>
             <p>
-              PT. SUME (Solusi Utama Mekanikal Elektrikal) began as a mechanical
-              and electrical contractor with a simple conviction: that the
-              systems behind a building — its power, its cooling, its controls —
-              deserve the same rigor as the structure itself.
+              {t.rich("missionP2", {
+                ph: (chunks) => (
+                  <span className="font-semibold text-sume-muted">{chunks}</span>
+                ),
+                strong: (chunks) => (
+                  <strong className="font-semibold text-sume-navy">
+                    {chunks}
+                  </strong>
+                ),
+              })}
             </p>
-            <p>
-              Over <Ph>[years]</Ph> years, that conviction has grown into a
-              comprehensive M&amp;E capability. What started with commercial
-              building installations has expanded into critical infrastructure —
-              where SUME now delivers{" "}
-              <strong className="font-semibold text-sume-navy">
-                integrated power, cooling, monitoring, and security systems
-              </strong>{" "}
-              for facilities that operate around the clock.
-            </p>
-            <p>
-              Today, SUME serves clients across Indonesia and the region,
-              supported by offices in Singapore and Myanmar, and an ecosystem of
-              specialized capabilities spanning standby power, solar energy,
-              precision cooling, and intelligent monitoring.
-            </p>
+            <p>{t("missionP3")}</p>
           </div>
         </div>
       </section>
@@ -65,12 +79,12 @@ export default function AboutPage() {
       <section className="border-b border-sume-line bg-sume-mist py-26">
         <div className="sume-wrap">
           <div className="mb-15">
-            <span className="sume-eyebrow mb-4 block">Our Journey</span>
+            <span className="sume-eyebrow mb-4 block">{t("journeyEyebrow")}</span>
             <h2 className="max-w-[20ch] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-              From M&amp;E contractor to critical infrastructure partner.
+              {t("journeyHeading")}
             </h2>
             <p className="mt-3.5 text-[13.5px] italic text-sume-muted">
-              Milestone dates to be confirmed before launch.
+              {t("journeyNote")}
             </p>
           </div>
 
@@ -80,7 +94,7 @@ export default function AboutPage() {
             <div className="absolute bottom-2 left-[11px] top-0 w-0.5 bg-sume-line lg:hidden" />
 
             <div className="grid gap-y-9 lg:grid-cols-6 lg:gap-y-0">
-              {milestones.map((m, index) => (
+              {milestones[loc].map((m, index) => (
                 <div
                   key={index}
                   className="relative pl-11 lg:pl-0 lg:pr-[18px]"
@@ -105,14 +119,14 @@ export default function AboutPage() {
       <section className="border-b border-sume-line py-26">
         <div className="sume-wrap">
           <div className="mb-13">
-            <span className="sume-eyebrow mb-4 block">What Sets Us Apart</span>
+            <span className="sume-eyebrow mb-4 block">{t("apartEyebrow")}</span>
             <h2 className="max-w-[20ch] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-              Why enterprise clients choose SUME.
+              {t("apartHeading")}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
-            {whatSetsApart.map((card) => (
+            {whatSetsApart[loc].map((card) => (
               <div
                 key={card.num}
                 className="border-b border-r border-sume-line px-8 pb-11 pt-10 transition hover:bg-sume-mist"
@@ -140,18 +154,17 @@ export default function AboutPage() {
         overlayClassName="bg-sume-navy/80"
       >
         <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
-          Certifications &amp; Accreditation
+          {t("certsEyebrow")}
         </span>
         <h2 className="max-w-[22ch] font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-          Standards verified, not just stated.
+          {t("certsHeading")}
         </h2>
         <p className="mb-12 mt-3.5 max-w-[52ch] text-[16px] leading-[1.55] text-white/[0.66]">
-          Quality, environmental, and safety management systems backing every
-          project we deliver.
+          {t("certsBody")}
         </p>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {certifications.map((cert) => (
+          {certifications[loc].map((cert) => (
             <div
               key={cert.name}
               className="flex flex-col items-start gap-3.5 rounded-[3px] border border-white/[0.14] bg-white/[0.04] p-[22px] pt-[30px] transition hover:border-[#7fb4ff]/50 hover:bg-white/[0.08]"
@@ -179,43 +192,10 @@ export default function AboutPage() {
         </div>
       </OverlaySection>
 
-      {/* ── Company Profile Download ─────────────────────────────── */}
-      {/* <section className="bg-sume-mist py-24">
-        <div className="sume-wrap">
-          <div className="grid items-center gap-8 border border-sume-line bg-white p-8 sm:p-[52px] lg:grid-cols-[1fr_auto] lg:gap-10">
-            <div>
-              <span className="sume-eyebrow mb-3.5 block">Company Profile</span>
-              <h2 className="mb-3 font-head text-[clamp(24px,2.6vw,34px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-                Download Our Company Profile
-              </h2>
-              <p className="max-w-[46ch] text-[16.5px] leading-[1.55] text-sume-body">
-                Our capabilities, track record, and certifications in one
-                document.
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-3.5">
-              <div className="relative flex h-[88px] w-[72px] flex-none items-end justify-center rounded-[3px] border-2 border-sume-blue pb-3.5">
-                <span className="absolute right-0 top-0 h-5 w-5 border-b-2 border-l-2 border-sume-blue bg-sume-mist" />
-                <span className="font-head text-[14px] font-bold tracking-[0.05em] text-sume-blue">
-                  PDF
-                </span>
-              </div>
-              <a href="#" className="sume-btn sume-btn-primary">
-                Download PDF (English)
-                <span className="text-[17px] leading-none">↓</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <CtaBand
-        title="Let's engineer your infrastructure."
-        description="Talk to our team about your power, cooling, monitoring, or full M&E requirements."
-      >
+      <CtaBand title={t("ctaTitle")} description={t("ctaBody")}>
         <Link href="/contact" className="sume-btn sume-btn-white">
-          Get in Touch
+          {t("ctaButton")}
           <ArrowRight className="h-[18px] w-[18px]" />
         </Link>
       </CtaBand>

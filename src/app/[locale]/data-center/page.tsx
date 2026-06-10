@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import {
@@ -8,14 +10,37 @@ import {
   dataCenterScope,
   whyItMatters,
 } from "@/constants/data-center";
+import { languageAlternates } from "@/i18n/metadata";
+import type { Locale } from "@/i18n/routing";
 
-export const metadata = {
-  title: "Data Center — SUME Group",
-  description:
-    "Built for the demands of the data center. SUME delivers and sustains the power, cooling, monitoring, and security infrastructure that mission-critical facilities run on 24/7.",
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
 
-export default function DataCenterPage() {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale: locale as Locale,
+    namespace: "DataCenterPage",
+  });
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: languageAlternates("/data-center")[locale],
+      languages: languageAlternates("/data-center"),
+    },
+  };
+}
+
+export default async function DataCenterPage({ params }: PageProps) {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  setRequestLocale(loc);
+  const t = await getTranslations("DataCenterPage");
+
   return (
     <main>
       {/* ── Hero ─────────────────────────────────────────────────── */}
@@ -27,21 +52,18 @@ export default function DataCenterPage() {
         contentClassName="sume-wrap relative z-[2] w-full pb-[88px]"
       >
         <h1 className="max-w-[14ch] font-head text-[clamp(44px,6vw,80px)] font-semibold leading-[1.03] tracking-[-0.02em] text-white">
-          Built for the Demands of the Data Center.
+          {t("heroTitle")}
         </h1>
         <p className="mt-6 max-w-[56ch] text-[clamp(17px,1.5vw,21px)] leading-[1.55] text-white/[0.82]">
-          Data centers run 24/7 with zero tolerance for downtime. Every system —
-          power, cooling, monitoring, security — must perform continuously and be
-          maintained without disruption. SUME delivers and sustains that
-          infrastructure.
+          {t("heroBody")}
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
           <Link href="/contact" className="sume-btn sume-btn-primary">
-            Discuss Your Facility
+            {t("heroCtaPrimary")}
             <ArrowRight className="h-[18px] w-[18px]" />
           </Link>
           <Link href="/solutions" className="sume-btn sume-btn-ghost">
-            Explore Our Solutions
+            {t("heroCtaSecondary")}
           </Link>
         </div>
       </OverlaySection>
@@ -50,14 +72,12 @@ export default function DataCenterPage() {
       <section className="bg-white py-26">
         <div className="sume-wrap">
           <div className="mb-13 max-w-[60ch]">
-            <span className="sume-eyebrow mb-4 block">Capability Mapping</span>
+            <span className="sume-eyebrow mb-4 block">{t("mappingEyebrow")}</span>
             <h2 className="max-w-[22ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-              Every data center need, matched to a SUME capability.
+              {t("mappingHeading")}
             </h2>
             <p className="mt-3.5 text-[17px] leading-[1.6] text-sume-body">
-              A single M&amp;E partner delivering the full infrastructure scope —
-              from standby power and precision cooling to monitoring, security,
-              and long-term maintenance.
+              {t("mappingBody")}
             </p>
           </div>
 
@@ -66,15 +86,15 @@ export default function DataCenterPage() {
               <thead>
                 <tr>
                   <th className="w-[42%] border-b-2 border-sume-line bg-sume-mist px-4 py-3.5 text-left font-head text-[12px] font-semibold uppercase tracking-[0.18em] text-sume-blue sm:px-6">
-                    Data Center Need
+                    {t("mappingThNeed")}
                   </th>
                   <th className="border-b-2 border-sume-line bg-sume-mist px-4 py-3.5 text-left font-head text-[12px] font-semibold uppercase tracking-[0.18em] text-sume-blue sm:px-6">
-                    SUME Capability
+                    {t("mappingThCapability")}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataCenterCapabilities.map((row) => (
+                {dataCenterCapabilities[loc].map((row) => (
                   <tr
                     key={row.need}
                     className="border-b border-sume-line transition last:border-b-0 hover:bg-sume-mist"
@@ -136,14 +156,14 @@ export default function DataCenterPage() {
         overlayClassName="bg-[linear-gradient(120deg,rgba(14,36,60,0.95),rgba(0,60,140,0.7))]"
       >
         <span className="sume-eyebrow mb-5 block text-[#7fb4ff]">
-          Why It Matters
+          {t("whyEyebrow")}
         </span>
         <h2 className="mb-13 max-w-[22ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-          The infrastructure decisions that determine uptime.
+          {t("whyHeading")}
         </h2>
 
         <div className="grid grid-cols-1 border-l border-t border-white/[0.12] sm:grid-cols-2 lg:grid-cols-3">
-          {whyItMatters.map((item) => (
+          {whyItMatters[loc].map((item) => (
             <div
               key={item.num}
               className="border-b border-r border-white/[0.12] px-8 pb-10 pt-9 transition hover:bg-white/[0.04]"
@@ -171,19 +191,16 @@ export default function DataCenterPage() {
       {/* ── Scope Strip ──────────────────────────────────────────── */}
       <section className="border-t border-sume-line bg-sume-mist py-22">
         <div className="sume-wrap">
-          <span className="sume-eyebrow mb-4 block">
-            Full Infrastructure Scope
-          </span>
+          <span className="sume-eyebrow mb-4 block">{t("scopeEyebrow")}</span>
           <h2 className="max-w-[22ch] font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-            What SUME delivers for data center clients.
+            {t("scopeHeading")}
           </h2>
           <p className="mb-13 mt-3.5 max-w-[58ch] text-[17px] leading-[1.6] text-sume-body">
-            From initial design through lifetime maintenance — the full
-            mechanical and electrical scope under one accountable partner.
+            {t("scopeBody")}
           </p>
 
           <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
-            {dataCenterScope.map((card) => (
+            {dataCenterScope[loc].map((card) => (
               <Link
                 key={card.num}
                 href={`/solutions#${card.anchor}`}
@@ -199,7 +216,7 @@ export default function DataCenterPage() {
                   {card.body}
                 </p>
                 <span className="mt-4 inline-flex items-center gap-[7px] font-head text-[13px] font-semibold text-sume-blue transition-all group-hover:gap-3">
-                  View capability
+                  {t("scopeViewCapability")}
                   <ArrowRight className="h-4 w-4" />
                 </span>
               </Link>
@@ -209,16 +226,13 @@ export default function DataCenterPage() {
       </section>
 
       {/* ── Closing CTA ──────────────────────────────────────────── */}
-      <CtaBand
-        title="Standby power, precision cooling — uptime assured."
-        description="SUME supports the facilities that power Indonesia's digital infrastructure. Tell us about your facility and requirements."
-      >
+      <CtaBand title={t("ctaTitle")} description={t("ctaBody")}>
         <Link href="/contact" className="sume-btn sume-btn-white">
-          Discuss Your Facility
+          {t("ctaPrimary")}
           <ArrowRight className="h-[18px] w-[18px]" />
         </Link>
         <Link href="/solutions" className="sume-btn sume-btn-ghost">
-          Explore Our Solutions
+          {t("ctaSecondary")}
         </Link>
       </CtaBand>
     </main>

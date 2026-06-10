@@ -1,14 +1,17 @@
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { company, footerOffices, solutionsOverview } from "@/constants/site";
 
 const companyLinks = [
-  { label: "About", href: "/about" },
-  { label: "Projects", href: "/our-project" },
-  { label: "Contact", href: "/contact" },
-];
+  { key: "about", href: "/about" },
+  { key: "projects", href: "/our-project" },
+  { key: "contact", href: "/contact" },
+] as const;
 
 export function Footer() {
+  const locale = useLocale();
+  const t = useTranslations("Footer");
   const year = new Date().getFullYear();
 
   return (
@@ -24,13 +27,12 @@ export function Footer() {
               className="mb-5 h-7 w-auto brightness-0 invert"
             />
             <p className="max-w-[30ch] text-[15px] leading-[1.55] text-white/60">
-              Mechanical &amp; Electrical Infrastructure for Mission-Critical
-              Facilities.
+              {t("tagline")}
             </p>
           </div>
 
-          <FooterColumn title="Solutions">
-            {solutionsOverview.map((solution) => (
+          <FooterColumn title={t("solutions")}>
+            {solutionsOverview[locale].map((solution) => (
               <FooterLink
                 key={solution.title}
                 href={`/solutions#${solution.anchor}`}
@@ -40,23 +42,23 @@ export function Footer() {
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Company">
+          <FooterColumn title={t("company")}>
             {companyLinks.map((link) => (
-              <FooterLink key={link.label} href={link.href}>
-                {link.label}
+              <FooterLink key={link.key} href={link.href}>
+                {t(link.key)}
               </FooterLink>
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Offices">
-            {footerOffices.map((office) => (
+          <FooterColumn title={t("offices")}>
+            {footerOffices[locale].map((office) => (
               <FooterLink key={office} href="/regional">
                 {office}
               </FooterLink>
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Contact">
+          <FooterColumn title={t("contact")}>
             <FooterLink href={`mailto:${company.email}`}>
               {company.email}
             </FooterLink>
@@ -68,15 +70,19 @@ export function Footer() {
 
         <div className="flex flex-wrap items-center justify-between gap-5 py-6">
           <p className="text-[13.5px] text-white/50">
-            © {year} {company.brand} · {company.legalName}. All rights reserved.
+            {t("copyright", {
+              year: String(year),
+              brand: company.brand,
+              legal: company.legalName,
+            })}
           </p>
           <div className="flex gap-6">
-            <Link href="#" className="text-[13.5px] text-white/[0.62] hover:text-white">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-[13.5px] text-white/[0.62] hover:text-white">
-              Terms of Service
-            </Link>
+            <a href="#" className="text-[13.5px] text-white/[0.62] hover:text-white">
+              {t("privacy")}
+            </a>
+            <a href="#" className="text-[13.5px] text-white/[0.62] hover:text-white">
+              {t("terms")}
+            </a>
           </div>
         </div>
       </div>

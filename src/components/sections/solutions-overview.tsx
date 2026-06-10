@@ -1,29 +1,31 @@
 import { ArrowRight } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { solutionsOverview } from "@/constants/site";
 
 export function SolutionsOverview() {
+  const locale = useLocale();
+  const t = useTranslations("Home");
+  const solutions = solutionsOverview[locale];
+
   return (
     <section id="solutions" className="bg-sume-mist py-26">
       <div className="sume-wrap">
         <div className="mb-13 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div>
-            <span className="sume-eyebrow mb-4 block">Our Solutions</span>
+            <span className="sume-eyebrow mb-4 block">{t("solutionsEyebrow")}</span>
             <h2 className="font-head text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-              Built for environments where
-              <br />
-              downtime is not an option.
+              {t("solutionsHeading")}
             </h2>
           </div>
           <p className="max-w-[42ch] text-lg text-sume-body">
-            A complete mechanical &amp; electrical scope — engineered,
-            delivered, and maintained under one accountable partner.
+            {t("solutionsBody")}
           </p>
         </div>
 
         <div className="grid gap-7 md:grid-cols-2">
-          {solutionsOverview.map((solution) => (
+          {solutions.map((solution) => (
             <Link
               key={solution.num}
               href={`/solutions#${solution.anchor}`}
@@ -49,7 +51,7 @@ export function SolutionsOverview() {
                   {solution.description}
                 </p>
                 <span className="inline-flex items-center gap-2 font-head text-sm font-semibold text-sume-blue transition-all duration-200 group-hover:gap-[13px]">
-                  Explore solution
+                  {t("exploreSolution")}
                   <ArrowRight className="h-4 w-4" />
                 </span>
               </div>

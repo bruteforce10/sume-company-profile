@@ -1,5 +1,7 @@
-import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { ProjectCatalog } from "@/components/project-catalog";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader, PageHeaderStats } from "@/components/sections/page-header";
@@ -12,37 +14,60 @@ import {
   projectStats,
 } from "@/constants/our-project";
 import { getProjects } from "@/lib/projects";
+import { languageAlternates } from "@/i18n/metadata";
+import type { Locale } from "@/i18n/routing";
 
-export const metadata = {
-  title: "Projects — SUME Group",
-  description:
-    "Selected projects across commercial, industrial, and mission-critical facilities — delivering power, cooling, monitoring, and integrated M&E infrastructure.",
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
 
-export default async function OurProjectPage() {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale: locale as Locale,
+    namespace: "ProjectsPage",
+  });
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: languageAlternates("/our-project")[locale],
+      languages: languageAlternates("/our-project"),
+    },
+  };
+}
+
+export default async function OurProjectPage({ params }: PageProps) {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  setRequestLocale(loc);
+  const t = await getTranslations("ProjectsPage");
   const projects = await getProjects();
 
   return (
     <main>
       <PageHeader
-        eyebrow="Our Work"
-        title="Selected Projects"
-        description="A track record across commercial, industrial, and mission-critical facilities — delivering power, cooling, monitoring, and integrated M&E infrastructure."
+        eyebrow={t("headerEyebrow")}
+        title={t("headerTitle")}
+        description={t("headerDescription")}
       >
-        <PageHeaderStats stats={projectStats} />
+        <PageHeaderStats stats={projectStats[loc]} />
       </PageHeader>
 
       {/* ── Project Portfolio (Hygraph-fed grid) ─────────────────── */}
       <section className="bg-white py-26">
         <div className="sume-wrap">
           <div className="mb-4 max-w-[58ch]">
-            <span className="sume-eyebrow mb-4 block">Project Portfolio</span>
+            <span className="sume-eyebrow mb-4 block">
+              {t("portfolioEyebrow")}
+            </span>
             <h2 className="font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-              Delivering infrastructure across industries and geographies.
+              {t("portfolioHeading")}
             </h2>
             <p className="mt-4 text-[17.5px] leading-[1.55] text-sume-body">
-              From precision cooling retrofits to integrated M&amp;E contracting
-              — built for facilities that operate without interruption.
+              {t("portfolioBody")}
             </p>
           </div>
 
@@ -60,21 +85,19 @@ export default async function OurProjectPage() {
         <div className="mb-14 flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
           <div>
             <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
-              Proven Results
+              {t("resultsEyebrow")}
             </span>
             <h2 className="max-w-[22ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-              Precision Cooling — Measured Outcomes
+              {t("resultsHeading")}
             </h2>
           </div>
           <p className="max-w-[44ch] text-[17px] leading-[1.55] text-white/[0.68]">
-            Cooling is the single largest energy load in any high-density
-            facility. These results demonstrate the chiller and energy-efficiency
-            capability SUME brings to critical environments.
+            {t("resultsBody")}
           </p>
         </div>
 
         <div className="mb-11 grid gap-[22px] lg:grid-cols-2">
-          {featuredResults.map((card) => (
+          {featuredResults[loc].map((card) => (
             <div
               key={card.name}
               className="border border-white/[0.13] bg-white/[0.055] p-9 transition hover:border-white/[0.26] hover:bg-white/[0.085]"
@@ -119,26 +142,29 @@ export default async function OurProjectPage() {
           <table className="w-full min-w-[640px] border-collapse text-[15px]">
             <thead>
               <tr>
-                {["Project", "Location", "Cooling Capacity", "Scope"].map(
-                  (heading) => (
-                    <th
-                      key={heading}
-                      className="border-b border-white/[0.14] px-5 py-3.5 text-left font-head text-[11.5px] font-semibold uppercase tracking-[0.16em] text-white/[0.44]"
-                    >
-                      {heading}
-                    </th>
-                  ),
-                )}
+                {[
+                  t("tableProject"),
+                  t("tableLocation"),
+                  t("tableCoolingCapacity"),
+                  t("tableScope"),
+                ].map((heading) => (
+                  <th
+                    key={heading}
+                    className="border-b border-white/[0.14] px-5 py-3.5 text-left font-head text-[11.5px] font-semibold uppercase tracking-[0.16em] text-white/[0.44]"
+                  >
+                    {heading}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {coolingPortfolio.map((row, index) => (
+              {coolingPortfolio[loc].map((row, index) => (
                 <tr key={row[0]} className="transition hover:bg-white/[0.04]">
                   {row.map((cell, cellIndex) => (
                     <td
                       key={cellIndex}
                       className={`px-5 py-3.5 ${
-                        index === coolingPortfolio.length - 1
+                        index === coolingPortfolio[loc].length - 1
                           ? ""
                           : "border-b border-white/[0.07]"
                       } ${
@@ -168,20 +194,16 @@ export default async function OurProjectPage() {
       >
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
-            <span className="sume-eyebrow mb-4 block">
-              Power &amp; Engine Capability
-            </span>
+            <span className="sume-eyebrow mb-4 block">{t("powerEyebrow")}</span>
             <h2 className="font-head text-[clamp(26px,2.8vw,40px)] font-semibold leading-[1.2] tracking-[-0.02em] text-sume-navy">
-              Power Reliability You Can Verify
+              {t("powerHeading")}
             </h2>
             <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.55] text-sume-body">
-              Backup power is non-negotiable for uptime. SUME&apos;s engine
-              capability is built on authorized, certified service — backed by
-              engineers trained directly in Japan.
+              {t("powerBody")}
             </p>
 
             <div className="mt-11 flex flex-col">
-              {powerCapabilities.map((item, index) => (
+              {powerCapabilities[loc].map((item, index) => (
                 <div
                   key={item.num}
                   className={`flex gap-[22px] border-b border-sume-line py-[22px] ${
@@ -205,7 +227,7 @@ export default async function OurProjectPage() {
           </div>
 
           <div className="flex flex-col border border-sume-line bg-white">
-            {powerStats.map((stat, index) => (
+            {powerStats[loc].map((stat, index) => (
               <div
                 key={index}
                 className="border-b border-sume-line px-9 py-8 last:border-b-0"
@@ -223,12 +245,9 @@ export default async function OurProjectPage() {
       </OverlaySection>
 
       {/* ── Closing CTA ──────────────────────────────────────────── */}
-      <CtaBand
-        title="Let's engineer your infrastructure."
-        description="From mission-critical power systems to data center environments, we build infrastructure designed for performance, reliability, and uptime."
-      >
+      <CtaBand title={t("ctaTitle")} description={t("ctaBody")}>
         <Link href="/contact" className="sume-btn sume-btn-white">
-          Request a Consultation
+          {t("ctaButton")}
           <ArrowRight className="h-[18px] w-[18px]" />
         </Link>
       </CtaBand>

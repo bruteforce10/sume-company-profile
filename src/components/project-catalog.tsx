@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ProjectCard } from "@/components/project-card";
 import { PROJECT_CATEGORIES } from "@/constants/project-categories";
 import type { Project } from "@/constants/site";
@@ -13,7 +14,22 @@ type ProjectCatalogProps = {
 };
 
 export function ProjectCatalog({ projects }: ProjectCatalogProps) {
+  const t = useTranslations("Projects");
   const [activeCategory, setActiveCategory] = useState(ALL_CATEGORY);
+
+  const categoryLabels: Record<string, string> = {
+    commercial: t("categoryCommercial"),
+    industrial: t("categoryIndustrial"),
+    hospitality: t("categoryHospitality"),
+    government: t("categoryGovernment"),
+    retail: t("categoryRetail"),
+    technology: t("categoryTechnology"),
+  };
+
+  const labelFor = (category: string) =>
+    category === ALL_CATEGORY
+      ? t("all")
+      : (categoryLabels[category] ?? category);
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === ALL_CATEGORY) {
@@ -51,7 +67,7 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
               aria-pressed={isActive}
               onClick={() => setActiveCategory(category)}
             >
-              {category}
+              {labelFor(category)}
             </button>
           );
         })}
@@ -69,7 +85,7 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
 
       {filteredProjects.length === 0 && (
         <div className="mt-10 rounded-lg border border-sume-line bg-white p-8 text-center text-sm font-semibold text-sume-body">
-          No projects found in this category.
+          {t("empty")}
         </div>
       )}
     </>

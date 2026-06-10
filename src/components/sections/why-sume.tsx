@@ -1,7 +1,12 @@
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { whySume } from "@/constants/site";
 
 export function WhySume() {
+  const locale = useLocale();
+  const t = useTranslations("Home");
+  const items = whySume[locale];
+
   return (
     <section className="relative overflow-hidden py-26">
       <Image
@@ -15,16 +20,14 @@ export function WhySume() {
 
       <div className="sume-wrap relative z-[1]">
         <div className="mb-13">
-          <span className="sume-eyebrow mb-4 block">Why SUME Group</span>
+          <span className="sume-eyebrow mb-4 block">{t("whyEyebrow")}</span>
           <h2 className="font-head text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-            Four reasons enterprise clients
-            <br />
-            choose a single accountable partner.
+            {t("whyHeading")}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
-          {whySume.map((item) => (
+          {items.map((item) => (
             <div
               key={item.num}
               className="border-b border-r border-sume-line bg-[linear-gradient(160deg,rgba(255,255,255,0.96)_0%,rgba(248,251,255,0.88)_100%)] px-8 pb-11 pt-10 backdrop-blur-[2px] transition hover:bg-[linear-gradient(160deg,rgba(255,255,255,1)_0%,rgba(231,241,255,0.95)_100%)]"

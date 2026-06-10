@@ -1,21 +1,46 @@
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ContactDetailForm } from "@/components/contact-detail-form";
 import { PageHeader } from "@/components/sections/page-header";
 import { contactInfoItems, mapSrc } from "@/constants/contact";
 import { company } from "@/constants/site";
+import { languageAlternates } from "@/i18n/metadata";
+import type { Locale } from "@/i18n/routing";
 
-export const metadata = {
-  title: "Contact — SUME Group",
-  description:
-    "Let's engineer your infrastructure. Whether you're building a new facility or optimizing an existing one, our team is ready to assess your requirements.",
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
 
-export default function ContactPage() {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale: locale as Locale,
+    namespace: "ContactPage",
+  });
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: languageAlternates("/contact")[locale],
+      languages: languageAlternates("/contact"),
+    },
+  };
+}
+
+export default async function ContactPage({ params }: PageProps) {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  setRequestLocale(loc);
+  const t = await getTranslations("ContactPage");
+
   return (
     <main>
       <PageHeader
-        eyebrow="Contact"
-        title="Let's Engineer Your Infrastructure."
-        description="Whether you're building a new facility or optimizing an existing one, our team is ready to assess your requirements."
+        eyebrow={t("headerEyebrow")}
+        title={t("headerTitle")}
+        description={t("headerDescription")}
       />
 
       <section className="bg-white py-24">
@@ -24,15 +49,14 @@ export default function ContactPage() {
             {/* LEFT — info panel */}
             <div>
               <h2 className="mb-2 font-head text-[clamp(24px,2.6vw,34px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-                Get in Touch
+                {t("infoHeading")}
               </h2>
               <p className="mb-11 max-w-[36ch] text-[16.5px] leading-[1.6] text-sume-body">
-                Reach our team directly or use the form — we respond within one
-                business day.
+                {t("infoBody")}
               </p>
 
               <div className="flex flex-col">
-                {contactInfoItems.map((item, index) => (
+                {contactInfoItems[loc].map((item, index) => (
                   <div
                     key={item.label}
                     className={`flex gap-[18px] border-b border-sume-line py-[22px] last:border-b-0 ${
@@ -58,7 +82,7 @@ export default function ContactPage() {
             {/* RIGHT — form */}
             <div>
               <h2 className="mb-7 font-head text-[clamp(22px,2.2vw,30px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-                Request a Consultation
+                {t("formHeading")}
               </h2>
               <ContactDetailForm />
             </div>
@@ -67,9 +91,9 @@ export default function ContactPage() {
           {/* Map */}
           <div className="mt-20 border-t border-sume-line">
             <div className="mb-8 pt-13">
-              <span className="sume-eyebrow mb-3.5 block">Headquarters</span>
+              <span className="sume-eyebrow mb-3.5 block">{t("mapEyebrow")}</span>
               <h2 className="font-head text-[clamp(22px,2.4vw,32px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-                Our Jakarta Headquarters
+                {t("mapHeading")}
               </h2>
               <p className="mt-2.5 text-[16px] text-sume-body">
                 {company.address}, Indonesia

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/constants/site";
+import { routing } from "@/i18n/routing";
 
 type Route = {
   path: string;
@@ -17,13 +18,27 @@ const routes: Route[] = [
   { path: "/regional", changeFrequency: "monthly", priority: 0.6 },
 ];
 
+/** Builds an absolute URL for a locale-prefixed path. */
+function localizedUrl(locale: string, path: string) {
+  const prefix = locale === routing.defaultLocale ? "" : `/${locale}`;
+  const suffix = path === "/" ? "" : path;
+  return `${siteUrl}${prefix}${suffix}`;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return routes.map(({ path, changeFrequency, priority }) => ({
-    url: `${siteUrl}${path === "/" ? "" : path}`,
-    lastModified,
-    changeFrequency,
-    priority,
-  }));
+  return routes.flatMap(({ path, changeFrequency, priority }) => {
+    const languages = Object.fromEntries(
+      routing.locales.map((locale) => [locale, localizedUrl(locale, path)]),
+    );
+
+    return routing.locales.map((locale) => ({
+      url: localizedUrl(locale, path),
+      lastModified,
+      changeFrequency,
+      priority,
+      alternates: { languages },
+    }));
+  });
 }

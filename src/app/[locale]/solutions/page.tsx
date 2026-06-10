@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { OverlaySection } from "@/components/ui/overlay-section";
@@ -10,33 +12,52 @@ import {
   partnerBrands,
   solutionPillars,
 } from "@/constants/solutions";
+import { languageAlternates } from "@/i18n/metadata";
+import type { Locale } from "@/i18n/routing";
 
-export const metadata = {
-  title: "Solutions — SUME Group",
-  description:
-    "The full mechanical & electrical scope — power & energy, precision cooling, monitoring & security, and integrated M&E contracting for mission-critical facilities.",
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale: locale as Locale,
+    namespace: "SolutionsPage",
+  });
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: languageAlternates("/solutions")[locale],
+      languages: languageAlternates("/solutions"),
+    },
+  };
+}
 
 function brandInitials(name: string) {
   if (name === "+ more") return "…";
   return name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
 }
 
-export default function SolutionsPage() {
+export default async function SolutionsPage({ params }: PageProps) {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  setRequestLocale(loc);
+  const t = await getTranslations("SolutionsPage");
+
   return (
     <main>
       <PageHeader
-        eyebrow="Solutions"
-        title={
-          <>
-            The Full Mechanical &amp; Electrical Scope.
-          </>
-        }
-        description="Engineered for environments where downtime is not an option — drawing on a network of specialist capabilities that mission-critical facilities depend on."
+        eyebrow={t("headerEyebrow")}
+        title={t("headerTitle")}
+        description={t("headerDescription")}
       />
 
       {/* ── Pillars ──────────────────────────────────────────────── */}
-      {solutionPillars.map((pillar, index) => (
+      {solutionPillars[loc].map((pillar, index) => (
         <section
           key={pillar.id}
           id={pillar.id}
@@ -105,15 +126,13 @@ export default function SolutionsPage() {
               {pillar.id === "power" ? (
                 <div className="mt-[34px] border border-l-[3px] border-sume-line border-l-sume-blue bg-white p-7 sm:px-[30px]">
                   <h3 className="mb-1.5 font-head text-[18px] font-semibold text-sume-navy">
-                    Aftersales Service — IHI / Niigata Engines
+                    {t("aftersalesTitle")}
                   </h3>
                   <p className="mb-5 max-w-[50ch] text-[14.5px] leading-[1.55] text-sume-body">
-                    Reliability does not end at commissioning. Engine systems are
-                    backed by a structured aftersales program delivered with the
-                    manufacturer.
+                    {t("aftersalesBody")}
                   </p>
                   <ul className="grid gap-3.5">
-                    {aftersalesPoints.map((item) => (
+                    {aftersalesPoints[loc].map((item) => (
                       <li
                         key={item.bold}
                         className="flex gap-[13px] text-[14.5px] leading-[1.5] text-sume-body"
@@ -152,21 +171,19 @@ export default function SolutionsPage() {
         <div className="sume-wrap grid items-center gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
           <div>
             <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
-              Power &amp; Energy · Yuchai
+              {t("yuchaiEyebrow")}
             </span>
             <h2 className="mb-[18px] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-              Inside the Yuchai industrial plant.
+              {t("yuchaiHeading")}
             </h2>
             <p className="mb-7 max-w-[46ch] text-[17.5px] leading-[1.6] text-white/[0.7]">
-              The manufacturing backbone behind the gensets we supply and
-              commission — a look inside Yuchai&apos;s industrial plant, where the
-              diesel and gas engines that power critical facilities are built.
+              {t("yuchaiBody")}
             </p>
             <Link
-              href="#power"
+              href="/solutions#power"
               className="inline-flex items-center gap-2 font-head text-[15px] font-semibold text-[#7fb4ff] transition hover:text-white"
             >
-              Explore Power &amp; Energy
+              {t("yuchaiCta")}
               <ArrowRight className="h-[18px] w-[18px]" />
             </Link>
           </div>
@@ -189,24 +206,22 @@ export default function SolutionsPage() {
       >
         <div className="max-w-[620px]">
           <span className="sume-eyebrow mb-4 block">
-            Integrated M&amp;E Contracting
+            {t("integratedEyebrow")}
           </span>
           <h2 className="mb-5 font-head text-[clamp(30px,3.4vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-sume-navy">
-            One partner, not a dozen vendors.
+            {t("integratedHeading")}
           </h2>
           <p className="mb-3.5 max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
-            SUME&apos;s core: a single accountable contractor across the full
-            mechanical and electrical scope —{" "}
-            <strong className="font-semibold text-sume-navy">
-              design, procurement, installation, commissioning, and ongoing
-              maintenance.
-            </strong>
+            {t.rich("integratedP1", {
+              strong: (chunks) => (
+                <strong className="font-semibold text-sume-navy">
+                  {chunks}
+                </strong>
+              ),
+            })}
           </p>
           <p className="max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
-            Where most projects coordinate across many specialists, SUME
-            delivers the entire M&amp;E lifecycle under one line of
-            accountability — reducing risk, simplifying delivery, and keeping
-            every critical system aligned.
+            {t("integratedP2")}
           </p>
         </div>
       </OverlaySection>
@@ -215,14 +230,13 @@ export default function SolutionsPage() {
       <section className="relative overflow-hidden bg-sume-navy py-26">
         <div className="sume-wrap">
           <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
-            Capabilities &amp; Brands
+            {t("brandsEyebrow")}
           </span>
           <h2 className="max-w-[20ch] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-            The specialist names behind every solution.
+            {t("brandsHeading")}
           </h2>
           <p className="mb-13 mt-3.5 max-w-[48ch] text-[17px] leading-[1.55] text-white/[0.68]">
-            The technologies and capabilities that mission-critical facilities
-            depend on — delivered as one connected network.
+            {t("brandsBody")}
           </p>
 
           <div className="grid grid-cols-2 gap-px border border-white/[0.12] bg-white/[0.12] sm:grid-cols-3 lg:grid-cols-6">
@@ -257,12 +271,9 @@ export default function SolutionsPage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <CtaBand
-        title="Discuss your requirements."
-        description="Tell us about your facility — power, cooling, monitoring, or full M&E scope. Our engineering team will assess and respond."
-      >
+      <CtaBand title={t("ctaTitle")} description={t("ctaBody")}>
         <Link href="/contact" className="sume-btn sume-btn-white">
-          Discuss Your Requirements
+          {t("ctaButton")}
           <ArrowRight className="h-[18px] w-[18px]" />
         </Link>
       </CtaBand>

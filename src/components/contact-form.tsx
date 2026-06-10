@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
@@ -14,41 +15,42 @@ type FieldProps = {
   placeholder?: string;
 };
 
-const fields: FieldProps[] = [
-  {
-    label: "FULL NAME",
-    name: "name",
-    placeholder: "John Doe",
-    required: true,
-  },
-  {
-    label: "EMAIL ADDRESS",
-    name: "email",
-    type: "email",
-    placeholder: "john@company.com",
-    required: true,
-  },
-  {
-    label: "PHONE NUMBER",
-    name: "phone",
-    type: "tel",
-    placeholder: "+62 ...",
-  },
-  {
-    label: "COMPANY",
-    name: "company",
-    placeholder: "Your Organization",
-  },
-];
-
 function getFormValue(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value : "";
 }
 
 export function ContactForm() {
+  const t = useTranslations("ContactForm");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
+
+  const fields: FieldProps[] = [
+    {
+      label: t("fullName"),
+      name: "name",
+      placeholder: t("fullNamePlaceholder"),
+      required: true,
+    },
+    {
+      label: t("email"),
+      name: "email",
+      type: "email",
+      placeholder: t("emailPlaceholder"),
+      required: true,
+    },
+    {
+      label: t("phone"),
+      name: "phone",
+      type: "tel",
+      placeholder: t("phonePlaceholder"),
+    },
+    {
+      label: t("company"),
+      name: "company",
+      placeholder: t("companyPlaceholder"),
+    },
+  ];
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,18 +78,16 @@ export function ContactForm() {
       const result = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to send message.");
+        throw new Error(result.message || t("errorFallback"));
       }
 
       setStatus("success");
-      setStatusMessage(result.message || "Message sent successfully.");
+      setStatusMessage(result.message || t("sent"));
       form.reset();
     } catch (error) {
       setStatus("error");
       setStatusMessage(
-        error instanceof Error
-          ? error.message
-          : "Failed to send message. Please try again.",
+        error instanceof Error ? error.message : t("errorFallback"),
       );
     }
   }
@@ -107,7 +107,7 @@ export function ContactForm() {
 
       <div className="grid gap-2">
         <label htmlFor="message" className="form-label">
-          MESSAGE
+          {t("message")}
         </label>
         <textarea
           id="message"
@@ -115,7 +115,7 @@ export function ContactForm() {
           required
           rows={5}
           className="form-control p-4"
-          placeholder="How can we help you?"
+          placeholder={t("messagePlaceholder")}
         />
       </div>
 
@@ -125,10 +125,10 @@ export function ContactForm() {
         className="mt-2 w-full rounded-md bg-sume-blue py-4 text-sm font-bold text-white transition hover:bg-sume-blue-hover disabled:opacity-50"
       >
         {status === "loading"
-          ? "Sending..."
+          ? t("sending")
           : status === "success"
-            ? "Message Sent"
-            : "Send Inquiry"}
+            ? t("sent")
+            : t("send")}
       </button>
 
       {statusMessage && (

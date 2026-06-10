@@ -1,32 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { company, heroSlides } from "@/constants/site";
 import { cn } from "@/lib/utils";
 
 const DURATION = 6000;
 
 export function Hero() {
+  const locale = useLocale();
+  const t = useTranslations("Hero");
+  const slides = heroSlides[locale];
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(
-      () => setCurrent((index) => (index + 1) % heroSlides.length),
+      () => setCurrent((index) => (index + 1) % slides.length),
       DURATION,
     );
     return () => clearTimeout(timer);
-  }, [current]);
+  }, [current, slides.length]);
 
-  const slide = heroSlides[current];
+  const slide = slides[current];
 
   return (
     <section
       id="hero"
       className="relative h-[min(90vh,950px)] min-h-[600px] overflow-hidden bg-sume-navy"
     >
-      {heroSlides.map((item, index) => (
+      {slides.map((item, index) => (
         <div
           key={item.label}
           aria-hidden
@@ -57,23 +61,23 @@ export function Hero() {
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Link href="/solutions" className="sume-btn sume-btn-primary">
-              Explore Our Solutions
+              {t("exploreSolutions")}
             </Link>
-            <Link
+            <a
               href={company.whatsapp}
               className="sume-btn sume-btn-ghost"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Talk to Our Team
-            </Link>
+              {t("talkToTeam")}
+            </a>
           </div>
         </div>
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-[4]">
         <div className="sume-wrap grid grid-cols-2 md:grid-cols-4">
-          {heroSlides.map((item, index) => {
+          {slides.map((item, index) => {
             const isActive = index === current;
 
             return (
@@ -81,7 +85,7 @@ export function Hero() {
                 key={item.label}
                 type="button"
                 onClick={() => setCurrent(index)}
-                aria-label={`Show ${item.label} slide`}
+                aria-label={t("slideAria", { label: item.label })}
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
                   "group cursor-pointer pb-6 pr-6 pt-4 text-left font-head transition md:pt-[22px]",

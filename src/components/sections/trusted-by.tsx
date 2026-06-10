@@ -1,12 +1,15 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Marquee } from "@/components/ui/marquee";
 import { trustedLogos } from "@/constants/site";
 
 export function TrustedBy() {
+  const t = useTranslations("Home");
+
   return (
     <section className="overflow-hidden border-t border-sume-line bg-sume-mist pb-22 pt-18">
       <p className="mb-12 text-center font-head text-[13px] font-semibold uppercase tracking-[0.2em] text-sume-muted">
-        Trusted by Leading Organizations
+        {t("trustedBy")}
       </p>
 
       <div className="[mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">

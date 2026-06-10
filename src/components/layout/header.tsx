@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { type NavLink, navLinks } from "@/constants/site";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,9 @@ function hrefPath(href: string) {
 export function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations("Header");
+  const links = navLinks[locale];
 
   const isLinkActive = (link: NavLink) =>
     pathname === link.href ||
@@ -26,7 +30,7 @@ export function Header() {
         <div className="sume-wrap flex h-[78px] items-center justify-between">
           <Link
             href="/"
-            aria-label="SUME Group home"
+            aria-label={t("homeAria")}
             className="flex items-center gap-[11px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sume-blue"
           >
             <Image
@@ -46,7 +50,7 @@ export function Header() {
             className="hidden items-center gap-[34px] lg:flex"
             aria-label="Primary navigation"
           >
-            {navLinks.map((link) => {
+            {links.map((link) => {
               const active = isLinkActive(link);
 
               if (!link.children) {
@@ -106,15 +110,16 @@ export function Header() {
             })}
           </nav>
 
-          <div className="hidden items-center lg:flex">
+          <div className="hidden items-center gap-3 lg:flex">
+            <LocaleSwitcher />
             <Link href="/contact" className="sume-btn sume-btn-primary">
-              Get in Touch
+              {t("getInTouch")}
             </Link>
           </div>
 
           <button
             type="button"
-            aria-label="Open navigation menu"
+            aria-label={t("openMenu")}
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
@@ -157,7 +162,7 @@ export function Header() {
             </div>
             <button
               type="button"
-              aria-label="Close navigation menu"
+              aria-label={t("closeMenu")}
               onClick={() => setOpen(false)}
               className="inline-flex h-10 w-10 items-center justify-center rounded-[2px] bg-slate-50 text-slate-500 transition hover:bg-slate-100 hover:text-sume-navy"
             >
@@ -170,7 +175,7 @@ export function Header() {
             aria-label="Mobile navigation"
           >
             <div className="flex flex-col">
-              {navLinks.map((link, index) => {
+              {links.map((link, index) => {
                 const active = isLinkActive(link);
 
                 return (
@@ -178,7 +183,7 @@ export function Header() {
                     key={link.href}
                     className={cn(
                       "border-sume-line/60",
-                      index !== navLinks.length - 1 && "border-b",
+                      index !== links.length - 1 && "border-b",
                     )}
                   >
                     <Link
@@ -214,13 +219,14 @@ export function Header() {
             </div>
           </nav>
 
-          <div className="mt-auto border-t border-sume-line/60 pt-6">
+          <div className="mt-auto flex flex-col gap-4 border-t border-sume-line/60 pt-6">
+            <LocaleSwitcher variant="inline" className="self-start" />
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
               className="sume-btn sume-btn-primary w-full"
             >
-              Get in Touch
+              {t("getInTouch")}
             </Link>
           </div>
         </div>

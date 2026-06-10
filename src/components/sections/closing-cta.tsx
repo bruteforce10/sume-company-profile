@@ -1,8 +1,11 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { OverlaySection } from "@/components/ui/overlay-section";
 
 export function ClosingCta() {
+  const t = useTranslations("Home");
+
   return (
     <OverlaySection
       id="contact"
@@ -13,14 +16,13 @@ export function ClosingCta() {
       contentClassName="sume-wrap relative z-[2] py-30 text-center"
     >
       <h2 className="mx-auto max-w-[20ch] font-head text-[clamp(34px,4.6vw,58px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-        Let&apos;s engineer your infrastructure.
+        {t("closingHeading")}
       </h2>
       <p className="mx-auto my-6 mb-10 max-w-[60ch] text-[19px] leading-[1.55] text-white/85">
-        From mission-critical power systems to data center environments, we
-        build infrastructure designed for performance, reliability, and uptime.
+        {t("closingBody")}
       </p>
       <Link href="/contact" className="sume-btn sume-btn-white">
-        Request a Consultation
+        {t("closingCta")}
         <ArrowRight className="h-[18px] w-[18px]" />
       </Link>
     </OverlaySection>

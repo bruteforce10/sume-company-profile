@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   TrendingUp,
 } from "lucide-react";
+import type { Locale } from "@/i18n/routing";
 
 export type NavChild = { label: string; href: string };
 
@@ -18,30 +19,56 @@ export type NavLink = {
   menuAlign?: "left" | "right";
 };
 
-export const navLinks: NavLink[] = [
-  { label: "Home", href: "/" },
-  {
-    label: "Solutions",
-    href: "/solutions",
-    children: [
-      { label: "Power & Energy", href: "/solutions#power" },
-      { label: "Precision Cooling & HVAC", href: "/solutions#cooling" },
-      { label: "Monitoring & Security", href: "/solutions#monitoring" },
-    ],
-  },
-  { label: "Data Center", href: "/data-center" },
-  { label: "About", href: "/about" },
-  { label: "Projects", href: "/our-project" },
-  {
-    label: "Contact",
-    href: "/contact",
-    menuAlign: "right",
-    children: [
-      { label: "Contact Us", href: "/contact" },
-      { label: "Regional Presence", href: "/regional" },
-    ],
-  },
-];
+export const navLinks: Record<Locale, NavLink[]> = {
+  en: [
+    { label: "Home", href: "/" },
+    {
+      label: "Solutions",
+      href: "/solutions",
+      children: [
+        { label: "Power & Energy", href: "/solutions#power" },
+        { label: "Precision Cooling & HVAC", href: "/solutions#cooling" },
+        { label: "Monitoring & Security", href: "/solutions#monitoring" },
+      ],
+    },
+    { label: "Data Center", href: "/data-center" },
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/our-project" },
+    {
+      label: "Contact",
+      href: "/contact",
+      menuAlign: "right",
+      children: [
+        { label: "Contact Us", href: "/contact" },
+        { label: "Regional Presence", href: "/regional" },
+      ],
+    },
+  ],
+  id: [
+    { label: "Beranda", href: "/" },
+    {
+      label: "Solusi",
+      href: "/solutions",
+      children: [
+        { label: "Kelistrikan & Energi", href: "/solutions#power" },
+        { label: "Precision Cooling & HVAC", href: "/solutions#cooling" },
+        { label: "Monitoring & Keamanan", href: "/solutions#monitoring" },
+      ],
+    },
+    { label: "Data Center", href: "/data-center" },
+    { label: "Tentang", href: "/about" },
+    { label: "Proyek", href: "/our-project" },
+    {
+      label: "Kontak",
+      href: "/contact",
+      menuAlign: "right",
+      children: [
+        { label: "Hubungi Kami", href: "/contact" },
+        { label: "Kehadiran Regional", href: "/regional" },
+      ],
+    },
+  ],
+};
 
 /** Canonical production URL — used for SEO metadata, sitemap, and robots. */
 export const siteUrl = "https://www.sumeid.com";
@@ -62,114 +89,253 @@ export const company = {
 
 /* ============ Home (SUME Group enterprise redesign) ============ */
 
+type HeroSlide = {
+  num: string;
+  label: string;
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  image: string;
+};
+
 // Hero slideshow — slides map to the four solution pillars (intruction.md §1.1)
-export const heroSlides = [
-  {
-    num: "01",
-    label: "Power",
-    eyebrow: "01 — Power",
-    title: "Critical Power, Engineered for Uptime",
-    subtitle:
-      "Standby generation, fuel monitoring, and solar — built for facilities that cannot afford to go dark.",
-    image: "/images/home/hiro-1.png",
-  },
-  {
-    num: "02",
-    label: "Cooling",
-    eyebrow: "02 — Cooling",
-    title: "Cooling That Performs Under Load",
-    subtitle:
-      "HVAC and chiller solutions engineered for continuous, high-density thermal loads.",
-    image: "/images/home/hiro-2.png",
-  },
-  {
-    num: "03",
-    label: "Monitoring",
-    eyebrow: "03 — Monitoring",
-    title: "Total Visibility Over Critical Infrastructure",
-    subtitle:
-      "Fuel monitoring, flow metering, and surveillance in one operational picture.",
-    image: "/images/home/hiro-5.png",
-  },
-  {
-    num: "04",
-    label: "Integrated",
-    eyebrow: "04 — Integrated",
-    title: "One Partner, End-to-End Infrastructure",
-    subtitle:
-      "From design to commissioning to operation — delivered as a single accountable scope.",
-    image: "/images/home/city-building.png",
-  },
-];
+export const heroSlides: Record<Locale, HeroSlide[]> = {
+  en: [
+    {
+      num: "01",
+      label: "Power",
+      eyebrow: "01 — Power",
+      title: "Critical Power, Engineered for Uptime",
+      subtitle:
+        "Standby generation, fuel monitoring, and solar — built for facilities that cannot afford to go dark.",
+      image: "/images/home/hiro-1.png",
+    },
+    {
+      num: "02",
+      label: "Cooling",
+      eyebrow: "02 — Cooling",
+      title: "Cooling That Performs Under Load",
+      subtitle:
+        "HVAC and chiller solutions engineered for continuous, high-density thermal loads.",
+      image: "/images/home/hiro-2.png",
+    },
+    {
+      num: "03",
+      label: "Monitoring",
+      eyebrow: "03 — Monitoring",
+      title: "Total Visibility Over Critical Infrastructure",
+      subtitle:
+        "Fuel monitoring, flow metering, and surveillance in one operational picture.",
+      image: "/images/home/hiro-5.png",
+    },
+    {
+      num: "04",
+      label: "Integrated",
+      eyebrow: "04 — Integrated",
+      title: "One Partner, End-to-End Infrastructure",
+      subtitle:
+        "From design to commissioning to operation — delivered as a single accountable scope.",
+      image: "/images/home/city-building.png",
+    },
+  ],
+  id: [
+    {
+      num: "01",
+      label: "Kelistrikan",
+      eyebrow: "01 — Kelistrikan",
+      title: "Daya Kritis, Direkayasa untuk Uptime",
+      subtitle:
+        "Standby generation, fuel monitoring, dan solar — dibangun untuk fasilitas yang tidak boleh padam.",
+      image: "/images/home/hiro-1.png",
+    },
+    {
+      num: "02",
+      label: "Pendinginan",
+      eyebrow: "02 — Pendinginan",
+      title: "Pendinginan yang Andal di Bawah Beban",
+      subtitle:
+        "Solusi HVAC dan chiller yang direkayasa untuk beban termal berdensitas tinggi secara terus-menerus.",
+      image: "/images/home/hiro-2.png",
+    },
+    {
+      num: "03",
+      label: "Monitoring",
+      eyebrow: "03 — Monitoring",
+      title: "Visibilitas Total atas Infrastruktur Kritis",
+      subtitle:
+        "Fuel monitoring, flow metering, dan surveillance dalam satu gambaran operasional.",
+      image: "/images/home/hiro-5.png",
+    },
+    {
+      num: "04",
+      label: "Terintegrasi",
+      eyebrow: "04 — Terintegrasi",
+      title: "Satu Mitra, Infrastruktur End-to-End",
+      subtitle:
+        "Dari desain, commissioning, hingga operasi — dihadirkan sebagai satu lingkup tanggung jawab.",
+      image: "/images/home/city-building.png",
+    },
+  ],
+};
+
+type TrustStat = {
+  value: string;
+  suffix?: string;
+  placeholder?: boolean;
+  label: string;
+};
 
 // Trust bar — figures kept as placeholders pending verification before launch (spec §1.2)
-export const trustStats = [
-  { value: "2014", suffix: "", placeholder: true, label: "Years of Operation" },
-  { value: "185", suffix: "+", placeholder: true, label: "Projects Delivered" },
-  { value: "3", label: "Countries" },
-  { value: "ISO", placeholder: true, label: "Certified & Accredited" },
-];
+export const trustStats: Record<Locale, TrustStat[]> = {
+  en: [
+    { value: "2014", suffix: "", placeholder: true, label: "Years of Operation" },
+    { value: "185", suffix: "+", placeholder: true, label: "Projects Delivered" },
+    { value: "3", label: "Countries" },
+    { value: "ISO", placeholder: true, label: "Certified & Accredited" },
+  ],
+  id: [
+    { value: "2014", suffix: "", placeholder: true, label: "Tahun Beroperasi" },
+    { value: "185", suffix: "+", placeholder: true, label: "Proyek Diselesaikan" },
+    { value: "3", label: "Negara" },
+    { value: "ISO", placeholder: true, label: "Tersertifikasi & Terakreditasi" },
+  ],
+};
 
-export const solutionsOverview = [
-  {
-    num: "01",
-    title: "Power & Energy",
-    anchor: "power",
-    description:
-      "Generators · solar PV · fuel monitoring · engine maintenance.",
-    image: "/images/home/solution-1.png",
-  },
-  {
-    num: "02",
-    title: "Precision Cooling",
-    anchor: "cooling",
-    description: "Chillers · VRF · optimization · Cooling-as-a-Service.",
-    image: "/images/home/solution-2.png",
-  },
-  {
-    num: "03",
-    title: "Monitoring & Security",
-    anchor: "monitoring",
-    description: "Flow metering · CCTV · smart control.",
-    image: "/images/home/solution-3.png",
-  },
-  {
-    num: "04",
-    title: "Integrated M&E",
-    anchor: "integrated",
-    description: "Design · install · commission · maintain.",
-    image: "/images/home/solution-4.png",
-  },
-];
+type SolutionOverview = {
+  num: string;
+  title: string;
+  anchor: string;
+  description: string;
+  image: string;
+};
 
-export const whySume = [
-  {
-    num: "01",
-    title: "Proven Track Record",
-    placeholderPrefix: "[ ]",
-    description:
-      "+ projects across commercial, industrial & mission-critical facilities.",
-  },
-  {
-    num: "02",
-    title: "Certified & Accredited",
-    description:
-      "ISO 9001 / 14001 / 45001 quality, environmental & safety standards.",
-  },
-  {
-    num: "03",
-    title: "Recognized Clients",
-    description: "Samsung · Yonex · Santika · RE/MAX · Mega Bekasi Hypermall.",
-  },
-  {
-    num: "04",
-    title: "End-to-End Accountability",
-    description:
-      "One partner across design, delivery, and lifetime maintenance.",
-  },
-];
+export const solutionsOverview: Record<Locale, SolutionOverview[]> = {
+  en: [
+    {
+      num: "01",
+      title: "Power & Energy",
+      anchor: "power",
+      description:
+        "Generators · solar PV · fuel monitoring · engine maintenance.",
+      image: "/images/home/solution-1.png",
+    },
+    {
+      num: "02",
+      title: "Precision Cooling",
+      anchor: "cooling",
+      description: "Chillers · VRF · optimization · Cooling-as-a-Service.",
+      image: "/images/home/solution-2.png",
+    },
+    {
+      num: "03",
+      title: "Monitoring & Security",
+      anchor: "monitoring",
+      description: "Flow metering · CCTV · smart control.",
+      image: "/images/home/solution-3.png",
+    },
+    {
+      num: "04",
+      title: "Integrated M&E",
+      anchor: "integrated",
+      description: "Design · install · commission · maintain.",
+      image: "/images/home/solution-4.png",
+    },
+  ],
+  id: [
+    {
+      num: "01",
+      title: "Kelistrikan & Energi",
+      anchor: "power",
+      description: "Genset · solar PV · fuel monitoring · pemeliharaan mesin.",
+      image: "/images/home/solution-1.png",
+    },
+    {
+      num: "02",
+      title: "Precision Cooling",
+      anchor: "cooling",
+      description: "Chiller · VRF · optimisasi · Cooling-as-a-Service.",
+      image: "/images/home/solution-2.png",
+    },
+    {
+      num: "03",
+      title: "Monitoring & Keamanan",
+      anchor: "monitoring",
+      description: "Flow metering · CCTV · smart control.",
+      image: "/images/home/solution-3.png",
+    },
+    {
+      num: "04",
+      title: "M&E Terintegrasi",
+      anchor: "integrated",
+      description: "Desain · pasang · commissioning · pemeliharaan.",
+      image: "/images/home/solution-4.png",
+    },
+  ],
+};
 
-// Trusted-by marquee — real logos from trusted-logo directory
+type WhySumeItem = {
+  num: string;
+  title: string;
+  placeholderPrefix?: string;
+  description: string;
+};
+
+export const whySume: Record<Locale, WhySumeItem[]> = {
+  en: [
+    {
+      num: "01",
+      title: "Proven Track Record",
+      placeholderPrefix: "[ ]",
+      description:
+        "+ projects across commercial, industrial & mission-critical facilities.",
+    },
+    {
+      num: "02",
+      title: "Certified & Accredited",
+      description:
+        "ISO 9001 / 14001 / 45001 quality, environmental & safety standards.",
+    },
+    {
+      num: "03",
+      title: "Recognized Clients",
+      description: "Samsung · Yonex · Santika · RE/MAX · Mega Bekasi Hypermall.",
+    },
+    {
+      num: "04",
+      title: "End-to-End Accountability",
+      description:
+        "One partner across design, delivery, and lifetime maintenance.",
+    },
+  ],
+  id: [
+    {
+      num: "01",
+      title: "Rekam Jejak Terbukti",
+      placeholderPrefix: "[ ]",
+      description:
+        "+ proyek di fasilitas komersial, industri & mission-critical.",
+    },
+    {
+      num: "02",
+      title: "Tersertifikasi & Terakreditasi",
+      description:
+        "Standar mutu, lingkungan & keselamatan ISO 9001 / 14001 / 45001.",
+    },
+    {
+      num: "03",
+      title: "Klien Ternama",
+      description: "Samsung · Yonex · Santika · RE/MAX · Mega Bekasi Hypermall.",
+    },
+    {
+      num: "04",
+      title: "Tanggung Jawab End-to-End",
+      description:
+        "Satu mitra untuk desain, pengerjaan, dan pemeliharaan seumur pakai.",
+    },
+  ],
+};
+
+// Trusted-by marquee — real logos from trusted-logo directory (brand names, not translated)
 export const trustedLogos = [
   { name: "ASDP", image: "/trusted-logo/asdp-logo.webp" },
   { name: "Asset 65", image: "/trusted-logo/asset-65.webp" },
@@ -194,11 +360,10 @@ export const trustedLogos = [
   { name: "Yonex", image: "/trusted-logo/yonex.webp" },
 ];
 
-export const footerOffices = [
-  "Indonesia (HQ)",
-  "Singapore",
-  "Myanmar — Yangon",
-];
+export const footerOffices: Record<Locale, string[]> = {
+  en: ["Indonesia (HQ)", "Singapore", "Myanmar — Yangon"],
+  id: ["Indonesia (HQ)", "Singapura", "Myanmar — Yangon"],
+};
 
 export const heroContent = {
   heading: {
@@ -242,14 +407,31 @@ export const aboutContent = {
   ],
 };
 
-export const contactContent = {
-  heading: "Get in Touch",
-  body: "Ready to start your next engineering project? Our experts are here to provide a detailed consultation for your specific M&E needs.",
-  items: [
-    { icon: MapPin, label: "Office", value: company.address },
-    { icon: Phone, label: "Phone", value: company.phone },
-    { icon: Mail, label: "Email", value: company.email },
-  ],
+type ContactContent = {
+  heading: string;
+  body: string;
+  items: { icon: typeof MapPin; label: string; value: string }[];
+};
+
+export const contactContent: Record<Locale, ContactContent> = {
+  en: {
+    heading: "Get in Touch",
+    body: "Ready to start your next engineering project? Our experts are here to provide a detailed consultation for your specific M&E needs.",
+    items: [
+      { icon: MapPin, label: "Office", value: company.address },
+      { icon: Phone, label: "Phone", value: company.phone },
+      { icon: Mail, label: "Email", value: company.email },
+    ],
+  },
+  id: {
+    heading: "Hubungi Kami",
+    body: "Siap memulai proyek engineering Anda berikutnya? Para ahli kami siap memberikan konsultasi mendetail untuk kebutuhan M&E spesifik Anda.",
+    items: [
+      { icon: MapPin, label: "Kantor", value: company.address },
+      { icon: Phone, label: "Telepon", value: company.phone },
+      { icon: Mail, label: "Email", value: company.email },
+    ],
+  },
 };
 
 export const whyChooseContent = {

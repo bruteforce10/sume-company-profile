@@ -2,74 +2,37 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
-import { company } from "@/constants/site";
+import { useLocale, useTranslations } from "next-intl";
+import { regionalLocations } from "@/constants/regional";
 import { cn } from "@/lib/utils";
 import "leaflet/dist/leaflet.css";
 
-type Location = {
-  id: string;
-  city: string;
-  country: string;
-  badge: string;
-  hq?: boolean;
-  address: string;
-  coords: [number, number];
-};
-
-const LOCATIONS: Location[] = [
-  {
-    id: "jakarta",
-    city: "Jakarta",
-    country: "Indonesia · HQ",
-    badge: "HQ",
-    hq: true,
-    address: company.address,
-    coords: [-6.1662, 106.8103],
-  },
-  {
-    id: "singapore",
-    city: "Singapore",
-    country: "Singapore",
-    badge: "Office",
-    address: "Regional Office · Singapore",
-    coords: [1.2776, 103.8336],
-  },
-  {
-    id: "yangon",
-    city: "Yangon",
-    country: "Myanmar",
-    badge: "Office",
-    address: "Yangon, Myanmar",
-    coords: [16.8855, 96.2519],
-  },
-  {
-    id: "mandalay",
-    city: "Mandalay",
-    country: "Myanmar",
-    badge: "Office",
-    address: "Mandalay, Myanmar",
-    coords: [21.9784, 96.0852],
-  },
-];
-
 export function RegionalMap() {
+  const locale = useLocale();
+  const t = useTranslations("RegionalMap");
+  const locations = regionalLocations[locale];
+
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const markersRef = useRef<Record<string, Marker>>({});
   const [active, setActive] = useState<string | null>(null);
 
-  const focusLoc = useCallback((id: string) => {
-    setActive(id);
-    const loc = LOCATIONS.find((item) => item.id === id);
-    const map = mapRef.current;
-    if (loc && map) {
-      map.flyTo(loc.coords, 11, { duration: 1.1 });
-      markersRef.current[id]?.openTooltip();
-    }
-  }, []);
+  const focusLoc = useCallback(
+    (id: string) => {
+      setActive(id);
+      const loc = regionalLocations[locale].find((item) => item.id === id);
+      const map = mapRef.current;
+      if (loc && map) {
+        map.flyTo(loc.coords, 11, { duration: 1.1 });
+        markersRef.current[id]?.openTooltip();
+      }
+    },
+    [locale],
+  );
 
   useEffect(() => {
     let cancelled = false;
+    const locs = regionalLocations[locale];
 
     async function initMap() {
       const L = (await import("leaflet")).default;
@@ -100,7 +63,7 @@ export function RegionalMap() {
         iconAnchor: [8, 8],
       });
 
-      LOCATIONS.forEach((loc) => {
+      locs.forEach((loc) => {
         const marker = L.marker(loc.coords, {
           icon: pulseIcon,
           title: loc.city,
@@ -115,7 +78,7 @@ export function RegionalMap() {
       });
 
       map.fitBounds(
-        LOCATIONS.map((loc) => loc.coords),
+        locs.map((loc) => loc.coords),
         { padding: [60, 60], maxZoom: 6 },
       );
     }
@@ -128,18 +91,18 @@ export function RegionalMap() {
       mapRef.current = null;
       markersRef.current = {};
     };
-  }, [focusLoc]);
+  }, [focusLoc, locale]);
 
   return (
     <div className="grid items-stretch gap-9 lg:grid-cols-[1.45fr_1fr]">
       <div
         ref={containerRef}
-        aria-label="Regional offices map"
+        aria-label={t("mapAria")}
         className="z-[1] h-[440px] w-full border border-sume-line bg-sume-mist lg:h-[560px]"
       />
 
       <div className="flex flex-col gap-3.5">
-        {LOCATIONS.map((loc) => {
+        {locations.map((loc) => {
           const isActive = active === loc.id;
           return (
             <button
@@ -166,7 +129,7 @@ export function RegionalMap() {
                       : "bg-sume-accent text-sume-blue",
                   )}
                 >
-                  {loc.badge}
+                  {loc.hq ? t("badgeHq") : t("badgeOffice")}
                 </span>
               </div>
               <div
