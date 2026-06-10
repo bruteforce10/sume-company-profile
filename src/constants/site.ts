@@ -1,12 +1,4 @@
-import {
-  Award,
-  CheckCircle2,
-  Mail,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  TrendingUp,
-} from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 
 export type NavChild = { label: string; href: string };
@@ -89,251 +81,110 @@ export const company = {
 
 /* ============ Home (SUME Group enterprise redesign) ============ */
 
-type HeroSlide = {
-  num: string;
-  label: string;
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  image: string;
-};
+// Home hero — slide copy (label/title/subtitle) is CMS-managed under the `Hero`
+// namespace; only the slide number and background image stay in code.
+export const heroSlides = [
+  {
+    num: "01",
+    image: "/images/home/hiro-1.png",
+    labelKey: "slide1Label",
+    titleKey: "slide1Title",
+    subtitleKey: "slide1Subtitle",
+  },
+  {
+    num: "02",
+    image: "/images/home/hiro-2.png",
+    labelKey: "slide2Label",
+    titleKey: "slide2Title",
+    subtitleKey: "slide2Subtitle",
+  },
+  {
+    num: "03",
+    image: "/images/home/hiro-5.png",
+    labelKey: "slide3Label",
+    titleKey: "slide3Title",
+    subtitleKey: "slide3Subtitle",
+  },
+  {
+    num: "04",
+    image: "/images/home/city-building.png",
+    labelKey: "slide4Label",
+    titleKey: "slide4Title",
+    subtitleKey: "slide4Subtitle",
+  },
+] as const;
 
-// Hero slideshow — slides map to the four solution pillars (intruction.md §1.1)
-export const heroSlides: Record<Locale, HeroSlide[]> = {
-  en: [
-    {
-      num: "01",
-      label: "Power",
-      eyebrow: "01 — Power",
-      title: "Critical Power, Engineered for Uptime",
-      subtitle:
-        "Standby generation, fuel monitoring, and solar — built for facilities that cannot afford to go dark.",
-      image: "/images/home/hiro-1.png",
-    },
-    {
-      num: "02",
-      label: "Cooling",
-      eyebrow: "02 — Cooling",
-      title: "Cooling That Performs Under Load",
-      subtitle:
-        "HVAC and chiller solutions engineered for continuous, high-density thermal loads.",
-      image: "/images/home/hiro-2.png",
-    },
-    {
-      num: "03",
-      label: "Monitoring",
-      eyebrow: "03 — Monitoring",
-      title: "Total Visibility Over Critical Infrastructure",
-      subtitle:
-        "Fuel monitoring, flow metering, and surveillance in one operational picture.",
-      image: "/images/home/hiro-5.png",
-    },
-    {
-      num: "04",
-      label: "Integrated",
-      eyebrow: "04 — Integrated",
-      title: "One Partner, End-to-End Infrastructure",
-      subtitle:
-        "From design to commissioning to operation — delivered as a single accountable scope.",
-      image: "/images/home/city-building.png",
-    },
-  ],
-  id: [
-    {
-      num: "01",
-      label: "Kelistrikan",
-      eyebrow: "01 — Kelistrikan",
-      title: "Daya Kritis, Direkayasa untuk Uptime",
-      subtitle:
-        "Standby generation, fuel monitoring, dan solar — dibangun untuk fasilitas yang tidak boleh padam.",
-      image: "/images/home/hiro-1.png",
-    },
-    {
-      num: "02",
-      label: "Pendinginan",
-      eyebrow: "02 — Pendinginan",
-      title: "Pendinginan yang Andal di Bawah Beban",
-      subtitle:
-        "Solusi HVAC dan chiller yang direkayasa untuk beban termal berdensitas tinggi secara terus-menerus.",
-      image: "/images/home/hiro-2.png",
-    },
-    {
-      num: "03",
-      label: "Monitoring",
-      eyebrow: "03 — Monitoring",
-      title: "Visibilitas Total atas Infrastruktur Kritis",
-      subtitle:
-        "Fuel monitoring, flow metering, dan surveillance dalam satu gambaran operasional.",
-      image: "/images/home/hiro-5.png",
-    },
-    {
-      num: "04",
-      label: "Terintegrasi",
-      eyebrow: "04 — Terintegrasi",
-      title: "Satu Mitra, Infrastruktur End-to-End",
-      subtitle:
-        "Dari desain, commissioning, hingga operasi — dihadirkan sebagai satu lingkup tanggung jawab.",
-      image: "/images/home/city-building.png",
-    },
-  ],
-};
+// Trust bar — figures kept as placeholders pending verification before launch
+// (spec §1.2). Value + label text is CMS-managed under `Home`; `placeholder`
+// greys the unverified figure and `suffix` is appended after the value.
+export const trustStats = [
+  { valueKey: "stat1Value", labelKey: "stat1Label", suffix: "", placeholder: true },
+  { valueKey: "stat2Value", labelKey: "stat2Label", suffix: "+", placeholder: true },
+  { valueKey: "stat3Value", labelKey: "stat3Label", suffix: "", placeholder: false },
+  { valueKey: "stat4Value", labelKey: "stat4Label", suffix: "", placeholder: true },
+] as const;
 
-type TrustStat = {
-  value: string;
-  suffix?: string;
-  placeholder?: boolean;
-  label: string;
-};
+// Solutions overview — title/description CMS-managed under `Home`; structural
+// fields (num/anchor/image) stay in code. Shared by the home section + footer.
+export const solutionsOverview = [
+  {
+    num: "01",
+    anchor: "power",
+    image: "/images/home/solution-1.png",
+    titleKey: "solution1Title",
+    descriptionKey: "solution1Description",
+  },
+  {
+    num: "02",
+    anchor: "cooling",
+    image: "/images/home/solution-2.png",
+    titleKey: "solution2Title",
+    descriptionKey: "solution2Description",
+  },
+  {
+    num: "03",
+    anchor: "monitoring",
+    image: "/images/home/solution-3.png",
+    titleKey: "solution3Title",
+    descriptionKey: "solution3Description",
+  },
+  {
+    num: "04",
+    anchor: "integrated",
+    image: "/images/home/solution-4.png",
+    titleKey: "solution4Title",
+    descriptionKey: "solution4Description",
+  },
+] as const;
 
-// Trust bar — figures kept as placeholders pending verification before launch (spec §1.2)
-export const trustStats: Record<Locale, TrustStat[]> = {
-  en: [
-    { value: "2014", suffix: "", placeholder: true, label: "Years of Operation" },
-    { value: "185", suffix: "+", placeholder: true, label: "Projects Delivered" },
-    { value: "3", label: "Countries" },
-    { value: "ISO", placeholder: true, label: "Certified & Accredited" },
-  ],
-  id: [
-    { value: "2014", suffix: "", placeholder: true, label: "Tahun Beroperasi" },
-    { value: "185", suffix: "+", placeholder: true, label: "Proyek Diselesaikan" },
-    { value: "3", label: "Negara" },
-    { value: "ISO", placeholder: true, label: "Tersertifikasi & Terakreditasi" },
-  ],
-};
-
-type SolutionOverview = {
-  num: string;
-  title: string;
-  anchor: string;
-  description: string;
-  image: string;
-};
-
-export const solutionsOverview: Record<Locale, SolutionOverview[]> = {
-  en: [
-    {
-      num: "01",
-      title: "Power & Energy",
-      anchor: "power",
-      description:
-        "Generators · solar PV · fuel monitoring · engine maintenance.",
-      image: "/images/home/solution-1.png",
-    },
-    {
-      num: "02",
-      title: "Precision Cooling",
-      anchor: "cooling",
-      description: "Chillers · VRF · optimization · Cooling-as-a-Service.",
-      image: "/images/home/solution-2.png",
-    },
-    {
-      num: "03",
-      title: "Monitoring & Security",
-      anchor: "monitoring",
-      description: "Flow metering · CCTV · smart control.",
-      image: "/images/home/solution-3.png",
-    },
-    {
-      num: "04",
-      title: "Integrated M&E",
-      anchor: "integrated",
-      description: "Design · install · commission · maintain.",
-      image: "/images/home/solution-4.png",
-    },
-  ],
-  id: [
-    {
-      num: "01",
-      title: "Kelistrikan & Energi",
-      anchor: "power",
-      description: "Genset · solar PV · fuel monitoring · pemeliharaan mesin.",
-      image: "/images/home/solution-1.png",
-    },
-    {
-      num: "02",
-      title: "Precision Cooling",
-      anchor: "cooling",
-      description: "Chiller · VRF · optimisasi · Cooling-as-a-Service.",
-      image: "/images/home/solution-2.png",
-    },
-    {
-      num: "03",
-      title: "Monitoring & Keamanan",
-      anchor: "monitoring",
-      description: "Flow metering · CCTV · smart control.",
-      image: "/images/home/solution-3.png",
-    },
-    {
-      num: "04",
-      title: "M&E Terintegrasi",
-      anchor: "integrated",
-      description: "Desain · pasang · commissioning · pemeliharaan.",
-      image: "/images/home/solution-4.png",
-    },
-  ],
-};
-
-type WhySumeItem = {
-  num: string;
-  title: string;
-  placeholderPrefix?: string;
-  description: string;
-};
-
-export const whySume: Record<Locale, WhySumeItem[]> = {
-  en: [
-    {
-      num: "01",
-      title: "Proven Track Record",
-      placeholderPrefix: "[ ]",
-      description:
-        "+ projects across commercial, industrial & mission-critical facilities.",
-    },
-    {
-      num: "02",
-      title: "Certified & Accredited",
-      description:
-        "ISO 9001 / 14001 / 45001 quality, environmental & safety standards.",
-    },
-    {
-      num: "03",
-      title: "Recognized Clients",
-      description: "Samsung · Yonex · Santika · RE/MAX · Mega Bekasi Hypermall.",
-    },
-    {
-      num: "04",
-      title: "End-to-End Accountability",
-      description:
-        "One partner across design, delivery, and lifetime maintenance.",
-    },
-  ],
-  id: [
-    {
-      num: "01",
-      title: "Rekam Jejak Terbukti",
-      placeholderPrefix: "[ ]",
-      description:
-        "+ proyek di fasilitas komersial, industri & mission-critical.",
-    },
-    {
-      num: "02",
-      title: "Tersertifikasi & Terakreditasi",
-      description:
-        "Standar mutu, lingkungan & keselamatan ISO 9001 / 14001 / 45001.",
-    },
-    {
-      num: "03",
-      title: "Klien Ternama",
-      description: "Samsung · Yonex · Santika · RE/MAX · Mega Bekasi Hypermall.",
-    },
-    {
-      num: "04",
-      title: "Tanggung Jawab End-to-End",
-      description:
-        "Satu mitra untuk desain, pengerjaan, dan pemeliharaan seumur pakai.",
-    },
-  ],
-};
+// Why SUME — title/description CMS-managed under `Home`; `placeholderPrefix` is
+// an unverified figure rendered greyed before the description (item 1 only).
+export const whySume = [
+  {
+    num: "01",
+    placeholderPrefix: "185",
+    titleKey: "why1Title",
+    descriptionKey: "why1Description",
+  },
+  {
+    num: "02",
+    placeholderPrefix: "",
+    titleKey: "why2Title",
+    descriptionKey: "why2Description",
+  },
+  {
+    num: "03",
+    placeholderPrefix: "",
+    titleKey: "why3Title",
+    descriptionKey: "why3Description",
+  },
+  {
+    num: "04",
+    placeholderPrefix: "",
+    titleKey: "why4Title",
+    descriptionKey: "why4Description",
+  },
+] as const;
 
 // Trusted-by marquee — real logos from trusted-logo directory (brand names, not translated)
 export const trustedLogos = [
@@ -365,182 +216,24 @@ export const footerOffices: Record<Locale, string[]> = {
   id: ["Indonesia (HQ)", "Singapura", "Myanmar — Yangon"],
 };
 
-export const heroContent = {
-  heading: {
-    prefix: "Modern Buildings Solution is Our ",
-    highlight: "Focus",
-  },
-  cards: [
-    {
-      icon: TrendingUp,
-      title: "Reliable Execution",
-      description:
-        "We deliver projects with precision and long-term performance.",
-      position: "left",
-    },
-    {
-      icon: Award,
-      title: "Certificate Global",
-      description: "Aligned with trusted manufacturers and certified systems.",
-      position: "right",
-    },
+type ContactItem = { icon: typeof MapPin; label: string; value: string };
+
+// Contact section — heading/body are CMS-managed under `Home`; the contact rows
+// stay in code (values sourced from `company`).
+export const contactItems: Record<Locale, ContactItem[]> = {
+  en: [
+    { icon: MapPin, label: "Office", value: company.address },
+    { icon: Phone, label: "Phone", value: company.phone },
+    { icon: Mail, label: "Email", value: company.email },
+  ],
+  id: [
+    { icon: MapPin, label: "Kantor", value: company.address },
+    { icon: Phone, label: "Telepon", value: company.phone },
+    { icon: Mail, label: "Email", value: company.email },
   ],
 };
 
-export const aboutContent = {
-  preheading: "SINCE 2014",
-  heading: "About PT. SUME",
-  body: "We specialize in providing comprehensive, integrated M&E systems that serve as the backbone for modern buildings. Our mission is to combine technical precision with innovative technology to ensure safety, efficiency, and long-term reliability.",
-  buttonLabel: "Learn More",
-  buttonHref: "#solutions",
-  points: [
-    {
-      title: "Integrated M&E Systems",
-      desc: "Complete synergy between mechanical and electrical components.",
-      icon: CheckCircle2,
-    },
-    {
-      title: "Quality & Safety Focus",
-      desc: "Strict adherence to international standards and rigorous safety protocols.",
-      icon: ShieldCheck,
-    },
-  ],
-};
-
-type ContactContent = {
-  heading: string;
-  body: string;
-  items: { icon: typeof MapPin; label: string; value: string }[];
-};
-
-export const contactContent: Record<Locale, ContactContent> = {
-  en: {
-    heading: "Get in Touch",
-    body: "Ready to start your next engineering project? Our experts are here to provide a detailed consultation for your specific M&E needs.",
-    items: [
-      { icon: MapPin, label: "Office", value: company.address },
-      { icon: Phone, label: "Phone", value: company.phone },
-      { icon: Mail, label: "Email", value: company.email },
-    ],
-  },
-  id: {
-    heading: "Hubungi Kami",
-    body: "Siap memulai proyek engineering Anda berikutnya? Para ahli kami siap memberikan konsultasi mendetail untuk kebutuhan M&E spesifik Anda.",
-    items: [
-      { icon: MapPin, label: "Kantor", value: company.address },
-      { icon: Phone, label: "Telepon", value: company.phone },
-      { icon: Mail, label: "Email", value: company.email },
-    ],
-  },
-};
-
-export const whyChooseContent = {
-  heading: "Why Choose PT. SUME",
-  description:
-    "We go beyond installation, providing a partnership focused on the long-term success of your engineering investment.",
-};
-
-export const processContent = {
-  heading: "How We Deliver Excellence",
-  description:
-    "A structured and reliable approach to delivering Mechanical and Electrical solutions - from planning to long-term performance.",
-};
-
-export const clients = [
-  { name: "REMAX", image: "/images/clients/REMAX.png", width: 308, height: 83 },
-  { name: "BCC", image: "/images/clients/bcc.png", width: 291, height: 83 },
-  { name: "BROAD", image: "/images/clients/broad.png", width: 287, height: 83 },
-  {
-    name: "Kerinduanku",
-    image: "/images/clients/kerinduanku.png",
-    width: 308,
-    height: 122,
-  },
-  {
-    name: "Pengayoman",
-    image: "/images/clients/pengayoman.png",
-    width: 111,
-    height: 122,
-  },
-  {
-    name: "Samsung",
-    image: "/images/clients/samsung.png",
-    width: 296,
-    height: 48,
-  },
-  { name: "Yonex", image: "/images/clients/yonex.png", width: 291, height: 83 },
-  {
-    name: "santika",
-    image: "/images/clients/santika.png",
-    width: 255,
-    height: 83,
-  },
-  {
-    name: "mega-utama",
-    image: "/images/clients/mega-utama.png",
-    width: 360,
-    height: 83,
-  },
-];
-
-export const solutions = [
-  {
-    title: "Air Conditioning Systems",
-    eyebrow: "Cooling Infrastructure",
-    description:
-      "Advanced VRF and chiller solutions for optimal climate control in commercial spaces.",
-    metric: "24/7 Monitoring",
-  },
-  {
-    title: "Elevators & Escalators",
-    eyebrow: "",
-    description:
-      "High-speed, energy-efficient vertical transportation systems for skyscrapers.",
-    metric: "LINVOL",
-  },
-  {
-    title: "Supporting Infrastructure",
-    eyebrow: "END-TO-END DELIVERY",
-    description:
-      "Supporting systems and integrated building components to ensure efficient and reliable operations.",
-    metric: "END-TO-END DELIVERY",
-  },
-  {
-    title: "M&E Integration",
-    eyebrow: "COMPREHENSIVE CONTROL",
-    description:
-      "Seamless coordination between all mechanical and electrical infrastructure components.",
-    metric: "COMPREHENSIVE CONTROL",
-  },
-];
-
-export const whyChooseUs = [
-  {
-    title: "Reliable Execution",
-    description:
-      "Precision-driven engineering with consistent delivery across complex, large-scale projects.",
-  },
-  {
-    title: "Certified Quality",
-    description:
-      "Aligned with international standards (ISO) and supported by certified global manufacturing partners.",
-  },
-  {
-    title: "Safety First",
-    description:
-      "Strict safety protocols embedded in every phase - from planning to execution on-site.",
-  },
-  {
-    title: "Efficient Management",
-    description:
-      "Structured project workflows ensuring timely delivery without compromising performance.",
-  },
-  {
-    title: "Sustainable Solutions",
-    description:
-      "Energy-efficient systems designed to reduce operational costs and long-term environmental impact.",
-  },
-];
+// FALSBACK CONTENT — to be removed before launch, pending verification of figures (spec §1.2)
 
 export type Project = {
   title: string;
@@ -582,32 +275,5 @@ export const projects: Project[] = [
     title: "Data Support Room",
     category: "Technology",
     location: "South Jakarta",
-  },
-];
-
-export const processSteps = [
-  {
-    step: "1",
-    title: "Engineering & Planning",
-    description:
-      "We map site conditions and prepare system recommendations, specifications, and timelines before execution begins.",
-  },
-  {
-    step: "2",
-    title: "Integrated System Execution",
-    description:
-      "Installation is delivered by coordinated teams with precise execution and progress reporting.",
-  },
-  {
-    step: "3",
-    title: "Quality & Safety Control",
-    description:
-      "Strict adherence to international standards and rigorous safety protocols at every installation stage to ensure a zero-accident project environment.",
-  },
-  {
-    step: "4",
-    title: "Long-Term Support & Maintenance",
-    description:
-      "Systems are tested, documented, and handed over with comprehensive maintenance-ready guidance for long-term reliability.",
   },
 ];

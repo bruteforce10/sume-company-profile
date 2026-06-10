@@ -1,19 +1,20 @@
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ContactForm } from "@/components/contact-form";
-import { contactContent } from "@/constants/site";
+import { contactItems } from "@/constants/site";
 
 export function Contact() {
   const locale = useLocale();
-  const content = contactContent[locale];
+  const t = useTranslations("Home");
+  const items = contactItems[locale];
 
   return (
     <section id="contact" className="bg-sume-bg-contact py-20 lg:py-32">
       <div className="section-shell grid gap-10 lg:grid-cols-[392px_1fr] lg:items-start">
         <div>
-          <h2 className="paper-heading">{content.heading}</h2>
-          <p className="mt-6 paper-body">{content.body}</p>
+          <h2 className="paper-heading">{t("contactHeading")}</h2>
+          <p className="mt-6 paper-body">{t("contactBody")}</p>
           <div className="mt-9 grid gap-5">
-            {content.items.map((item) => {
+            {items.map((item) => {
               const Icon = item.icon;
               return (
                 <div key={item.label} className="flex gap-4">

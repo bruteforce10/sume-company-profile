@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { company, heroSlides } from "@/constants/site";
@@ -10,9 +10,8 @@ import { cn } from "@/lib/utils";
 const DURATION = 6000;
 
 export function Hero() {
-  const locale = useLocale();
   const t = useTranslations("Hero");
-  const slides = heroSlides[locale];
+  const slides = heroSlides;
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export function Hero() {
     >
       {slides.map((item, index) => (
         <div
-          key={item.label}
+          key={item.num}
           aria-hidden
           className={cn(
             "absolute inset-0 transition-opacity duration-[1100ms] ease-in-out",
@@ -54,10 +53,10 @@ export function Hero() {
       <div className="sume-wrap relative z-[3] flex h-full flex-col justify-center">
         <div key={current} className="max-w-[90ch] pb-20 animate-fade-in">
           <h1 className="mt-5 max-w-[120ch]  font-head text-[clamp(38px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
-            {slide.title}
+            {t(slide.titleKey)}
           </h1>
           <p className="mt-5 max-w-[50ch] text-[clamp(17px,1.5vw,21px)] leading-[1.5] text-white/80">
-            {slide.subtitle}
+            {t(slide.subtitleKey)}
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Link href="/solutions" className="sume-btn sume-btn-primary">
@@ -79,13 +78,14 @@ export function Hero() {
         <div className="sume-wrap grid grid-cols-2 md:grid-cols-4">
           {slides.map((item, index) => {
             const isActive = index === current;
+            const label = t(item.labelKey);
 
             return (
               <button
-                key={item.label}
+                key={item.num}
                 type="button"
                 onClick={() => setCurrent(index)}
-                aria-label={t("slideAria", { label: item.label })}
+                aria-label={t("slideAria", { label })}
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
                   "group cursor-pointer pb-6 pr-6 pt-4 text-left font-head transition md:pt-[22px]",
@@ -104,7 +104,7 @@ export function Hero() {
                   {item.num}
                 </div>
                 <div className="mt-0.5 text-base font-semibold">
-                  {item.label}
+                  {label}
                 </div>
               </button>
             );

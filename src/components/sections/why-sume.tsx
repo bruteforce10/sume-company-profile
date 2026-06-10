@@ -1,11 +1,10 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { whySume } from "@/constants/site";
 
 export function WhySume() {
-  const locale = useLocale();
   const t = useTranslations("Home");
-  const items = whySume[locale];
+  const items = whySume;
 
   return (
     <section className="relative overflow-hidden py-26">
@@ -36,13 +35,13 @@ export function WhySume() {
                 {item.num}
               </div>
               <h3 className="mb-3.5 font-head text-xl font-semibold leading-[1.25] text-sume-navy">
-                {item.title}
+                {t(item.titleKey)}
               </h3>
               <p className="text-[15.5px] text-sume-body">
                 {item.placeholderPrefix ? (
                   <span className="text-sume-line">{item.placeholderPrefix}</span>
                 ) : null}
-                {item.description}
+                {t(item.descriptionKey)}
               </p>
             </div>
           ))}

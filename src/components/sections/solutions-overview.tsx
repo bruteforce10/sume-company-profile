@@ -1,13 +1,12 @@
 import { ArrowRight } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { solutionsOverview } from "@/constants/site";
 
 export function SolutionsOverview() {
-  const locale = useLocale();
   const t = useTranslations("Home");
-  const solutions = solutionsOverview[locale];
+  const solutions = solutionsOverview;
 
   return (
     <section id="solutions" className="bg-sume-mist py-26">
@@ -37,7 +36,7 @@ export function SolutionsOverview() {
                 </span>
                 <Image
                   src={solution.image}
-                  alt={solution.title}
+                  alt={t(solution.titleKey)}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -45,10 +44,10 @@ export function SolutionsOverview() {
               </div>
               <div className="p-[30px] pb-8">
                 <h3 className="mb-3 font-head text-[23px] font-semibold text-sume-navy">
-                  {solution.title}
+                  {t(solution.titleKey)}
                 </h3>
                 <p className="mb-[22px] text-base text-sume-body">
-                  {solution.description}
+                  {t(solution.descriptionKey)}
                 </p>
                 <span className="inline-flex items-center gap-2 font-head text-sm font-semibold text-sume-blue transition-all duration-200 group-hover:gap-[13px]">
                   {t("exploreSolution")}

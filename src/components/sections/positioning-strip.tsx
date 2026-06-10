@@ -1,11 +1,10 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { trustStats } from "@/constants/site";
 import { cn } from "@/lib/utils";
 
 export function PositioningStrip() {
-  const locale = useLocale();
   const t = useTranslations("Home");
-  const stats = trustStats[locale];
+  const stats = trustStats;
 
   return (
     <section id="about" className="border-b border-sume-line py-24">
@@ -25,17 +24,17 @@ export function PositioningStrip() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-[30px] pt-1.5">
           {stats.map((stat) => (
             <div
-              key={stat.label}
+              key={stat.labelKey}
               className="border-l-2 border-sume-accent pl-[18px]"
             >
               <div className="font-head text-[34px] font-semibold leading-none text-sume-navy">
                 <span className={cn(stat.placeholder && "font-medium text-sume-line")}>
-                  {stat.value}
+                  {t(stat.valueKey)}
                 </span>
                 {stat.suffix}
               </div>
               <div className="mt-2 text-sm tracking-[0.02em] text-sume-muted">
-                {stat.label}
+                {t(stat.labelKey)}
               </div>
             </div>
           ))}

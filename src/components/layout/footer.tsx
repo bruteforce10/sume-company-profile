@@ -12,6 +12,7 @@ const companyLinks = [
 export function Footer() {
   const locale = useLocale();
   const t = useTranslations("Footer");
+  const th = useTranslations("Home");
   const year = new Date().getFullYear();
 
   return (
@@ -32,12 +33,12 @@ export function Footer() {
           </div>
 
           <FooterColumn title={t("solutions")}>
-            {solutionsOverview[locale].map((solution) => (
+            {solutionsOverview.map((solution) => (
               <FooterLink
-                key={solution.title}
+                key={solution.anchor}
                 href={`/solutions#${solution.anchor}`}
               >
-                {solution.title}
+                {th(solution.titleKey)}
               </FooterLink>
             ))}
           </FooterColumn>
