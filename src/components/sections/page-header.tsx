@@ -28,12 +28,12 @@ export function PageHeader({
       overlayClassName="z-[1] bg-[linear-gradient(105deg,rgba(14,36,60,0.9)_0%,rgba(0,88,190,0.38)_60%,rgba(0,88,190,0.08)_100%)]"
       contentClassName="sume-wrap relative z-[2] pb-24 pt-[140px] sm:pb-[108px]"
     >
-      <span className="sume-eyebrow mb-[22px] inline-block text-[#7fb4ff]">
+      <h1 className="sume-eyebrow mb-[22px] inline-block text-[#7fb4ff]">
         {eyebrow}
-      </span>
-      <h1 className="max-w-[16ch] font-head text-[clamp(40px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
-        {title}
       </h1>
+      <span className="max-w-[16ch] block font-head text-[clamp(40px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
+        {title}
+      </span>
       {description ? (
         <p className="mt-[22px] max-w-[58ch] text-[clamp(17px,1.4vw,20px)] leading-[1.56] text-white/80">
           {description}

@@ -7,13 +7,55 @@ import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import { YouTubeEmbed } from "@/components/ui/youtube-embed";
-import {
-  aftersalesPoints,
-  partnerBrands,
-  solutionPillars,
-} from "@/constants/solutions";
+import { partnerBrands, solutionPillars } from "@/constants/solutions";
 import { languageAlternates } from "@/i18n/metadata";
 import type { Locale } from "@/i18n/routing";
+
+const PILLAR_KEYS = [
+  {
+    tagnum: "pillar1Tagnum",
+    eyebrow: "pillar1Eyebrow",
+    title: "pillar1Title",
+    lead: "pillar1Lead",
+    caps: [
+      { title: "pillar1Cap1Title", body: "pillar1Cap1Body" },
+      { title: "pillar1Cap2Title", body: "pillar1Cap2Body" },
+      { title: "pillar1Cap3Title", body: "pillar1Cap3Body" },
+      { title: "pillar1Cap4Title", body: "pillar1Cap4Body" },
+    ],
+  },
+  {
+    tagnum: "pillar2Tagnum",
+    eyebrow: "pillar2Eyebrow",
+    title: "pillar2Title",
+    lead: "pillar2Lead",
+    caps: [
+      { title: "pillar2Cap1Title", body: "pillar2Cap1Body" },
+      { title: "pillar2Cap2Title", body: "pillar2Cap2Body" },
+      { title: "pillar2Cap3Title", body: "pillar2Cap3Body" },
+    ],
+  },
+  {
+    tagnum: "pillar3Tagnum",
+    eyebrow: "pillar3Eyebrow",
+    title: "pillar3Title",
+    lead: "pillar3Lead",
+    caps: [
+      { title: "pillar3Cap1Title", body: "pillar3Cap1Body" },
+      { title: "pillar3Cap2Title", body: "pillar3Cap2Body" },
+      { title: "pillar3Cap3Title", body: "pillar3Cap3Body" },
+    ],
+  },
+] as const;
+
+const AFTERSALES_POINT_KEYS = [
+  { bold: "aftersalesPoint1Bold", rest: "aftersalesPoint1Rest" },
+  { bold: "aftersalesPoint2Bold", rest: "aftersalesPoint2Rest" },
+  { bold: "aftersalesPoint3Bold", rest: "aftersalesPoint3Rest" },
+  { bold: "aftersalesPoint4Bold", rest: "aftersalesPoint4Rest" },
+  { bold: "aftersalesPoint5Bold", rest: "aftersalesPoint5Rest" },
+  { bold: "aftersalesPoint6Bold", rest: "aftersalesPoint6Rest" },
+] as const;
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -39,7 +81,10 @@ export async function generateMetadata({
 
 function brandInitials(name: string) {
   if (name === "+ more") return "…";
-  return name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
+  return name
+    .replace(/[^A-Za-z]/g, "")
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 export default async function SolutionsPage({ params }: PageProps) {
@@ -57,111 +102,116 @@ export default async function SolutionsPage({ params }: PageProps) {
       />
 
       {/* ── Pillars ──────────────────────────────────────────────── */}
-      {solutionPillars[loc].map((pillar, index) => (
-        <section
-          key={pillar.id}
-          id={pillar.id}
-          className={`scroll-mt-20 border-b border-sume-line py-26 ${
-            index % 2 === 1 ? "bg-sume-mist" : "bg-white"
-          }`}
-        >
-          <div className="sume-wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-[72px]">
-            <div className={`flex flex-col gap-6 w-full ${pillar.flip ? "lg:order-2" : ""}`}>
-              <div className="sume-chamfer relative aspect-[4/3] w-full overflow-hidden">
-                <span className="absolute left-[18px] top-[18px] z-[2] rounded-[2px] bg-sume-navy/[0.78] px-[13px] py-[7px] font-head text-[12px] font-semibold tracking-[0.16em] text-white">
-                  {pillar.tagnum}
-                </span>
-                <Image
-                  src={pillar.image}
-                  alt={pillar.eyebrow}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-
-              {pillar.id === "power" && (
-                <div className="w-full overflow-hidden border border-sume-line flex bg-white">
-                  <img
-                    src="/power-aftersales-service.webp"
-                    alt="Power Aftersales Service"
-                    className="w-full h-auto"
+      {solutionPillars.map((pillar, index) => {
+        const keys = PILLAR_KEYS[index as 0 | 1 | 2];
+        return (
+          <section
+            key={pillar.id}
+            id={pillar.id}
+            className={`scroll-mt-20 border-b border-sume-line py-26 ${
+              index % 2 === 1 ? "bg-sume-mist" : "bg-white"
+            }`}
+          >
+            <div className="sume-wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-[72px]">
+              <div
+                className={`flex flex-col gap-6 w-full ${pillar.flip ? "lg:order-2" : ""}`}
+              >
+                <div className="sume-chamfer relative aspect-[4/3] w-full overflow-hidden">
+                  <span className="absolute left-[18px] top-[18px] z-[2] rounded-[2px] bg-sume-navy/[0.78] px-[13px] py-[7px] font-head text-[12px] font-semibold tracking-[0.16em] text-white">
+                    {t(keys.tagnum)}
+                  </span>
+                  <Image
+                    src={pillar.image}
+                    alt={t(keys.eyebrow)}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover"
                   />
                 </div>
-              )}
-            </div>
 
-            <div>
-              <span className="sume-eyebrow mb-4 block">{pillar.eyebrow}</span>
-              <h2 className="mb-[18px] font-head text-[clamp(28px,3vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
-                {pillar.title}
-              </h2>
-              <p className="mb-[34px] max-w-[46ch] text-[17.5px] leading-[1.6] text-sume-body">
-                {pillar.lead}
-              </p>
+                {pillar.id === "power" && (
+                  <div className="w-full overflow-hidden border border-sume-line flex bg-white">
+                    <img
+                      src="/power-aftersales-service.webp"
+                      alt="Power Aftersales Service"
+                      className="w-full h-auto"
+                    />
+                  </div>
+                )}
+              </div>
 
-              <ul className="flex flex-col">
-                {pillar.caps.map((cap, capIndex) => (
-                  <li
-                    key={cap.title}
-                    className={`flex gap-[18px] border-t border-sume-line py-5 ${
-                      capIndex === pillar.caps.length - 1
-                        ? "border-b border-sume-line"
-                        : ""
-                    }`}
-                  >
-                    <span className="mt-[9px] h-2 w-2 flex-none rounded-full bg-sume-blue" />
-                    <div>
-                      <h4 className="mb-[5px] font-head text-[17px] font-semibold text-sume-navy">
-                        {cap.title}
-                      </h4>
-                      <p className="text-[15px] leading-[1.55] text-sume-body">
-                        {cap.body}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <h2 className="sume-eyebrow mb-4 block">{t(keys.eyebrow)}</h2>
+                <span className="mb-[18px] block font-head text-[clamp(28px,3vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+                  {t(keys.title)}
+                </span>
+                <p className="mb-[34px] max-w-[46ch] text-[17.5px] leading-[1.6] text-sume-body">
+                  {t(keys.lead)}
+                </p>
 
-              {pillar.id === "power" ? (
-                <div className="mt-[34px] border border-l-[3px] border-sume-line border-l-sume-blue bg-white p-7 sm:px-[30px]">
-                  <h3 className="mb-1.5 font-head text-[18px] font-semibold text-sume-navy">
-                    {t("aftersalesTitle")}
-                  </h3>
-                  <p className="mb-5 max-w-[50ch] text-[14.5px] leading-[1.55] text-sume-body">
-                    {t("aftersalesBody")}
-                  </p>
-                  <ul className="grid gap-3.5">
-                    {aftersalesPoints[loc].map((item) => (
-                      <li
-                        key={item.bold}
-                        className="flex gap-[13px] text-[14.5px] leading-[1.5] text-sume-body"
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="mt-0.5 h-[18px] w-[18px] flex-none stroke-sume-blue"
+                <ul className="flex flex-col">
+                  {keys.caps.map((cap, capIndex) => (
+                    <li
+                      key={cap.title}
+                      className={`flex gap-[18px] border-t border-sume-line py-5 ${
+                        capIndex === keys.caps.length - 1
+                          ? "border-b border-sume-line"
+                          : ""
+                      }`}
+                    >
+                      <span className="mt-[9px] h-2 w-2 flex-none rounded-full bg-sume-blue" />
+                      <div>
+                        <h3 className="mb-[5px] font-head text-[17px] font-semibold text-sume-navy">
+                          {t(cap.title)}
+                        </h3>
+                        <p className="text-[15px] leading-[1.55] text-sume-body">
+                          {t(cap.body)}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                {pillar.id === "power" ? (
+                  <div className="mt-[34px] border border-l-[3px] border-sume-line border-l-sume-blue bg-white p-7 sm:px-[30px]">
+                    <h3 className="mb-1.5 font-head text-[18px] font-semibold text-sume-navy">
+                      {t("aftersalesTitle")}
+                    </h3>
+                    <p className="mb-5 max-w-[50ch] text-[14.5px] leading-[1.55] text-sume-body">
+                      {t("aftersalesBody")}
+                    </p>
+                    <ul className="grid gap-3.5">
+                      {AFTERSALES_POINT_KEYS.map((point) => (
+                        <li
+                          key={point.bold}
+                          className="flex gap-[13px] text-[14.5px] leading-[1.5] text-sume-body"
                         >
-                          <polyline points="20,6 9,17 4,12" />
-                        </svg>
-                        <span>
-                          <b className="font-semibold text-sume-navy">
-                            {item.bold}
-                          </b>
-                          {item.rest}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="mt-0.5 h-[18px] w-[18px] flex-none stroke-sume-blue"
+                          >
+                            <polyline points="20,6 9,17 4,12" />
+                          </svg>
+                          <span>
+                            <b className="font-semibold text-sume-navy">
+                              {t(point.bold)}
+                            </b>
+                            {t(point.rest)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
             </div>
-          </div>
-        </section>
-      ))}
+          </section>
+        );
+      })}
 
       {/* ── Yuchai Industrial Plant Video ────────────────────────── */}
       <section
@@ -170,12 +220,12 @@ export default async function SolutionsPage({ params }: PageProps) {
       >
         <div className="sume-wrap grid items-center gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
           <div>
-            <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
+            <h2 className="sume-eyebrow mb-4 block text-[#7fb4ff]">
               {t("yuchaiEyebrow")}
-            </span>
-            <h2 className="mb-[18px] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-              {t("yuchaiHeading")}
             </h2>
+            <span className="mb-[18px] block  font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+              {t("yuchaiHeading")}
+            </span>
             <p className="mb-7 max-w-[46ch] text-[17.5px] leading-[1.6] text-white/[0.7]">
               {t("yuchaiBody")}
             </p>
@@ -205,36 +255,31 @@ export default async function SolutionsPage({ params }: PageProps) {
         overlayClassName="bg-[linear-gradient(90deg,#fff_0%,rgba(255,255,255,0.92)_38%,rgba(248,251,255,0.55)_70%,rgba(248,251,255,0.1)_100%)]"
       >
         <div className="max-w-[620px]">
-          <span className="sume-eyebrow mb-4 block">
-            {t("integratedEyebrow")}
-          </span>
-          <h2 className="mb-5 font-head text-[clamp(30px,3.4vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-sume-navy">
+          <h2 className="sume-eyebrow mb-4 block">{t("integratedEyebrow")}</h2>
+          <span className="mb-5 block font-head text-[clamp(30px,3.4vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-sume-navy">
             {t("integratedHeading")}
-          </h2>
-          <p className="mb-3.5 max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
-            {t.rich("integratedP1", {
+          </span>
+          <div className="max-w-[44ch] whitespace-pre-line text-[18px] leading-[1.6] text-sume-body">
+            {t.rich("integratedBody", {
               strong: (chunks) => (
                 <strong className="font-semibold text-sume-navy">
                   {chunks}
                 </strong>
               ),
             })}
-          </p>
-          <p className="max-w-[44ch] text-[18px] leading-[1.6] text-sume-body">
-            {t("integratedP2")}
-          </p>
+          </div>
         </div>
       </OverlaySection>
 
       {/* ── Capabilities & Brands ────────────────────────────────── */}
       <section className="relative overflow-hidden bg-sume-navy py-26">
         <div className="sume-wrap">
-          <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
+          <h2 className="sume-eyebrow mb-4 block text-[#7fb4ff]">
             {t("brandsEyebrow")}
-          </span>
-          <h2 className="max-w-[20ch] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-            {t("brandsHeading")}
           </h2>
+          <span className="max-w-[20ch] block font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+            {t("brandsHeading")}
+          </span>
           <p className="mb-13 mt-3.5 max-w-[48ch] text-[17px] leading-[1.55] text-white/[0.68]">
             {t("brandsBody")}
           </p>
@@ -251,7 +296,9 @@ export default async function SolutionsPage({ params }: PageProps) {
                     alt={brand.name}
                     fill
                     className={`object-contain mix-blend-multiply opacity-90 transition duration-300 group-hover:scale-105 group-hover:opacity-100 ${
-                      "className" in brand && brand.className ? brand.className : "p-6"
+                      "className" in brand && brand.className
+                        ? brand.className
+                        : "p-6"
                     }`}
                   />
                 ) : (

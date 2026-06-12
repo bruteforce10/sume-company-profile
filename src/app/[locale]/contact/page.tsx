@@ -67,9 +67,9 @@ export default async function ContactPage({ params }: PageProps) {
                       {item.icon}
                     </div>
                     <div>
-                      <div className="mb-[5px] font-head text-[12px] font-semibold uppercase tracking-[0.16em] text-sume-muted">
+                      <h3 className="mb-[5px] font-head text-[12px] font-semibold uppercase tracking-[0.16em] text-sume-muted">
                         {item.label}
-                      </div>
+                      </h3>
                       <div className="text-[15.5px] font-medium leading-[1.5] text-sume-navy">
                         {item.value}
                       </div>
@@ -91,10 +91,10 @@ export default async function ContactPage({ params }: PageProps) {
           {/* Map */}
           <div className="mt-20 border-t border-sume-line">
             <div className="mb-8 pt-13">
-              <span className="sume-eyebrow mb-3.5 block">{t("mapEyebrow")}</span>
-              <h2 className="font-head text-[clamp(22px,2.4vw,32px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+              <h2 className="sume-eyebrow mb-3.5 block">{t("mapEyebrow")}</h2>
+              <span className="font-head block text-[clamp(22px,2.4vw,32px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
                 {t("mapHeading")}
-              </h2>
+              </span>
               <p className="mt-2.5 text-[16px] text-sume-body">
                 {company.address}, Indonesia
               </p>

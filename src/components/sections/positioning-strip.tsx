@@ -11,13 +11,14 @@ export function PositioningStrip() {
       <div className="sume-wrap grid items-start gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-[72px]">
         <div>
           <h2 className="font-head text-[clamp(26px,2.6vw,38px)] font-semibold leading-[1.22] text-sume-navy">
-            <b className="font-semibold text-sume-blue">
-              {t("positioningHeadingStrong")}
-            </b>{" "}
-            {t("positioningHeadingRest")}
+            {t.rich("tagline", {
+              strong: (chunks) => (
+                <b className="font-semibold text-sume-blue">{chunks}</b>
+              ),
+            })}
           </h2>
           <p className="mt-6 max-w-[54ch] text-lg text-sume-body">
-            {t("positioningBody")}
+            {t("description")}
           </p>
         </div>
 
@@ -28,9 +29,14 @@ export function PositioningStrip() {
               className="border-l-2 border-sume-accent pl-[18px]"
             >
               <div className="font-head text-[34px] font-semibold leading-none text-sume-navy">
-                <span className={cn(stat.placeholder && "font-medium text-sume-line")}>
+                <h3
+                  className={cn(
+                    stat.placeholder &&
+                      "font-medium text-sume-line inline-block",
+                  )}
+                >
                   {t(stat.valueKey)}
-                </span>
+                </h3>
                 {stat.suffix}
               </div>
               <div className="mt-2 text-sm tracking-[0.02em] text-sume-muted">

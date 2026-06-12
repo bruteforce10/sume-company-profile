@@ -90,7 +90,7 @@ export function LocaleSwitcher({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={t("label")}
-        className="flex items-center gap-1.5 rounded-[2px]  bg-white/60 px-3 py-2 font-head text-[14px] font-semibold text-sume-navy backdrop-blur-sm transition hover:border-sume-blue hover:text-sume-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sume-blue "
+        className="flex items-center gap-1.5 rounded-[2px] px-3 py-2 font-head text-[14px] font-semibold text-sume-navy  transition hover:border-sume-blue hover:text-sume-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sume-blue "
       >
         <Globe className="h-4 w-4 text-sume-muted" />
         <span className="uppercase tracking-[0.04em]">{activeLocale}</span>
@@ -105,7 +105,7 @@ export function LocaleSwitcher({
       <div
         role="listbox"
         className={cn(
-          "absolute right-0 top-full z-50 mt-2 min-w-[176px] overflow-hidden rounded-[3px] border border-sume-line bg-white py-1.5 shadow-[0_18px_44px_-20px_rgba(14,36,60,0.45)] transition-all duration-150",
+          "absolute right-0 top-full z-50 mt-2 min-w-[176px] overflow-hidden rounded-[3px] bg-white border border-sume-line  py-1.5 shadow-[0_18px_44px_-20px_rgba(14,36,60,0.45)] transition-all duration-150",
           open
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0",

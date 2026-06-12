@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useMemo, useState } from "react";
+import { Fragment, useActionState, useEffect, useMemo, useState } from "react";
 import { ChevronDownIcon, SaveIcon, SearchIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
@@ -19,38 +19,33 @@ function fieldMatches(field: EditorField, namespace: string, q: string) {
     field.key.toLowerCase().includes(q) ||
     field.id.toLowerCase().includes(q) ||
     field.en.toLowerCase().includes(q) ||
-    namespace.toLowerCase().includes(q)
+    namespace.toLowerCase().includes(q) ||
+    field.sourceNamespace.toLowerCase().includes(q)
   );
 }
 
 function NamespaceForm({ data, query }: { data: EditorNamespace; query: string }) {
   const [state, formAction, pending] = useActionState(saveNamespace, initialState);
-  // Track unsaved edits so the floating bar can reflect status and avoid
-  // redundant saves.
   const [dirty, setDirty] = useState(false);
   const [savedTs, setSavedTs] = useState(0);
 
-  // A new successful save lands → clear the dirty flag. Adjusting state during
-  // render (guarded by the save timestamp) is React's recommended alternative
-  // to calling setState inside an effect.
   if (state.ok && state.ts !== savedTs) {
     setSavedTs(state.ts);
     setDirty(false);
   }
 
-  // Surface the action result as a toast (a genuine external side effect).
   useEffect(() => {
     if (!state.ts) return;
     if (state.ok) toast.success(`"${data.namespace}" tersimpan.`);
     else if (state.error) toast.error(state.error);
   }, [state.ts, state.ok, state.error, data.namespace]);
 
+  const hasSubGroups =
+    data.fields.length > 0 &&
+    data.fields.some((f) => f.sourceNamespace !== data.fields[0]!.sourceNamespace);
+
   return (
-    <form
-      action={formAction}
-      onInput={() => setDirty(true)}
-      className="animate-fade-in"
-    >
+    <form action={formAction} onInput={() => setDirty(true)} className="animate-fade-in">
       <input type="hidden" name="namespace" value={data.namespace} />
 
       <div className="flex flex-col gap-5 px-4 pt-4 pb-4">
@@ -59,35 +54,75 @@ function NamespaceForm({ data, query }: { data: EditorNamespace; query: string }
           <span>English</span>
         </div>
 
-        {data.fields.map((field) => (
-          <div
-            key={field.key}
-            className={cn(
-              "flex flex-col gap-2",
-              !fieldMatches(field, data.namespace, query) && "hidden",
-            )}
-          >
-            <label className="font-mono text-[11px] font-medium text-sume-muted">
-              {field.key}
-            </label>
-            <div className="grid gap-3 md:grid-cols-2">
-              <textarea
-                name={`field:id:${field.key}`}
-                defaultValue={field.id}
-                aria-label={`${field.key} — Bahasa Indonesia`}
-                rows={field.isLong ? 3 : 2}
-                className={textareaClass}
-              />
-              <textarea
-                name={`field:en:${field.key}`}
-                defaultValue={field.en}
-                aria-label={`${field.key} — English`}
-                rows={field.isLong ? 3 : 2}
-                className={textareaClass}
-              />
-            </div>
-          </div>
-        ))}
+        {data.fields.map((field, index) => {
+          const prevField = index > 0 ? data.fields[index - 1] : null;
+          const isFirstOfSubNs =
+            hasSubGroups &&
+            (index === 0 || field.sourceNamespace !== prevField!.sourceNamespace);
+          const rows = field.rich ? 6 : field.isLong ? 3 : 2;
+
+          return (
+            <Fragment key={`${field.sourceNamespace}:${field.key}`}>
+              {isFirstOfSubNs && !query && (
+                <div
+                  className={cn(
+                    "flex items-center gap-2.5",
+                    index > 0 && "mt-2 border-t border-sume-line pt-4",
+                  )}
+                >
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-sume-blue/70">
+                    {field.sourceNamespace}
+                  </span>
+                  {index === 0 && <div className="h-px flex-1 bg-sume-line" />}
+                </div>
+              )}
+              <div
+                className={cn(
+                  "flex flex-col gap-2",
+                  !fieldMatches(field, data.namespace, query) && "hidden",
+                )}
+              >
+                {field.label === field.key ? (
+                  <label className="font-mono text-[11px] font-medium text-sume-muted">
+                    {field.key}
+                  </label>
+                ) : (
+                  <div className="flex flex-col gap-0.5">
+                    <label className="text-[12.5px] font-semibold text-sume-ink">
+                      {field.label}
+                    </label>
+                    <span className="font-mono text-[10.5px] text-sume-muted/70">
+                      {field.key}
+                    </span>
+                  </div>
+                )}
+                <div className="grid gap-3 md:grid-cols-2">
+                  <textarea
+                    name={`field:id:${field.sourceNamespace}:${field.key}`}
+                    defaultValue={field.id}
+                    aria-label={`${field.label} — Bahasa Indonesia`}
+                    rows={rows}
+                    className={textareaClass}
+                  />
+                  <textarea
+                    name={`field:en:${field.sourceNamespace}:${field.key}`}
+                    defaultValue={field.en}
+                    aria-label={`${field.label} — English`}
+                    rows={rows}
+                    className={textareaClass}
+                  />
+                </div>
+                {field.rich ? (
+                  <p className="text-[11.5px] text-sume-muted">
+                    Tag <code className="font-mono">{"<strong>…</strong>"}</code> dan{" "}
+                    <code className="font-mono">{"<ph>…</ph>"}</code> tetap didukung dan akan
+                    dirender sebagai format pada halaman.
+                  </p>
+                ) : null}
+              </div>
+            </Fragment>
+          );
+        })}
       </div>
 
       {/* Floating save bar — sticks to the bottom of the viewport while you
@@ -138,11 +173,11 @@ function NamespaceSection({
     ? data.fields.filter((f) => fieldMatches(f, data.namespace, q)).length
     : data.fields.length;
 
-  // An active search force-expands matching sections so hits are visible.
   const expanded = q ? true : open;
 
   return (
     <section
+      id={`ns-${data.namespace}`}
       className={cn(
         "rounded-[2px] border border-sume-line bg-white",
         !nsHasMatch && "hidden",
@@ -187,6 +222,9 @@ export function MessagesEditor({ data }: { data: EditorNamespace[] }) {
   const [openSet, setOpenSet] = useState<Set<string>>(
     () => new Set(allNamespaces),
   );
+  const [activeNs, setActiveNs] = useState<string | null>(
+    data[0]?.namespace ?? null,
+  );
 
   const matchCount = useMemo(() => {
     if (!q) return null;
@@ -207,6 +245,27 @@ export function MessagesEditor({ data }: { data: EditorNamespace[] }) {
       return next;
     });
   }
+
+  // Track the section currently in the viewport for the sidebar active indicator.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveNs(entry.target.id.replace(/^ns-/, ""));
+          }
+        }
+      },
+      { rootMargin: "-10% 0px -78% 0px" },
+    );
+
+    for (const ns of data) {
+      const el = document.getElementById(`ns-${ns.namespace}`);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  }, [data]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -240,17 +299,40 @@ export function MessagesEditor({ data }: { data: EditorNamespace[] }) {
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-3">
-        {data.map((ns) => (
-          <NamespaceSection
-            key={ns.namespace}
-            data={ns}
-            query={q}
-            q={q}
-            open={openSet.has(ns.namespace)}
-            onToggle={() => toggle(ns.namespace)}
-          />
-        ))}
+      <div className="flex gap-6">
+        {/* Sidebar navigation — visible on lg+ screens */}
+        <aside className="hidden lg:block w-40 shrink-0">
+          <nav className="sticky top-[84px] flex flex-col gap-0.5 max-h-[calc(100vh-100px)] overflow-y-auto">
+            {data.map((ns) => (
+              <a
+                key={ns.namespace}
+                href={`#ns-${ns.namespace}`}
+                className={cn(
+                  "block rounded-[2px] px-3 py-1.5 font-head text-[12.5px] font-medium transition",
+                  activeNs === ns.namespace
+                    ? "bg-sume-bg-blue-soft text-sume-blue"
+                    : "text-sume-muted hover:bg-sume-mist/50 hover:text-sume-ink",
+                )}
+              >
+                {ns.namespace}
+              </a>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Namespace sections */}
+        <div className="flex flex-1 min-w-0 flex-col gap-3">
+          {data.map((ns) => (
+            <NamespaceSection
+              key={ns.namespace}
+              data={ns}
+              query={q}
+              q={q}
+              open={openSet.has(ns.namespace)}
+              onToggle={() => toggle(ns.namespace)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

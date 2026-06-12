@@ -19,10 +19,10 @@ export function WhySume() {
 
       <div className="sume-wrap relative z-[1]">
         <div className="mb-13">
-          <span className="sume-eyebrow mb-4 block">{t("whyEyebrow")}</span>
-          <h2 className="font-head text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+          <h2 className="sume-eyebrow mb-4 block">{t("whyEyebrow")}</h2>
+          <span className="font-head block text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
             {t("whyHeading")}
-          </h2>
+          </span>
         </div>
 
         <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
@@ -39,7 +39,9 @@ export function WhySume() {
               </h3>
               <p className="text-[15.5px] text-sume-body">
                 {item.placeholderPrefix ? (
-                  <span className="text-sume-line">{item.placeholderPrefix}</span>
+                  <span className="text-sume-line">
+                    {item.placeholderPrefix}
+                  </span>
                 ) : null}
                 {t(item.descriptionKey)}
               </p>

@@ -22,12 +22,12 @@ export function DataCenterTeaser() {
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,36,60,0.94),rgba(14,36,60,0.6))]" />
 
       <div className="sume-wrap relative z-[2]">
-        <span className="sume-eyebrow mb-5 block text-[#7fb4ff]">
+        <h2 className="sume-eyebrow mb-5 block text-[#7fb4ff]">
           {t("dataCenterEyebrow")}
-        </span>
-        <h2 className="max-w-[18ch] font-head text-[clamp(32px,4.4vw,56px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-          {t("dataCenterHeading")}
         </h2>
+        <span className="max-w-[18ch] block font-head text-[clamp(32px,4.4vw,56px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+          {t("dataCenterHeading")}
+        </span>
         <p className="my-6 max-w-[54ch] text-xl text-white/80">
           {t("dataCenterBody")}
         </p>

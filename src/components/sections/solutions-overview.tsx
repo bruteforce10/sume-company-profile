@@ -13,10 +13,10 @@ export function SolutionsOverview() {
       <div className="sume-wrap">
         <div className="mb-13 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div>
-            <span className="sume-eyebrow mb-4 block">{t("solutionsEyebrow")}</span>
-            <h2 className="font-head text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+            <h2 className="sume-eyebrow mb-4 block">{t("exploreSolutions")}</h2>
+            <span className="font-head text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
               {t("solutionsHeading")}
-            </h2>
+            </span>
           </div>
           <p className="max-w-[42ch] text-lg text-sume-body">
             {t("solutionsBody")}

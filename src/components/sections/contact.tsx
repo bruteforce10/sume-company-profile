@@ -4,7 +4,7 @@ import { contactItems } from "@/constants/site";
 
 export function Contact() {
   const locale = useLocale();
-  const t = useTranslations("Home");
+  const t = useTranslations("ContactPage");
   const items = contactItems[locale];
 
   return (

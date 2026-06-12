@@ -7,10 +7,13 @@ import { createClient } from "@/lib/supabase/server";
 
 export type SaveState = { ok: boolean; error: string | null; ts: number };
 
-const FIELD = /^field:(id|en):(.+)$/;
+// Field name format: field:{locale}:{sourceNamespace}:{key}
+const FIELD = /^field:(id|en):([^:]+):(.+)$/;
 
-// Saves every translation cell for one namespace. Admin is re-verified here —
-// proxy gating alone is not sufficient for server actions.
+// Saves every translation cell in a form section. Each field name encodes its
+// source namespace so merged sections (e.g. Hero + Home) upsert to the correct
+// DB namespace per field. Admin is re-verified here — proxy gating alone is
+// not sufficient for server actions.
 export async function saveNamespace(
   _prev: SaveState,
   formData: FormData,
@@ -34,8 +37,8 @@ export async function saveNamespace(
     const match = FIELD.exec(name);
     if (!match) continue;
     rows.push({
-      namespace,
-      key: match[2],
+      namespace: match[2], // sourceNamespace encoded in the field name
+      key: match[3],
       locale: match[1] as "id" | "en",
       value: String(value),
       updated_by: claims?.sub,

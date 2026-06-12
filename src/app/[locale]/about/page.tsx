@@ -5,9 +5,32 @@ import { Link } from "@/i18n/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { OverlaySection } from "@/components/ui/overlay-section";
-import { certifications, milestones, whatSetsApart } from "@/constants/about";
+import { certificationIcons, milestoneYears } from "@/constants/about";
 import { languageAlternates } from "@/i18n/metadata";
 import type { Locale } from "@/i18n/routing";
+
+const MILESTONE_EVENT_KEYS = [
+  "milestone1Event",
+  "milestone2Event",
+  "milestone3Event",
+  "milestone4Event",
+  "milestone5Event",
+  "milestone6Event",
+] as const;
+
+const APART_CARD_KEYS = [
+  { title: "apart1Title", body: "apart1Body" },
+  { title: "apart2Title", body: "apart2Body" },
+  { title: "apart3Title", body: "apart3Body" },
+  { title: "apart4Title", body: "apart4Body" },
+] as const;
+
+const CERT_KEYS = [
+  { name: "cert1Name", detail: "cert1Detail" },
+  { name: "cert2Name", detail: "cert2Detail" },
+  { name: "cert3Name", detail: "cert3Detail" },
+  { name: "cert4Name", detail: "cert4Detail" },
+] as const;
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -49,28 +72,26 @@ export default async function AboutPage({ params }: PageProps) {
       <section className="border-b border-sume-line py-26">
         <div className="sume-wrap grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-[72px]">
           <div>
-            <span className="sume-eyebrow mb-[18px] block">
+            <h2 className="sume-eyebrow mb-[18px] block">
               {t("whoWeAreEyebrow")}
-            </span>
-            <h2 className="font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.2] tracking-[-0.02em] text-sume-navy">
-              {t("whoWeAreHeading")}
             </h2>
+            <span className="font-head block text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.2] tracking-[-0.02em] text-sume-navy">
+              {t("whoWeAreHeading")}
+            </span>
           </div>
-          <div className="max-w-[56ch] space-y-[22px] text-[18px] leading-[1.7] text-sume-body">
-            <p>{t("missionP1")}</p>
-            <p>
-              {t.rich("missionP2", {
-                ph: (chunks) => (
-                  <span className="font-semibold text-sume-muted">{chunks}</span>
-                ),
-                strong: (chunks) => (
-                  <strong className="font-semibold text-sume-navy">
-                    {chunks}
-                  </strong>
-                ),
-              })}
-            </p>
-            <p>{t("missionP3")}</p>
+          <div className="max-w-[56ch] whitespace-pre-line text-[18px] leading-[1.7] text-sume-body">
+            {t.rich("whoWeAreBody", {
+              ph: (chunks) => (
+                <span className="font-semibold text-sume-muted">
+                  {chunks}
+                </span>
+              ),
+              strong: (chunks) => (
+                <strong className="font-semibold text-sume-navy">
+                  {chunks}
+                </strong>
+              ),
+            })}
           </div>
         </div>
       </section>
@@ -79,10 +100,10 @@ export default async function AboutPage({ params }: PageProps) {
       <section className="border-b border-sume-line bg-sume-mist py-26">
         <div className="sume-wrap">
           <div className="mb-15">
-            <span className="sume-eyebrow mb-4 block">{t("journeyEyebrow")}</span>
-            <h2 className="max-w-[20ch] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+            <h2 className="sume-eyebrow mb-4 block">{t("journeyEyebrow")}</h2>
+            <span className="max-w-[20ch] block font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
               {t("journeyHeading")}
-            </h2>
+            </span>
             <p className="mt-3.5 text-[13.5px] italic text-sume-muted">
               {t("journeyNote")}
             </p>
@@ -94,7 +115,7 @@ export default async function AboutPage({ params }: PageProps) {
             <div className="absolute bottom-2 left-[11px] top-0 w-0.5 bg-sume-line lg:hidden" />
 
             <div className="grid gap-y-9 lg:grid-cols-6 lg:gap-y-0">
-              {milestones[loc].map((m, index) => (
+              {milestoneYears.map((year, index) => (
                 <div
                   key={index}
                   className="relative pl-11 lg:pl-0 lg:pr-[18px]"
@@ -103,10 +124,10 @@ export default async function AboutPage({ params }: PageProps) {
                     <span className="h-[9px] w-[9px] rounded-full bg-sume-blue" />
                   </div>
                   <div className="font-head text-[22px] font-semibold tracking-[-0.01em] text-sume-navy lg:mt-6">
-                    <span className="text-sume-line">{m.year}</span>
+                    <h3 className="text-sume-line">{year}</h3>
                   </div>
                   <div className="mt-2 text-[14.5px] leading-[1.5] text-sume-body lg:max-w-[22ch]">
-                    {m.event}
+                    {t(MILESTONE_EVENT_KEYS[index])}
                   </div>
                 </div>
               ))}
@@ -119,26 +140,26 @@ export default async function AboutPage({ params }: PageProps) {
       <section className="border-b border-sume-line py-26">
         <div className="sume-wrap">
           <div className="mb-13">
-            <span className="sume-eyebrow mb-4 block">{t("apartEyebrow")}</span>
-            <h2 className="max-w-[20ch] font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+            <h2 className="sume-eyebrow mb-4 block">{t("apartEyebrow")}</h2>
+            <span className="max-w-[20ch] block font-head text-[clamp(28px,3vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
               {t("apartHeading")}
-            </h2>
+            </span>
           </div>
 
           <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
-            {whatSetsApart[loc].map((card) => (
+            {APART_CARD_KEYS.map((card, index) => (
               <div
-                key={card.num}
+                key={card.title}
                 className="border-b border-r border-sume-line px-8 pb-11 pt-10 transition hover:bg-sume-mist"
               >
                 <div className="mb-[26px] font-head text-[12px] font-semibold tracking-[0.16em] text-sume-blue">
-                  {card.num}
+                  {String(index + 1).padStart(2, "0")}
                 </div>
                 <h3 className="mb-3 font-head text-[19px] font-semibold leading-[1.3] text-sume-navy">
-                  {card.title}
+                  {t(card.title)}
                 </h3>
                 <p className="text-[15px] leading-[1.6] text-sume-body">
-                  {card.body}
+                  {t(card.body)}
                 </p>
               </div>
             ))}
@@ -153,18 +174,18 @@ export default async function AboutPage({ params }: PageProps) {
         imageClassName="object-cover mix-blend-luminosity"
         overlayClassName="bg-sume-navy/80"
       >
-        <span className="sume-eyebrow mb-4 block text-[#7fb4ff]">
+        <h2 className="sume-eyebrow mb-4 block text-[#7fb4ff]">
           {t("certsEyebrow")}
-        </span>
-        <h2 className="max-w-[22ch] font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-          {t("certsHeading")}
         </h2>
+        <span className="max-w-[22ch] block font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+          {t("certsHeading")}
+        </span>
         <p className="mb-12 mt-3.5 max-w-[52ch] text-[16px] leading-[1.55] text-white/[0.66]">
           {t("certsBody")}
         </p>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {certifications[loc].map((cert) => (
+          {CERT_KEYS.map((cert, index) => (
             <div
               key={cert.name}
               className="flex flex-col items-start gap-3.5 rounded-[3px] border border-white/[0.14] bg-white/[0.04] p-[22px] pt-[30px] transition hover:border-[#7fb4ff]/50 hover:bg-white/[0.08]"
@@ -178,14 +199,14 @@ export default async function AboutPage({ params }: PageProps) {
                   strokeLinejoin="round"
                   className="h-5 w-5 stroke-[#7fb4ff]"
                 >
-                  {cert.icon}
+                  {certificationIcons[index]}
                 </svg>
               </div>
-              <h4 className="text-[15px] font-semibold leading-[1.35] text-white">
-                {cert.name}
-              </h4>
+              <h3 className="text-[15px] font-semibold leading-[1.35] text-white">
+                {t(cert.name)}
+              </h3>
               <div className="font-head text-[13px] font-semibold tracking-[0.04em] text-[#7fb4ff]">
-                {cert.detail}
+                {t(cert.detail)}
               </div>
             </div>
           ))}

@@ -60,12 +60,10 @@ export default async function OurProjectPage({ params }: PageProps) {
       <section className="bg-white py-26">
         <div className="sume-wrap">
           <div className="mb-4 max-w-[58ch]">
-            <span className="sume-eyebrow mb-4 block">
-              {t("portfolioEyebrow")}
-            </span>
-            <h2 className="font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+            <h2 className="sume-eyebrow mb-4 block">{t("portfolioEyebrow")}</h2>
+            <span className="font-head block text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
               {t("portfolioHeading")}
-            </h2>
+            </span>
             <p className="mt-4 text-[17.5px] leading-[1.55] text-sume-body">
               {t("portfolioBody")}
             </p>
@@ -214,9 +212,9 @@ export default async function OurProjectPage({ params }: PageProps) {
                     {item.num}
                   </div>
                   <div>
-                    <h4 className="mb-1.5 font-head text-[15.5px] font-semibold text-sume-navy">
+                    <h3 className="mb-1.5 font-head text-[15.5px] font-semibold text-sume-navy">
                       {item.title}
-                    </h4>
+                    </h3>
                     <p className="text-[14.5px] leading-[1.55] text-sume-body">
                       {item.body}
                     </p>

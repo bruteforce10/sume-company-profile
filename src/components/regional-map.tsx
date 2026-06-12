@@ -118,9 +118,9 @@ export function RegionalMap() {
               )}
             >
               <div className="mb-2.5 flex items-center justify-between">
-                <span className="font-head text-[11px] font-semibold uppercase tracking-[0.18em] text-sume-muted">
+                <h3 className="font-head text-[11px] font-semibold uppercase tracking-[0.18em] text-sume-muted">
                   {loc.country}
-                </span>
+                </h3>
                 <span
                   className={cn(
                     "rounded-[2px] px-2.5 py-[5px] font-head text-[11px] font-semibold uppercase tracking-[0.1em]",

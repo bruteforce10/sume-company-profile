@@ -72,10 +72,10 @@ export default async function DataCenterPage({ params }: PageProps) {
       <section className="bg-white py-26">
         <div className="sume-wrap">
           <div className="mb-13 max-w-[60ch]">
-            <span className="sume-eyebrow mb-4 block">{t("mappingEyebrow")}</span>
-            <h2 className="max-w-[22ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+            <h2 className="sume-eyebrow mb-4 block">{t("mappingEyebrow")}</h2>
+            <span className="max-w-[22ch] block font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
               {t("mappingHeading")}
-            </h2>
+            </span>
             <p className="mt-3.5 text-[17px] leading-[1.6] text-sume-body">
               {t("mappingBody")}
             </p>
@@ -100,10 +100,10 @@ export default async function DataCenterPage({ params }: PageProps) {
                     className="border-b border-sume-line transition last:border-b-0 hover:bg-sume-mist"
                   >
                     <td className="px-4 py-5 align-top font-head text-base font-semibold text-sume-navy sm:px-6 sm:py-[22px]">
-                      <span className="inline-flex items-center gap-3">
+                      <h3 className="inline-flex items-center gap-3">
                         {row.icon}
                         {row.need}
-                      </span>
+                      </h3>
                     </td>
                     <td className="px-4 py-5 align-top text-[15.5px] leading-[1.55] text-sume-body sm:px-6 sm:py-[22px]">
                       {row.capability}
@@ -155,12 +155,12 @@ export default async function DataCenterPage({ params }: PageProps) {
         imageClassName="object-cover opacity-[0.14] mix-blend-luminosity"
         overlayClassName="bg-[linear-gradient(120deg,rgba(14,36,60,0.95),rgba(0,60,140,0.7))]"
       >
-        <span className="sume-eyebrow mb-5 block text-[#7fb4ff]">
+        <h2 className="sume-eyebrow mb-5 block text-[#7fb4ff]">
           {t("whyEyebrow")}
-        </span>
-        <h2 className="mb-13 max-w-[22ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
-          {t("whyHeading")}
         </h2>
+        <span className="mb-13 block max-w-[22ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+          {t("whyHeading")}
+        </span>
 
         <div className="grid grid-cols-1 border-l border-t border-white/[0.12] sm:grid-cols-2 lg:grid-cols-3">
           {whyItMatters[loc].map((item) => (
@@ -191,10 +191,10 @@ export default async function DataCenterPage({ params }: PageProps) {
       {/* ── Scope Strip ──────────────────────────────────────────── */}
       <section className="border-t border-sume-line bg-sume-mist py-22">
         <div className="sume-wrap">
-          <span className="sume-eyebrow mb-4 block">{t("scopeEyebrow")}</span>
-          <h2 className="max-w-[22ch] font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
+          <h2 className="sume-eyebrow mb-4 block">{t("scopeEyebrow")}</h2>
+          <span className="max-w-[22ch] block font-head text-[clamp(26px,2.8vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-sume-navy">
             {t("scopeHeading")}
-          </h2>
+          </span>
           <p className="mb-13 mt-3.5 max-w-[58ch] text-[17px] leading-[1.6] text-sume-body">
             {t("scopeBody")}
           </p>

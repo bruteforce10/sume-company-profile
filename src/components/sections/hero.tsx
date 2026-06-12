@@ -52,9 +52,9 @@ export function Hero() {
 
       <div className="sume-wrap relative z-[3] flex h-full flex-col justify-center">
         <div key={current} className="max-w-[90ch] pb-20 animate-fade-in">
-          <h1 className="mt-5 max-w-[120ch]  font-head text-[clamp(38px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
+          <h2 className="mt-5 max-w-[120ch]  font-head text-[clamp(38px,5.6vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
             {t(slide.titleKey)}
-          </h1>
+          </h2>
           <p className="mt-5 max-w-[50ch] text-[clamp(17px,1.5vw,21px)] leading-[1.5] text-white/80">
             {t(slide.subtitleKey)}
           </p>
@@ -103,9 +103,7 @@ export function Hero() {
                 <div className="text-xs font-semibold tracking-[0.14em] opacity-70">
                   {item.num}
                 </div>
-                <div className="mt-0.5 text-base font-semibold">
-                  {label}
-                </div>
+                <div className="mt-0.5 text-base font-semibold">{label}</div>
               </button>
             );
           })}

@@ -22,7 +22,8 @@ export function Header() {
 
   const isLinkActive = (link: NavLink) =>
     pathname === link.href ||
-    (link.children?.some((child) => hrefPath(child.href) === pathname) ?? false);
+    (link.children?.some((child) => hrefPath(child.href) === pathname) ??
+      false);
 
   return (
     <>
@@ -72,7 +73,10 @@ export function Header() {
               }
 
               return (
-                <div key={link.href} className="group relative flex items-center">
+                <div
+                  key={link.href}
+                  className="group relative flex items-center"
+                >
                   <Link
                     href={link.href}
                     aria-current={active ? "page" : undefined}
@@ -219,7 +223,7 @@ export function Header() {
             </div>
           </nav>
 
-          <div className="mt-auto flex flex-col gap-4 border-t border-sume-line/60 pt-6">
+          <div className="mt-auto flex flex-col gap-4 border-t border-sume-line/60 pt-6 ">
             <LocaleSwitcher variant="inline" className="self-start" />
             <Link
               href="/contact"
