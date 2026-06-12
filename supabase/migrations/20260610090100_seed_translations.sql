@@ -131,11 +131,7 @@ insert into public.translation_messages (namespace, key, locale, value) values
   ('AboutPage', 'headerDescription', 'id', 'Sistem di balik sebuah bangunan — kelistrikan, pendinginan, dan kontrolnya — layak mendapat ketelitian yang sama dengan struktur bangunannya.'),
   ('AboutPage', 'whoWeAreEyebrow', 'id', 'Siapa Kami'),
   ('AboutPage', 'whoWeAreHeading', 'id', 'Merekayasa infrastruktur yang tidak boleh gagal.'),
-  ('AboutPage', 'whoWeAreBody', 'id', 'PT. SUME (Solusi Utama Mekanikal Elektrikal) bermula sebagai kontraktor mekanikal dan elektrikal dengan satu keyakinan sederhana: bahwa sistem di balik sebuah bangunan — kelistrikan, pendinginan, dan kontrolnya — layak mendapat ketelitian yang sama dengan struktur bangunannya.
-
-Selama <ph>[tahun]</ph> tahun, keyakinan itu tumbuh menjadi kapabilitas M&E yang menyeluruh. Yang bermula dari instalasi gedung komersial kini berkembang ke infrastruktur kritis — di mana SUME menghadirkan <strong>sistem kelistrikan, pendinginan, monitoring, dan keamanan terintegrasi</strong> untuk fasilitas yang beroperasi sepanjang waktu.
-
-Kini, SUME melayani klien di seluruh Indonesia dan kawasan, didukung kantor di Singapura dan Myanmar, serta ekosistem kapabilitas spesialis yang mencakup standby power, energi surya, precision cooling, dan monitoring cerdas.'),
+  ('AboutPage', 'whoWeAreBody', 'id', '<p>PT. SUME (Solusi Utama Mekanikal Elektrikal) bermula sebagai kontraktor mekanikal dan elektrikal dengan satu keyakinan sederhana: bahwa sistem di balik sebuah bangunan — kelistrikan, pendinginan, dan kontrolnya — layak mendapat ketelitian yang sama dengan struktur bangunannya.</p><p>Selama <strong>10+</strong> tahun, keyakinan itu tumbuh menjadi kapabilitas M&E yang menyeluruh. Yang bermula dari instalasi gedung komersial kini berkembang ke infrastruktur kritis — di mana SUME menghadirkan <strong>sistem kelistrikan, pendinginan, monitoring, dan keamanan terintegrasi</strong> untuk fasilitas yang beroperasi sepanjang waktu.</p><p>Kini, SUME melayani klien di seluruh Indonesia dan kawasan, didukung kantor di Singapura dan Myanmar, serta ekosistem kapabilitas spesialis yang mencakup standby power, energi surya, precision cooling, dan monitoring cerdas.</p>'),
   ('AboutPage', 'journeyEyebrow', 'id', 'Perjalanan Kami'),
   ('AboutPage', 'journeyHeading', 'id', 'Dari kontraktor M&E menjadi mitra infrastruktur kritis.'),
   ('AboutPage', 'journeyNote', 'id', 'Tanggal tonggak waktu masih akan dikonfirmasi sebelum peluncuran.'),
@@ -431,11 +427,7 @@ Di saat sebagian besar proyek harus mengoordinasikan banyak spesialis, SUME meng
   ('AboutPage', 'headerDescription', 'en', 'The systems behind a building — its power, its cooling, its controls — deserve the same rigor as the structure itself.'),
   ('AboutPage', 'whoWeAreEyebrow', 'en', 'Who We Are'),
   ('AboutPage', 'whoWeAreHeading', 'en', 'Engineering the infrastructure that cannot afford to fail.'),
-  ('AboutPage', 'whoWeAreBody', 'en', 'PT. SUME (Solusi Utama Mekanikal Elektrikal) began as a mechanical and electrical contractor with a simple conviction: that the systems behind a building — its power, its cooling, its controls — deserve the same rigor as the structure itself.
-
-Over <ph>[years]</ph> years, that conviction has grown into a comprehensive M&E capability. What started with commercial building installations has expanded into critical infrastructure — where SUME now delivers <strong>integrated power, cooling, monitoring, and security systems</strong> for facilities that operate around the clock.
-
-Today, SUME serves clients across Indonesia and the region, supported by offices in Singapore and Myanmar, and an ecosystem of specialized capabilities spanning standby power, solar energy, precision cooling, and intelligent monitoring.'),
+  ('AboutPage', 'whoWeAreBody', 'en', '<p>PT. SUME (Solusi Utama Mekanikal Elektrikal) began as a mechanical and electrical contractor with a simple conviction: that the systems behind a building — its power, its cooling, its controls — deserve the same rigor as the structure itself.</p><p>Over <strong>10+</strong> years, that conviction has grown into a comprehensive M&E capability. What started with commercial building installations has expanded into critical infrastructure — where SUME now delivers <strong>integrated power, cooling, monitoring, and security systems</strong> for facilities that operate around the clock.</p><p>Today, SUME serves clients across Indonesia and the region, supported by offices in Singapore and Myanmar, and an ecosystem of specialized capabilities spanning standby power, solar energy, precision cooling, and intelligent monitoring.</p>'),
   ('AboutPage', 'journeyEyebrow', 'en', 'Our Journey'),
   ('AboutPage', 'journeyHeading', 'en', 'From M&E contractor to critical infrastructure partner.'),
   ('AboutPage', 'journeyNote', 'en', 'Milestone dates to be confirmed before launch.'),

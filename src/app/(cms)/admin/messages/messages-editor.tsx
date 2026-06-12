@@ -3,6 +3,7 @@
 import { Fragment, useActionState, useEffect, useMemo, useState } from "react";
 import { ChevronDownIcon, SaveIcon, SearchIcon } from "lucide-react";
 import { toast } from "sonner";
+import { RichEditor } from "@/components/rich-editor";
 import { Spinner } from "@/components/ui/spinner";
 import type { EditorField, EditorNamespace } from "@/lib/cms-types";
 import { cn } from "@/lib/utils";
@@ -96,29 +97,37 @@ function NamespaceForm({ data, query }: { data: EditorNamespace; query: string }
                     </span>
                   </div>
                 )}
-                <div className="grid gap-3 md:grid-cols-2">
-                  <textarea
-                    name={`field:id:${field.sourceNamespace}:${field.key}`}
-                    defaultValue={field.id}
-                    aria-label={`${field.label} — Bahasa Indonesia`}
-                    rows={rows}
-                    className={textareaClass}
-                  />
-                  <textarea
-                    name={`field:en:${field.sourceNamespace}:${field.key}`}
-                    defaultValue={field.en}
-                    aria-label={`${field.label} — English`}
-                    rows={rows}
-                    className={textareaClass}
-                  />
-                </div>
                 {field.rich ? (
-                  <p className="text-[11.5px] text-sume-muted">
-                    Tag <code className="font-mono">{"<strong>…</strong>"}</code> dan{" "}
-                    <code className="font-mono">{"<ph>…</ph>"}</code> tetap didukung dan akan
-                    dirender sebagai format pada halaman.
-                  </p>
-                ) : null}
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <RichEditor
+                      name={`field:id:${field.sourceNamespace}:${field.key}`}
+                      defaultValue={field.id}
+                      aria-label={`${field.label} — Bahasa Indonesia`}
+                    />
+                    <RichEditor
+                      name={`field:en:${field.sourceNamespace}:${field.key}`}
+                      defaultValue={field.en}
+                      aria-label={`${field.label} — English`}
+                    />
+                  </div>
+                ) : (
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <textarea
+                      name={`field:id:${field.sourceNamespace}:${field.key}`}
+                      defaultValue={field.id}
+                      aria-label={`${field.label} — Bahasa Indonesia`}
+                      rows={rows}
+                      className={textareaClass}
+                    />
+                    <textarea
+                      name={`field:en:${field.sourceNamespace}:${field.key}`}
+                      defaultValue={field.en}
+                      aria-label={`${field.label} — English`}
+                      rows={rows}
+                      className={textareaClass}
+                    />
+                  </div>
+                )}
               </div>
             </Fragment>
           );

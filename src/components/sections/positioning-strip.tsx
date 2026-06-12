@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { trustStats } from "@/constants/site";
+import { SafeHtml } from "@/lib/safe-html";
 import { cn } from "@/lib/utils";
 
 export function PositioningStrip() {
@@ -10,16 +11,15 @@ export function PositioningStrip() {
     <section id="about" className="border-b border-sume-line py-24">
       <div className="sume-wrap grid items-start gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-[72px]">
         <div>
-          <h2 className="font-head text-[clamp(26px,2.6vw,38px)] font-semibold leading-[1.22] text-sume-navy">
-            {t.rich("tagline", {
-              strong: (chunks) => (
-                <b className="font-semibold text-sume-blue">{chunks}</b>
-              ),
-            })}
-          </h2>
-          <p className="mt-6 max-w-[54ch] text-lg text-sume-body">
-            {t("description")}
-          </p>
+          <SafeHtml
+            as="h2"
+            html={t("tagline")}
+            className="font-head text-[clamp(26px,2.6vw,38px)] font-semibold leading-[1.22] text-sume-navy [&_strong]:font-semibold [&_strong]:text-sume-blue"
+          />
+          <SafeHtml
+            html={t("description")}
+            className="mt-6 max-w-[54ch] text-lg text-sume-body"
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-x-6 gap-y-[30px] pt-1.5">

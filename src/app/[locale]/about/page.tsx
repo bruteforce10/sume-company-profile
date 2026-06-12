@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
+import { SafeHtml } from "@/lib/safe-html";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import { certificationIcons, milestoneYears } from "@/constants/about";
 import { languageAlternates } from "@/i18n/metadata";
@@ -79,20 +80,10 @@ export default async function AboutPage({ params }: PageProps) {
               {t("whoWeAreHeading")}
             </span>
           </div>
-          <div className="max-w-[56ch] whitespace-pre-line text-[18px] leading-[1.7] text-sume-body">
-            {t.rich("whoWeAreBody", {
-              ph: (chunks) => (
-                <span className="font-semibold text-sume-muted">
-                  {chunks}
-                </span>
-              ),
-              strong: (chunks) => (
-                <strong className="font-semibold text-sume-navy">
-                  {chunks}
-                </strong>
-              ),
-            })}
-          </div>
+          <SafeHtml
+            html={t("whoWeAreBody")}
+            className="max-w-[56ch] text-[18px] leading-[1.7] text-sume-body [&_strong]:font-semibold [&_strong]:text-sume-navy"
+          />
         </div>
       </section>
 

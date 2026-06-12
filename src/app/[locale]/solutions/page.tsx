@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
+import { SafeHtml } from "@/lib/safe-html";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import { YouTubeEmbed } from "@/components/ui/youtube-embed";
 import { partnerBrands, solutionPillars } from "@/constants/solutions";
@@ -259,15 +260,10 @@ export default async function SolutionsPage({ params }: PageProps) {
           <span className="mb-5 block font-head text-[clamp(30px,3.4vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-sume-navy">
             {t("integratedHeading")}
           </span>
-          <div className="max-w-[44ch] whitespace-pre-line text-[18px] leading-[1.6] text-sume-body">
-            {t.rich("integratedBody", {
-              strong: (chunks) => (
-                <strong className="font-semibold text-sume-navy">
-                  {chunks}
-                </strong>
-              ),
-            })}
-          </div>
+          <SafeHtml
+            html={t("integratedBody")}
+            className="max-w-[44ch] text-[18px] leading-[1.6] text-sume-body [&_strong]:font-semibold [&_strong]:text-sume-navy"
+          />
         </div>
       </OverlaySection>
 
