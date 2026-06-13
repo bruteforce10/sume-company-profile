@@ -58,13 +58,19 @@ export async function saveNamespace(
     return { ok: false, error: `Gagal menyimpan: ${error.message}`, ts: Date.now() };
   }
 
-  // Expire the public message cache immediately so edits appear on the very
-  // next request (read-your-own-writes). `updateTag` forces the next visit to
-  // wait for fresh data; `revalidateTag(tag, "max")` would only mark it stale
-  // and keep serving the OLD value on that first post-edit visit. `updateTag`
-  // is valid here because `saveNamespace` runs inside a Server Action.
+  // Make edits show up on the next request, everywhere. Both primitives are
+  // required (per Next 16 docs) because the data and the HTML are cached in
+  // separate layers:
+  //  - updateTag: immediately EXPIRES the cached message data (the
+  //    `unstable_cache` in lib/messages.ts) so a re-render reads fresh values.
+  //    Read-your-own-writes; valid only inside a Server Action (this is one).
+  //  - revalidatePath("/", "layout"): invalidates EVERY route's cache entry so
+  //    statically prerendered (SSG) pages actually re-render instead of serving
+  //    build-time HTML. Without this, updateTag refreshes the data but the old
+  //    prerendered page keeps being served; without updateTag, the page
+  //    re-renders but reads the still-cached (stale) data.
   updateTag(MESSAGES_CACHE_TAG);
-  revalidatePath("/admin/messages");
+  revalidatePath("/", "layout");
 
   return { ok: true, error: null, ts: Date.now() };
 }
