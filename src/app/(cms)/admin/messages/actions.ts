@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { MESSAGES_CACHE_TAG } from "@/lib/messages";
 import { createClient } from "@/lib/supabase/server";
@@ -58,9 +58,12 @@ export async function saveNamespace(
     return { ok: false, error: `Gagal menyimpan: ${error.message}`, ts: Date.now() };
   }
 
-  // Bust the public site cache and refresh the editor's live data.
-  // Next 16 requires a cache-life profile; "max" gives stale-while-revalidate.
-  revalidateTag(MESSAGES_CACHE_TAG, "max");
+  // Expire the public message cache immediately so edits appear on the very
+  // next request (read-your-own-writes). `updateTag` forces the next visit to
+  // wait for fresh data; `revalidateTag(tag, "max")` would only mark it stale
+  // and keep serving the OLD value on that first post-edit visit. `updateTag`
+  // is valid here because `saveNamespace` runs inside a Server Action.
+  updateTag(MESSAGES_CACHE_TAG);
   revalidatePath("/admin/messages");
 
   return { ok: true, error: null, ts: Date.now() };
