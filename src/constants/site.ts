@@ -19,8 +19,9 @@ export const navLinks: Record<Locale, NavLink[]> = {
       href: "/solutions",
       children: [
         { label: "Power & Energy", href: "/solutions#power" },
-        { label: "Precision Cooling & HVAC", href: "/solutions#cooling" },
+        { label: "Precision Cooling", href: "/solutions#cooling" },
         { label: "Monitoring & Security", href: "/solutions#monitoring" },
+        { label: "Integrated M&E", href: "/solutions#integrated" },
       ],
     },
     { label: "Data Center", href: "/data-center" },
@@ -43,8 +44,9 @@ export const navLinks: Record<Locale, NavLink[]> = {
       href: "/solutions",
       children: [
         { label: "Kelistrikan & Energi", href: "/solutions#power" },
-        { label: "Precision Cooling & HVAC", href: "/solutions#cooling" },
+        { label: "Precision Cooling", href: "/solutions#cooling" },
         { label: "Monitoring & Keamanan", href: "/solutions#monitoring" },
+        { label: "Integrated M&E", href: "/solutions#integrated" },
       ],
     },
     { label: "Data Center", href: "/data-center" },

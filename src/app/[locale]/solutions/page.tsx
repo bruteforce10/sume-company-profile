@@ -12,17 +12,25 @@ import { partnerBrands, solutionPillars } from "@/constants/solutions";
 import { languageAlternates } from "@/i18n/metadata";
 import type { Locale } from "@/i18n/routing";
 
+// Each pillar renders one or more capability groups. Most pillars have a single
+// untitled group (title: null → no sub-heading); the cooling pillar splits its
+// capabilities into "Air Cooling" and "Liquid Cooling" sub-groups.
 const PILLAR_KEYS = [
   {
     tagnum: "pillar1Tagnum",
     eyebrow: "pillar1Eyebrow",
     title: "pillar1Title",
     lead: "pillar1Lead",
-    caps: [
-      { title: "pillar1Cap1Title", body: "pillar1Cap1Body" },
-      { title: "pillar1Cap2Title", body: "pillar1Cap2Body" },
-      { title: "pillar1Cap3Title", body: "pillar1Cap3Body" },
-      { title: "pillar1Cap4Title", body: "pillar1Cap4Body" },
+    groups: [
+      {
+        title: null,
+        caps: [
+          { title: "pillar1Cap1Title", body: "pillar1Cap1Body" },
+          { title: "pillar1Cap2Title", body: "pillar1Cap2Body" },
+          { title: "pillar1Cap3Title", body: "pillar1Cap3Body" },
+          { title: "pillar1Cap4Title", body: "pillar1Cap4Body" },
+        ],
+      },
     ],
   },
   {
@@ -30,10 +38,24 @@ const PILLAR_KEYS = [
     eyebrow: "pillar2Eyebrow",
     title: "pillar2Title",
     lead: "pillar2Lead",
-    caps: [
-      { title: "pillar2Cap1Title", body: "pillar2Cap1Body" },
-      { title: "pillar2Cap2Title", body: "pillar2Cap2Body" },
-      { title: "pillar2Cap3Title", body: "pillar2Cap3Body" },
+    groups: [
+      {
+        title: "pillar2GroupAirTitle",
+        caps: [
+          { title: "pillar2Cap1Title", body: "pillar2Cap1Body" },
+          { title: "pillar2Cap2Title", body: "pillar2Cap2Body" },
+          { title: "pillar2Cap3Title", body: "pillar2Cap3Body" },
+        ],
+      },
+      {
+        title: "pillar2GroupLiquidTitle",
+        caps: [
+          { title: "pillar2Cap4Title", body: "pillar2Cap4Body" },
+          { title: "pillar2Cap5Title", body: "pillar2Cap5Body" },
+          { title: "pillar2Cap6Title", body: "pillar2Cap6Body" },
+          { title: "pillar2Cap7Title", body: "pillar2Cap7Body" },
+        ],
+      },
     ],
   },
   {
@@ -41,10 +63,15 @@ const PILLAR_KEYS = [
     eyebrow: "pillar3Eyebrow",
     title: "pillar3Title",
     lead: "pillar3Lead",
-    caps: [
-      { title: "pillar3Cap1Title", body: "pillar3Cap1Body" },
-      { title: "pillar3Cap2Title", body: "pillar3Cap2Body" },
-      { title: "pillar3Cap3Title", body: "pillar3Cap3Body" },
+    groups: [
+      {
+        title: null,
+        caps: [
+          { title: "pillar3Cap1Title", body: "pillar3Cap1Body" },
+          { title: "pillar3Cap2Title", body: "pillar3Cap2Body" },
+          { title: "pillar3Cap3Title", body: "pillar3Cap3Body" },
+        ],
+      },
     ],
   },
 ] as const;
@@ -150,28 +177,40 @@ export default async function SolutionsPage({ params }: PageProps) {
                   {t(keys.lead)}
                 </p>
 
-                <ul className="flex flex-col">
-                  {keys.caps.map((cap, capIndex) => (
-                    <li
-                      key={cap.title}
-                      className={`flex gap-[18px] border-t border-sume-line py-5 ${
-                        capIndex === keys.caps.length - 1
-                          ? "border-b border-sume-line"
-                          : ""
-                      }`}
-                    >
-                      <span className="mt-[9px] h-2 w-2 flex-none rounded-full bg-sume-blue" />
-                      <div>
-                        <h3 className="mb-[5px] font-head text-[17px] font-semibold text-sume-navy">
-                          {t(cap.title)}
+                <div className="flex flex-col gap-7">
+                  {keys.groups.map((group) => (
+                    <div key={group.title ?? "default"}>
+                      {group.title ? (
+                        <h3 className="mb-3 flex items-center gap-2.5 font-head text-[12.5px] font-semibold uppercase tracking-[0.16em] text-sume-blue">
+                          <span className="h-px w-7 bg-sume-blue/40" />
+                          {t(group.title)}
                         </h3>
-                        <p className="text-[15px] leading-[1.55] text-sume-body">
-                          {t(cap.body)}
-                        </p>
-                      </div>
-                    </li>
+                      ) : null}
+                      <ul className="flex flex-col">
+                        {group.caps.map((cap, capIndex) => (
+                          <li
+                            key={cap.title}
+                            className={`flex gap-[18px] border-t border-sume-line py-5 ${
+                              capIndex === group.caps.length - 1
+                                ? "border-b border-sume-line"
+                                : ""
+                            }`}
+                          >
+                            <span className="mt-[9px] h-2 w-2 flex-none rounded-full bg-sume-blue" />
+                            <div>
+                              <h3 className="mb-[5px] font-head text-[17px] font-semibold text-sume-navy">
+                                {t(cap.title)}
+                              </h3>
+                              <p className="text-[15px] leading-[1.55] text-sume-body">
+                                {t(cap.body)}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                </div>
 
                 {pillar.id === "power" ? (
                   <div className="mt-[34px] border border-l-[3px] border-sume-line border-l-sume-blue bg-white p-7 sm:px-[30px]">
