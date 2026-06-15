@@ -10,6 +10,7 @@ import {
   dataCenterScope,
   whyItMatters,
 } from "@/constants/data-center";
+import { liquidCoolingCards } from "@/constants/midea-datacenter";
 import { languageAlternates } from "@/i18n/metadata";
 import type { Locale } from "@/i18n/routing";
 
@@ -64,6 +65,57 @@ export default async function DataCenterPage({ params }: PageProps) {
           </Link>
           <Link href="/solutions" className="sume-btn sume-btn-ghost">
             {t("heroCtaSecondary")}
+          </Link>
+        </div>
+      </OverlaySection>
+
+      {/* ── Liquid Cooling & CDU by Midea (Featured) ─────────────── */}
+      <OverlaySection
+        className="border-b border-sume-line bg-sume-navy py-24"
+        image="/banner-midea.webp"
+        imageClassName="object-cover opacity-90"
+        overlayClassName="bg-[linear-gradient(118deg,rgba(14,36,60,0.94)_0%,rgba(14,36,60,0.86)_46%,rgba(0,46,104,0.78)_100%)]"
+      >
+        <div className="max-w-[64ch]">
+          <h2 className="sume-eyebrow mb-4 block text-[#7fb4ff]">
+            {t("liquidEyebrow")}
+          </h2>
+          <span className="block max-w-[20ch] font-head text-[clamp(28px,3.2vw,44px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white">
+            {t("liquidHeading")}
+          </span>
+          <p className="mt-4 text-[17px] leading-[1.6] text-white/[0.78]">
+            {t("liquidIntro")}
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
+          {liquidCoolingCards.map((card) => (
+            <div
+              key={card.titleKey}
+              className="flex flex-col border-b border-r border-sume-line bg-white px-7 pb-8 pt-7"
+            >
+              <div className="mb-5 flex items-center justify-between gap-3">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-[3px] bg-sume-accent">
+                  {card.icon}
+                </span>
+                <span className="rounded-[2px] bg-sume-mist px-2.5 py-1 font-head text-[11.5px] font-semibold uppercase tracking-[0.06em] text-sume-blue">
+                  {t(card.specKey)}
+                </span>
+              </div>
+              <h3 className="mb-2.5 font-head text-[18px] font-semibold leading-[1.25] text-sume-navy">
+                {t(card.titleKey)}
+              </h3>
+              <p className="text-[14.5px] leading-[1.55] text-sume-body">
+                {t(card.bodyKey)}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-11">
+          <Link href="/midea-datacenter" className="sume-btn sume-btn-white">
+            {t("liquidCta")}
+            <ArrowRight className="h-[18px] w-[18px]" />
           </Link>
         </div>
       </OverlaySection>

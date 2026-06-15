@@ -13,11 +13,11 @@ export function PositioningStrip() {
         <div>
           <SafeHtml
             as="h2"
-            html={t("tagline")}
+            html={t.raw("tagline")}
             className="font-head text-[clamp(26px,2.6vw,38px)] font-semibold leading-[1.22] text-sume-navy [&_strong]:font-semibold [&_strong]:text-sume-blue"
           />
           <SafeHtml
-            html={t("description")}
+            html={t.raw("description")}
             className="mt-6 max-w-[54ch] text-lg text-sume-body"
           />
         </div>

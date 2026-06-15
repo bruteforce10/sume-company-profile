@@ -81,7 +81,7 @@ export default async function AboutPage({ params }: PageProps) {
             </span>
           </div>
           <SafeHtml
-            html={t("whoWeAreBody")}
+            html={t.raw("whoWeAreBody")}
             className="max-w-[56ch] text-[18px] leading-[1.7] text-sume-body [&_strong]:font-semibold [&_strong]:text-sume-navy"
           />
         </div>

@@ -208,6 +208,16 @@ export default async function SolutionsPage({ params }: PageProps) {
                     </ul>
                   </div>
                 ) : null}
+
+                {pillar.id === "cooling" ? (
+                  <Link
+                    href="/midea-datacenter"
+                    className="mt-[34px] inline-flex items-center gap-2 font-head text-[15px] font-semibold text-sume-blue transition-all hover:gap-3"
+                  >
+                    {t("pillar2CatalogCta")}
+                    <ArrowRight className="h-[18px] w-[18px]" />
+                  </Link>
+                ) : null}
               </div>
             </div>
           </section>
@@ -261,7 +271,7 @@ export default async function SolutionsPage({ params }: PageProps) {
             {t("integratedHeading")}
           </span>
           <SafeHtml
-            html={t("integratedBody")}
+            html={t.raw("integratedBody")}
             className="max-w-[44ch] text-[18px] leading-[1.6] text-sume-body [&_strong]:font-semibold [&_strong]:text-sume-navy"
           />
         </div>

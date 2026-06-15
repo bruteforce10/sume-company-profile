@@ -92,7 +92,15 @@ export async function getTranslationEditorData(): Promise<EditorNamespace[]> {
     displayNamespaces.add(memberToGroup[ns] ?? ns);
   }
 
-  const NAMESPACE_ORDER = ["Meta", "Header", "Home", "AboutPage", "SolutionsPage"];
+  const NAMESPACE_ORDER = [
+    "Meta",
+    "Header",
+    "Home",
+    "AboutPage",
+    "SolutionsPage",
+    "DataCenterPage",
+    "MideaDataCenterPage",
+  ];
 
   const sorted = [...displayNamespaces].sort((a, b) => {
     const ai = NAMESPACE_ORDER.indexOf(a);
