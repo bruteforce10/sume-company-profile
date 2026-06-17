@@ -221,29 +221,38 @@ export default async function SolutionsPage({ params }: PageProps) {
                       {t("aftersalesBody")}
                     </p>
                     <ul className="grid gap-3.5">
-                      {AFTERSALES_POINT_KEYS.map((point) => (
-                        <li
-                          key={point.bold}
-                          className="flex gap-[13px] text-[14.5px] leading-[1.5] text-sume-body"
-                        >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="mt-0.5 h-[18px] w-[18px] flex-none stroke-sume-blue"
+                      {AFTERSALES_POINT_KEYS.map((point) => {
+                        const bold = t(point.bold);
+                        const rest = t(point.rest);
+                        // Skip points left blank in the CMS so a stray
+                        // checkmark with no text isn't rendered.
+                        if (!bold.trim() && !rest.trim()) return null;
+                        return (
+                          <li
+                            key={point.bold}
+                            className="flex gap-[13px] text-[14.5px] leading-[1.5] text-sume-body"
                           >
-                            <polyline points="20,6 9,17 4,12" />
-                          </svg>
-                          <span>
-                            <b className="font-semibold text-sume-navy">
-                              {t(point.bold)}
-                            </b>
-                            {t(point.rest)}
-                          </span>
-                        </li>
-                      ))}
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="mt-0.5 h-[18px] w-[18px] flex-none stroke-sume-blue"
+                            >
+                              <polyline points="20,6 9,17 4,12" />
+                            </svg>
+                            <span>
+                              {bold ? (
+                                <b className="font-semibold text-sume-navy">
+                                  {bold}
+                                </b>
+                              ) : null}
+                              {rest}
+                            </span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 ) : null}
