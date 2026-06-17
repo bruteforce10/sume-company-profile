@@ -15,6 +15,7 @@ function hrefPath(href: string) {
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [openSections, setOpenSections] = useState<string[]>([]);
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations("Header");
@@ -24,6 +25,22 @@ export function Header() {
     pathname === link.href ||
     (link.children?.some((child) => hrefPath(child.href) === pathname) ??
       false);
+
+  const toggleSection = (href: string) =>
+    setOpenSections((prev) =>
+      prev.includes(href) ? prev.filter((h) => h !== href) : [...prev, href],
+    );
+
+  // Expand the section for the current route when the drawer opens, so the
+  // active page is visible without an extra tap.
+  const openMenu = () => {
+    setOpenSections(
+      links
+        .filter((link) => link.children && isLinkActive(link))
+        .map((link) => link.href),
+    );
+    setOpen(true);
+  };
 
   return (
     <>
@@ -128,7 +145,7 @@ export function Header() {
               aria-label={t("openMenu")}
               aria-expanded={open}
               aria-controls="mobile-navigation"
-              onClick={() => setOpen(true)}
+              onClick={openMenu}
               className="inline-flex h-11 w-11 items-center justify-center rounded-[2px] border border-sume-line bg-white/60 backdrop-blur-sm"
             >
               <Menu className="h-5 w-5 text-sume-navy" />
@@ -149,7 +166,7 @@ export function Header() {
         <div
           id="mobile-navigation"
           className={cn(
-            "ml-auto flex min-h-dvh w-[85vw] max-w-sm flex-col bg-white p-6 shadow-2xl transition-transform duration-300 ease-out",
+            "ml-auto flex h-svh w-[85vw] max-w-sm flex-col bg-white p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl transition-transform duration-300 ease-out",
             open ? "translate-x-0" : "translate-x-full",
           )}
           onClick={(event) => event.stopPropagation()}
@@ -178,48 +195,97 @@ export function Header() {
           </div>
 
           <nav
-            className="flex-1 overflow-y-auto py-6"
+            className="min-h-0 flex-1 overflow-y-auto py-6"
             aria-label="Mobile navigation"
           >
             <div className="flex flex-col">
               {links.map((link, index) => {
                 const active = isLinkActive(link);
+                const notLast = index !== links.length - 1;
+
+                if (!link.children) {
+                  return (
+                    <div
+                      key={link.href}
+                      className={cn(
+                        "border-sume-line/60",
+                        notLast && "border-b",
+                      )}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "flex min-h-[60px] items-center font-head text-[15px] transition-colors",
+                          active
+                            ? "font-semibold text-sume-blue"
+                            : "font-medium text-sume-body hover:text-sume-blue",
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    </div>
+                  );
+                }
+
+                const expanded = openSections.includes(link.href);
+                const panelId = `mobile-submenu-${index}`;
 
                 return (
                   <div
                     key={link.href}
                     className={cn(
                       "border-sume-line/60",
-                      index !== links.length - 1 && "border-b",
+                      notLast && "border-b",
                     )}
                   >
-                    <Link
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      aria-current={active ? "page" : undefined}
+                    <button
+                      type="button"
+                      onClick={() => toggleSection(link.href)}
+                      aria-expanded={expanded}
+                      aria-controls={panelId}
                       className={cn(
-                        "flex min-h-[60px] items-center font-head text-[15px] transition-colors",
+                        "flex min-h-[60px] w-full items-center justify-between gap-2 font-head text-[15px] transition-colors",
                         active
                           ? "font-semibold text-sume-blue"
                           : "font-medium text-sume-body hover:text-sume-blue",
                       )}
                     >
                       {link.label}
-                    </Link>
-                    {link.children ? (
-                      <div className="flex flex-col border-t border-sume-line/40 pb-2">
-                        {link.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            onClick={() => setOpen(false)}
-                            className="flex min-h-[46px] items-center pl-4 font-head text-[14px] font-medium text-sume-muted transition-colors hover:text-sume-blue"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
+                      <ChevronDown
+                        className={cn(
+                          "h-4 w-4 shrink-0 text-sume-muted transition-transform duration-300",
+                          expanded && "rotate-180",
+                        )}
+                      />
+                    </button>
+
+                    <div
+                      id={panelId}
+                      inert={!expanded}
+                      className={cn(
+                        "grid transition-all duration-300 ease-out",
+                        expanded
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0",
+                      )}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="flex flex-col border-t border-sume-line/40 pb-2">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              onClick={() => setOpen(false)}
+                              className="flex min-h-[46px] items-center pl-4 font-head text-[14px] font-medium text-sume-muted transition-colors hover:text-sume-blue"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    ) : null}
+                    </div>
                   </div>
                 );
               })}
