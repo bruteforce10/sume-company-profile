@@ -121,16 +121,19 @@ export function Header() {
             </Link>
           </div>
 
-          <button
-            type="button"
-            aria-label={t("openMenu")}
-            aria-expanded={open}
-            aria-controls="mobile-navigation"
-            onClick={() => setOpen(true)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-[2px] border border-sume-line bg-white/60 backdrop-blur-sm lg:hidden"
-          >
-            <Menu className="h-5 w-5 text-sume-navy" />
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <LocaleSwitcher />
+            <button
+              type="button"
+              aria-label={t("openMenu")}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
+              onClick={() => setOpen(true)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-[2px] border border-sume-line bg-white/60 backdrop-blur-sm"
+            >
+              <Menu className="h-5 w-5 text-sume-navy" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -224,7 +227,6 @@ export function Header() {
           </nav>
 
           <div className="mt-auto flex flex-col gap-4 border-t border-sume-line/60 pt-6 ">
-            <LocaleSwitcher variant="inline" className="self-start" />
             <Link
               href="/contact"
               onClick={() => setOpen(false)}

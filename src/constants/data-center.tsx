@@ -72,7 +72,11 @@ const logos = {
     { name: "Broad", image: "/partner/broad.webp" },
     { name: "Hisense", image: "/partner/hisense.webp" },
   ],
-  cost: [{ name: "Powerbrain", image: "/partner/powerbrain.webp" }],
+  cost: [
+    { name: "Powerbrain", image: "/partner/powerbrain.webp" },
+    { name: "Kong Cube", image: "/partner/kong cube.jpeg" },
+    { name: "Siemens", image: "/partner/siemens.jpeg" },
+  ],
   visibility: [
     { name: "Emerson", image: "/partner/emerson.png" },
     { name: "Endress+Hauser", image: "/partner/endress-hauser.webp" },
@@ -108,7 +112,7 @@ export const dataCenterCapabilities: Record<Locale, DataCenterCapability[]> = {
     },
     {
       icon: icons.cost,
-      need: "Energy Cost Control",
+      need: "Energy Cost Control and BMS",
       capability:
         "Cooling-as-a-Service (zero CAPEX, performance-guaranteed), solar PV, and chiller retrofits that measurably reduce operational spend.",
       tags: [
@@ -169,7 +173,7 @@ export const dataCenterCapabilities: Record<Locale, DataCenterCapability[]> = {
     },
     {
       icon: icons.cost,
-      need: "Pengendalian Biaya Energi",
+      need: "Pengendalian Biaya Energi dan BMS",
       capability:
         "Cooling-as-a-Service (tanpa CAPEX, bergaransi performa), solar PV, dan retrofit chiller yang menurunkan biaya operasional secara terukur.",
       tags: [
@@ -194,10 +198,7 @@ export const dataCenterCapabilities: Record<Locale, DataCenterCapability[]> = {
       need: "Keamanan Fisik",
       capability:
         "Integrasi CCTV dan surveillance melalui Ramus dan KINGSAT — melindungi akses fisik ke infrastruktur kritis.",
-      tags: [
-        { label: "Monitoring & Keamanan" },
-        { label: "KINGSAT · Ramus" },
-      ],
+      tags: [{ label: "Monitoring & Keamanan" }, { label: "KINGSAT · Ramus" }],
       logos: logos.security,
     },
     {

@@ -43,7 +43,10 @@ const officesIcon: ReactNode = (
 );
 
 const emailValue: ReactNode = (
-  <a href={`mailto:${company.email}`} className="transition hover:text-sume-blue">
+  <a
+    href={`mailto:${company.email}`}
+    className="transition hover:text-sume-blue"
+  >
     {company.email}
   </a>
 );
@@ -69,12 +72,12 @@ function OfficesValue({ offices }: { offices: string[] }) {
 }
 
 const regionalOfficesEn = [
-  "Jl. Jendral Sudirman No. 660 Bandung 40184 Indonesia (RO)",
+  "Bandung, Indonesia (Jl Jend Sudirman no 660)",
   "Singapore",
   "Myanmar — Yangon",
 ];
 const regionalOfficesId = [
-  "Jl. Jendral Sudirman No. 660 Bandung 40184 Indonesia (RO)",
+  "Bandung, Indonesia (Jl Jend Sudirman no 660)",
   "Singapura",
   "Myanmar — Yangon",
 ];
@@ -95,7 +98,7 @@ export const contactInfoItems: Record<Locale, ContactInfoItem[]> = {
       icon: addressIcon,
     },
     {
-      label: "Regional Offices",
+      label: "Offices",
       value: <OfficesValue offices={regionalOfficesEn} />,
       icon: officesIcon,
     },
@@ -109,7 +112,7 @@ export const contactInfoItems: Record<Locale, ContactInfoItem[]> = {
       icon: addressIcon,
     },
     {
-      label: "Kantor Regional",
+      label: "Kantor",
       value: <OfficesValue offices={regionalOfficesId} />,
       icon: officesIcon,
     },
