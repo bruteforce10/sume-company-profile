@@ -11,7 +11,11 @@ const iconProps = {
 };
 
 export type CapabilityTag = { label: string; green?: boolean };
-export type PartnerLogo = { name: string; image: string };
+export type PartnerLogo = {
+  name: string;
+  image: string;
+  imageClassName?: string;
+};
 
 export type DataCenterCapability = {
   icon: ReactNode;
@@ -66,16 +70,21 @@ const logos = {
   power: [
     { name: "Yuchai", image: "/partner/yuchai.jpg" },
     { name: "IHI", image: "/partner/ihi.webp" },
+    { name: "NIIGATA", image: "/partner/niigata.webp" },
   ],
   cooling: [
     { name: "Midea", image: "/partner/midea.png" },
-    { name: "Broad", image: "/partner/broad.webp" },
+    {
+      name: "Broad",
+      image: "/partner/broad.webp",
+      imageClassName: "max-h-[70px]",
+    },
     { name: "Hisense", image: "/partner/hisense.webp" },
   ],
   cost: [
     { name: "Powerbrain", image: "/partner/powerbrain.webp" },
-    { name: "Kong Cube", image: "/partner/kong cube.jpeg" },
-    { name: "Siemens", image: "/partner/siemens.jpeg" },
+    { name: "Kong Cube", image: "/partner/kong cube.png" },
+    { name: "Siemens", image: "/partner/siemens.png" },
   ],
   visibility: [
     { name: "Emerson", image: "/partner/emerson.png" },
@@ -117,7 +126,7 @@ export const dataCenterCapabilities: Record<Locale, DataCenterCapability[]> = {
         "Cooling-as-a-Service (zero CAPEX, performance-guaranteed), solar PV, and chiller retrofits that measurably reduce operational spend.",
       tags: [
         { label: "Cooling-as-a-Service" },
-        { label: "Solar PV · 50+ MWp", green: true },
+        // { label: "Solar PV · 50+ MWp", green: true },
       ],
       logos: logos.cost,
     },
@@ -178,7 +187,7 @@ export const dataCenterCapabilities: Record<Locale, DataCenterCapability[]> = {
         "Cooling-as-a-Service (tanpa CAPEX, bergaransi performa), solar PV, dan retrofit chiller yang menurunkan biaya operasional secara terukur.",
       tags: [
         { label: "Cooling-as-a-Service" },
-        { label: "Solar PV · 50+ MWp", green: true },
+        // { label: "Solar PV · 50+ MWp", green: true },
       ],
       logos: logos.cost,
     },

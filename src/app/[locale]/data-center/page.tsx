@@ -178,14 +178,14 @@ export default async function DataCenterPage({ params }: PageProps) {
                           {row.logos.map((logo) => (
                             <span
                               key={logo.name}
-                              className="inline-flex h-[54px] items-center justify-center rounded-[3px] border border-sume-line bg-white px-[15px]"
+                              className="inline-flex min-h-[54px] max-h-[90px] items-center justify-center rounded-[3px] border border-sume-line bg-white px-[8px]"
                             >
                               <Image
                                 src={logo.image}
                                 alt={logo.name}
                                 width={180}
                                 height={54}
-                                className="max-h-[33px] w-auto object-contain"
+                                className={`${logo.imageClassName ?? "max-h-[45px]"} w-auto object-contain`}
                               />
                             </span>
                           ))}
