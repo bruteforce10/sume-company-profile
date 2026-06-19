@@ -14,7 +14,7 @@ const coolingOptimizedValue: ReactNode = (
 );
 const gensetsMaintainedValue: ReactNode = (
   <>
-    <span className="font-medium text-sume-line">[ ]</span>+
+    <span className="font-medium">42</span>+
   </>
 );
 
@@ -160,29 +160,36 @@ export const powerCapabilities: Record<
   ],
 };
 
-export const powerStats: Record<Locale, { value: ReactNode; label: string }[]> = {
-  en: [
-    { value: "8", label: "Certified Engineers · IHI / Niigata Trained, Japan" },
-    { value: "20+", label: "Years Combined Engine Service Experience" },
-    {
-      value: "50+ MWp",
-      label: "Solar PV Installed Across Commercial & Industrial Sites",
-    },
-    {
-      value: gensetsMaintainedValue,
-      label: "Gensets Maintained, Serviced & Commissioned",
-    },
-  ],
-  id: [
-    { value: "8", label: "Insinyur Bersertifikat · Terlatih IHI / Niigata, Jepang" },
-    { value: "20+", label: "Tahun Pengalaman Gabungan Layanan Mesin" },
-    {
-      value: "50+ MWp",
-      label: "Solar PV Terpasang di Site Komersial & Industri",
-    },
-    {
-      value: gensetsMaintainedValue,
-      label: "Genset Dipelihara, Dilayani & Di-commissioning",
-    },
-  ],
-};
+export const powerStats: Record<Locale, { value: ReactNode; label: string }[]> =
+  {
+    en: [
+      {
+        value: "12",
+        label: "Engineers. 8 Certified by IHI / Niigata Trained, Japan",
+      },
+      { value: "20+", label: "Years Combined Engine Service Experience" },
+      {
+        value: "50+ MWp",
+        label: "Solar PV Installed Across Commercial & Industrial Sites",
+      },
+      {
+        value: gensetsMaintainedValue,
+        label: "Gensets Maintained, Serviced & Commissioned",
+      },
+    ],
+    id: [
+      {
+        value: "12",
+        label: "Insinyur. 8 Bersertifikat Terlatih IHI / Niigata, Jepang",
+      },
+      { value: "20+", label: "Tahun Pengalaman Gabungan Layanan Mesin" },
+      {
+        value: "50+ MWp",
+        label: "Solar PV Terpasang di Site Komersial & Industri",
+      },
+      {
+        value: gensetsMaintainedValue,
+        label: "Genset Dipelihara, Dilayani & Di-commissioning",
+      },
+    ],
+  };
