@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { LogOutIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { signOut } from "../login/actions";
 
@@ -27,6 +28,21 @@ export default async function AdminLayout({ children }: { children: ReactNode })
               CMS
             </span>
           </div>
+
+          <nav className="hidden items-center gap-1 sm:flex">
+            <Link
+              href="/admin/messages"
+              className="rounded-[2px] px-3 py-1.5 font-head text-[13px] font-semibold text-sume-muted transition hover:bg-sume-mist hover:text-sume-ink"
+            >
+              Pesan
+            </Link>
+            <Link
+              href="/admin/blog"
+              className="rounded-[2px] px-3 py-1.5 font-head text-[13px] font-semibold text-sume-muted transition hover:bg-sume-mist hover:text-sume-ink"
+            >
+              Blog
+            </Link>
+          </nav>
 
           <div className="flex items-center gap-3">
             <span className="hidden text-[13px] text-sume-muted sm:inline">

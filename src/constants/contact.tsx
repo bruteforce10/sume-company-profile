@@ -73,13 +73,13 @@ function OfficesValue({ offices }: { offices: string[] }) {
 
 const regionalOfficesEn = [
   "Bandung, Indonesia (Jl Jend Sudirman no 660)",
-  "Singapore",
-  "Myanmar — Yangon",
+  // "Singapore",
+  // "Myanmar — Yangon",
 ];
 const regionalOfficesId = [
   "Bandung, Indonesia (Jl Jend Sudirman no 660)",
-  "Singapura",
-  "Myanmar — Yangon",
+  // "Singapura",
+  // "Myanmar — Yangon",
 ];
 
 export type ContactInfoItem = {

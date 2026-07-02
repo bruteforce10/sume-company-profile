@@ -27,15 +27,16 @@ export const navLinks: Record<Locale, NavLink[]> = {
     { label: "Data Center", href: "/data-center" },
     { label: "About", href: "/about" },
     { label: "Projects", href: "/our-project" },
-    {
-      label: "Contact",
-      href: "/contact",
-      menuAlign: "right",
-      children: [
-        { label: "Contact Us", href: "/contact" },
-        { label: "Regional Presence", href: "/regional" },
-      ],
-    },
+    { label: "Contact", href: "/contact" },
+    // {
+    //   label: "Contact",
+    //   href: "/contact",
+    //   menuAlign: "right",
+    //   children: [
+    //     { label: "Contact Us", href: "/contact" },
+    //     { label: "Regional Presence", href: "/regional" },
+    //   ],
+    // },
   ],
   id: [
     { label: "Beranda", href: "/" },
@@ -52,15 +53,17 @@ export const navLinks: Record<Locale, NavLink[]> = {
     { label: "Data Center", href: "/data-center" },
     { label: "Tentang", href: "/about" },
     { label: "Proyek", href: "/our-project" },
-    {
-      label: "Kontak",
-      href: "/contact",
-      menuAlign: "right",
-      children: [
-        { label: "Hubungi Kami", href: "/contact" },
-        { label: "Kehadiran Regional", href: "/regional" },
-      ],
-    },
+    { label: "Blog", href: "/blog" },
+    { label: "Kontak", href: "/contact" },
+    // {
+    //   label: "Kontak",
+    //   href: "/contact",
+    //   menuAlign: "right",
+    //   children: [
+    //     { label: "Hubungi Kami", href: "/contact" },
+    //     { label: "Kehadiran Regional", href: "/regional" },
+    //   ],
+    // },
   ],
 };
 
@@ -120,10 +123,30 @@ export const heroSlides = [
 // (spec §1.2). Value + label text is CMS-managed under `Home`; `placeholder`
 // greys the unverified figure and `suffix` is appended after the value.
 export const trustStats = [
-  { valueKey: "stat1Value", labelKey: "stat1Label", suffix: "", placeholder: true },
-  { valueKey: "stat2Value", labelKey: "stat2Label", suffix: "+", placeholder: true },
-  { valueKey: "stat3Value", labelKey: "stat3Label", suffix: "", placeholder: false },
-  { valueKey: "stat4Value", labelKey: "stat4Label", suffix: "", placeholder: true },
+  {
+    valueKey: "stat1Value",
+    labelKey: "stat1Label",
+    suffix: "",
+    placeholder: true,
+  },
+  {
+    valueKey: "stat2Value",
+    labelKey: "stat2Label",
+    suffix: "+",
+    placeholder: true,
+  },
+  {
+    valueKey: "stat3Value",
+    labelKey: "stat3Label",
+    suffix: "",
+    placeholder: false,
+  },
+  {
+    valueKey: "stat4Value",
+    labelKey: "stat4Label",
+    suffix: "",
+    placeholder: true,
+  },
 ] as const;
 
 // Solutions overview — title/description CMS-managed under `Home`; structural
@@ -214,8 +237,8 @@ export const trustedLogos = [
 ];
 
 export const footerOffices: Record<Locale, string[]> = {
-  en: ["Indonesia (HQ)", "Singapore", "Myanmar — Yangon"],
-  id: ["Indonesia (HQ)", "Singapura", "Myanmar — Yangon"],
+  en: ["Indonesia (HQ)"],
+  id: ["Indonesia (HQ)"],
 };
 
 type ContactItem = { icon: typeof MapPin; label: string; value: string };

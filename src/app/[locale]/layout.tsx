@@ -158,11 +158,15 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
+    // suppressHydrationWarning: browser extensions (e.g. Bitdefender's `bis_*`
+    // attributes) mutate <html>/<body> before hydration; this silences the
+    // resulting one-level attribute mismatch without hiding real ones deeper.
     <html
       lang={locale}
       className={`${plusJakarta.variable} ${manrope.variable} ${inter.variable} ${ibmPlexSans.variable} ${sourceSans.variable} antialiased`}
+      suppressHydrationWarning
     >
-      <body>
+      <body suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
           {children}

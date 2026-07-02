@@ -34,6 +34,15 @@ export default async function proxy(request: NextRequest) {
     return response;
   }
 
+  // The blog is Indonesian-only. Redirect any English blog URL (/en/blog…) to
+  // the Indonesian blog (/blog…) so it never renders a soft 404 and English
+  // visitors still reach the content. Runs before next-intl routing.
+  if (pathname === "/en/blog" || pathname.startsWith("/en/blog/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.slice("/en".length);
+    return NextResponse.redirect(url, 308);
+  }
+
   // Marketing site: run next-intl, then attach refreshed auth cookies to its
   // response so the session survives across the localized pages too.
   const response = handleI18nRouting(request);

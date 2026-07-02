@@ -49,6 +49,8 @@ export function Footer() {
                 {t(link.key)}
               </FooterLink>
             ))}
+            {/* Blog is Indonesian-only, so it only appears on the ID surface. */}
+            {locale === "id" ? <FooterLink href="/blog">Blog</FooterLink> : null}
           </FooterColumn>
 
           <FooterColumn title={t("offices")}>

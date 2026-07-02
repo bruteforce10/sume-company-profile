@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
         hostname: "ap-south-1.graphassets.com",
         pathname: "/**",
       },
+      {
+        // Supabase Storage public objects (blog thumbnails, article images,
+        // author photos, category icons in the `blog-assets` bucket).
+        protocol: "https",
+        hostname: "egrneczouptvozcytfia.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
 };
