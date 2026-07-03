@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import { siteUrl } from "@/constants/site";
+import { company, siteUrl } from "@/constants/site";
 import { routing, type Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import {
@@ -12,7 +12,8 @@ import {
   getRecentPosts,
   getRelatedPosts,
 } from "@/lib/blog";
-import { formatDate } from "@/lib/blog-utils";
+import { getDraftPreviewBySlug } from "@/lib/blog-preview";
+import { formatDate, isMeaningfulUpdate, splitHtmlBlocks } from "@/lib/blog-utils";
 import { SafeHtml } from "@/lib/safe-html";
 import { ArticleCard } from "@/components/blog/article-card";
 import { BlogSidebar } from "@/components/blog/blog-sidebar";
@@ -48,7 +49,11 @@ export async function generateMetadata({ params }: DetailPageProps): Promise<Met
       title,
       description,
       publishedTime: post.published_at ?? undefined,
-      modifiedTime: post.updated_at,
+      // Only advertise a modified time when it's a later day than publish, so a
+      // same-day save doesn't surface an "Updated" date in search results.
+      modifiedTime: isMeaningfulUpdate(post.published_at, post.updated_at)
+        ? post.updated_at
+        : undefined,
       authors: post.author ? [post.author.name] : undefined,
       images: post.thumbnail ? [{ url: post.thumbnail }] : undefined,
     },
@@ -66,7 +71,15 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
   if (locale !== routing.defaultLocale) notFound();
   setRequestLocale(locale as Locale);
 
-  const post = await getPostBySlug(slug);
+  // Drafts (and not-yet-live scheduled posts) are hidden from the public by RLS,
+  // so getPostBySlug returns null. Let a signed-in admin preview them at the real
+  // URL instead of 404-ing; getDraftPreviewBySlug returns null for everyone else.
+  let post = await getPostBySlug(slug);
+  let isPreview = false;
+  if (!post) {
+    post = await getDraftPreviewBySlug(slug);
+    isPreview = post !== null;
+  }
   if (!post) notFound();
 
   const [related, categories, popular, latest] = await Promise.all([
@@ -77,13 +90,98 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
   ]);
 
   const shareUrl = `${siteUrl}/blog/${post.slug}`;
-  const showUpdated =
-    post.published_at &&
-    new Date(post.updated_at).toDateString() !== new Date(post.published_at).toDateString();
+  // Same-day saves aren't a meaningful update — don't surface them on the page
+  // or in structured data.
+  const showUpdated = isMeaningfulUpdate(post.published_at, post.updated_at);
+
+  // Article structured data (JSON-LD) so search engines pick up the correct
+  // published / updated dates. dateModified only advances past datePublished when
+  // the post was genuinely updated on a later day.
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt || post.meta_description || DESCRIPTION_FALLBACK,
+    ...(post.thumbnail ? { image: [post.thumbnail] } : {}),
+    datePublished: post.published_at ?? undefined,
+    dateModified: showUpdated ? post.updated_at : (post.published_at ?? undefined),
+    ...(post.author ? { author: { "@type": "Person", name: post.author.name } } : {}),
+    publisher: {
+      "@type": "Organization",
+      name: company.brand,
+      logo: { "@type": "ImageObject", url: `${siteUrl}/images/brand/logo-sume.webp` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": shareUrl },
+    url: shareUrl,
+  };
+
+  const contentClass =
+    "mt-8 text-[16px] leading-[1.8] text-sume-body [&_h2]:mt-8 [&_h2]:text-sume-ink [&_h3]:mt-6 [&_h3]:text-sume-ink [&_h4]:mt-6 [&_h4]:text-sume-ink";
+
+  // "Baca juga" (internal links) sits in the middle of the article: split the body
+  // into top-level blocks and drop the card between the two halves. Short articles
+  // (<2 blocks) fall back to showing it right after the body.
+  const readAlso =
+    post.internal_links.length > 0 ? (
+      <section className="mt-8 rounded-[4px] border border-sume-line bg-sume-mist/40 p-5">
+        <h2 className="font-head text-sm font-bold uppercase tracking-wide text-sume-ink">
+          Baca juga
+        </h2>
+        <ul className="mt-3 flex flex-col gap-2">
+          {post.internal_links.map((link, i) =>
+            link.url.startsWith("/") ? (
+              <li key={`${link.url}-${i}`}>
+                <Link
+                  href={link.url}
+                  className="text-[15px] font-semibold text-sume-blue hover:underline"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ) : (
+              <li key={`${link.url}-${i}`}>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[15px] font-semibold text-sume-blue hover:underline"
+                >
+                  {link.label} ↗
+                </a>
+              </li>
+            ),
+          )}
+        </ul>
+      </section>
+    ) : null;
+  const contentBlocks = post.internal_links.length > 0 ? splitHtmlBlocks(post.content) : [];
+  const splitAt = contentBlocks.length >= 2 ? Math.ceil(contentBlocks.length / 2) : 0;
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-8 lg:px-8 lg:py-12">
-      <ViewTracker slug={post.slug} />
+      {!isPreview ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(articleJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      ) : null}
+      {isPreview ? (
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-2 rounded-[4px] border border-amber-300 bg-amber-50 px-4 py-2.5 text-[13px] text-amber-900">
+          <span className="font-semibold">
+            Mode pratinjau · Artikel ini belum tayang dan hanya terlihat oleh admin.
+          </span>
+          <a
+            href={`/admin/blog/${post.id}/edit`}
+            className="font-semibold underline hover:no-underline"
+          >
+            Kembali ke editor
+          </a>
+        </div>
+      ) : (
+        <ViewTracker slug={post.slug} />
+      )}
 
       <Breadcrumb
         items={[
@@ -96,9 +194,9 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
         ]}
       />
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="mt-[1.8rem] grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <article className="min-w-0">
-          <header className="flex flex-col gap-4">
+          <header className="flex flex-col gap-[1.2rem]">
             {post.category ? (
               <Link
                 href={`/blog/category/${post.category.slug}`}
@@ -110,9 +208,6 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
             <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-sume-ink sm:text-4xl">
               {post.title}
             </h1>
-            {post.excerpt ? (
-              <p className="text-[17px] leading-relaxed text-sume-body">{post.excerpt}</p>
-            ) : null}
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-sume-muted">
               {post.author ? (
                 <Link
@@ -152,11 +247,26 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
             </div>
           ) : null}
 
-          <SafeHtml
-            profile="article"
-            html={post.content}
-            className="mt-8 text-[16px] leading-[1.8] text-sume-body [&_h2]:mt-8 [&_h2]:text-sume-ink [&_h3]:mt-6 [&_h3]:text-sume-ink"
-          />
+          {splitAt ? (
+            <>
+              <SafeHtml
+                profile="article"
+                html={contentBlocks.slice(0, splitAt).join("")}
+                className={contentClass}
+              />
+              {readAlso}
+              <SafeHtml
+                profile="article"
+                html={contentBlocks.slice(splitAt).join("")}
+                className={contentClass}
+              />
+            </>
+          ) : (
+            <>
+              <SafeHtml profile="article" html={post.content} className={contentClass} />
+              {readAlso}
+            </>
+          )}
 
           {post.tags.length > 0 ? (
             <div className="mt-8 flex flex-wrap gap-2 border-t border-sume-line pt-6">
@@ -170,39 +280,6 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
                 </Link>
               ))}
             </div>
-          ) : null}
-
-          {post.internal_links.length > 0 ? (
-            <section className="mt-8 rounded-[4px] border border-sume-line bg-sume-mist/40 p-5">
-              <h2 className="font-head text-sm font-bold uppercase tracking-wide text-sume-ink">
-                Baca juga
-              </h2>
-              <ul className="mt-3 flex flex-col gap-2">
-                {post.internal_links.map((link, i) =>
-                  link.url.startsWith("/") ? (
-                    <li key={`${link.url}-${i}`}>
-                      <Link
-                        href={link.url}
-                        className="text-[15px] font-semibold text-sume-blue hover:underline"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ) : (
-                    <li key={`${link.url}-${i}`}>
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[15px] font-semibold text-sume-blue hover:underline"
-                      >
-                        {link.label} ↗
-                      </a>
-                    </li>
-                  ),
-                )}
-              </ul>
-            </section>
           ) : null}
 
           {post.references.length > 0 ? (
@@ -233,49 +310,9 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
           <div className="mt-8 border-t border-sume-line pt-6">
             <ShareButtons url={shareUrl} title={post.title} />
           </div>
-
-          {post.author && (post.author.bio || post.author.photo) ? (
-            <section className="mt-8 flex flex-col gap-4 rounded-[4px] border border-sume-line bg-white p-5 sm:flex-row sm:items-start">
-              {post.author.photo ? (
-                <span className="relative size-16 shrink-0 overflow-hidden rounded-full bg-sume-mist">
-                  <Image
-                    src={post.author.photo}
-                    alt={post.author.name}
-                    fill
-                    sizes="64px"
-                    className="object-cover"
-                  />
-                </span>
-              ) : null}
-              <div className="flex flex-col gap-1.5">
-                <span className="font-head text-[12px] font-semibold uppercase tracking-wide text-sume-muted">
-                  Penulis
-                </span>
-                <Link
-                  href={`/blog/author/${post.author.slug}`}
-                  className="font-head text-lg font-semibold text-sume-ink hover:text-sume-blue"
-                >
-                  {post.author.name}
-                </Link>
-                {post.author.bio ? (
-                  <p className="text-[14px] leading-relaxed text-sume-body">{post.author.bio}</p>
-                ) : null}
-                {post.author.linkedin ? (
-                  <a
-                    href={post.author.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[13px] font-semibold text-sume-blue hover:underline"
-                  >
-                    LinkedIn ↗
-                  </a>
-                ) : null}
-              </div>
-            </section>
-          ) : null}
         </article>
 
-        <BlogSidebar categories={categories} popular={popular} latest={latest} />
+        <BlogSidebar categories={categories} popular={popular} latest={latest} categoryPlacement="top" />
       </div>
 
       {related.length > 0 ? (

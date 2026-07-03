@@ -53,13 +53,37 @@ export function BlogSidebar({
   categories,
   popular,
   latest,
+  categoryPlacement = "bottom",
 }: {
   categories: BlogCategory[];
   popular: BlogPost[];
   latest: BlogPostSummary[];
+  /** Where the "Kategori" list sits: top, bottom (default), or hidden entirely. */
+  categoryPlacement?: "top" | "bottom" | "hidden";
 }) {
+  const categorySection =
+    categoryPlacement !== "hidden" && categories.length > 0 ? (
+      <section className="flex flex-col gap-4">
+        <SidebarHeading>Kategori</SidebarHeading>
+        <ul className="flex flex-col gap-1.5">
+          {categories.map((c) => (
+            <li key={c.id}>
+              <Link
+                href={`/blog/category/${c.slug}`}
+                className="text-sm text-sume-body transition hover:text-sume-blue"
+              >
+                {c.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : null;
+
   return (
     <aside className="flex flex-col gap-8">
+      {categoryPlacement === "top" ? categorySection : null}
+
       {popular.length > 0 ? (
         <section className="flex flex-col gap-4">
           <SidebarHeading>Artikel Terpopuler</SidebarHeading>
@@ -94,23 +118,7 @@ export function BlogSidebar({
         </section>
       ) : null}
 
-      {categories.length > 0 ? (
-        <section className="flex flex-col gap-4">
-          <SidebarHeading>Kategori</SidebarHeading>
-          <ul className="flex flex-col gap-1.5">
-            {categories.map((c) => (
-              <li key={c.id}>
-                <Link
-                  href={`/blog/category/${c.slug}`}
-                  className="text-sm text-sume-body transition hover:text-sume-blue"
-                >
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      {categoryPlacement === "bottom" ? categorySection : null}
     </aside>
   );
 }

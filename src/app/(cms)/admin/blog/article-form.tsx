@@ -19,7 +19,6 @@ const fieldClass =
 const labelClass = "text-[12.5px] font-semibold text-sume-ink";
 const cardClass = "flex flex-col gap-4 rounded-[3px] border border-sume-line bg-white p-4";
 
-type RefRow = { title: string; url: string; accessed_at: string };
 type LinkRow = { label: string; url: string };
 
 // ISO → value for <input type="datetime-local"> (local time, no timezone).
@@ -58,13 +57,6 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
       void deleteBlogImage(url);
     }
   }
-  const [references, setReferences] = useState<RefRow[]>(
-    post?.references.map((r) => ({
-      title: r.title,
-      url: r.url,
-      accessed_at: r.accessed_at ? r.accessed_at.slice(0, 10) : "",
-    })) ?? [],
-  );
   const [links, setLinks] = useState<LinkRow[]>(post?.internal_links ?? []);
   const selectedTagIds = new Set((post?.tags ?? []).map((t) => t.id));
 
@@ -95,7 +87,6 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
     <form action={formAction} className="grid gap-6 lg:grid-cols-[1fr_320px]">
       {post ? <input type="hidden" name="id" value={post.id} /> : null}
       <input type="hidden" name="thumbnail" value={thumbnail} />
-      <input type="hidden" name="references" value={JSON.stringify(references)} />
       <input type="hidden" name="internalLinks" value={JSON.stringify(links)} />
 
       {/* ── Main column ─────────────────────────────────────────── */}
@@ -105,7 +96,7 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
         <div className={cardClass}>
           <div className="flex flex-col gap-1.5">
             <label className={labelClass} htmlFor="title">
-              Judul
+              Judul/Meta Title
             </label>
             <input
               id="title"
@@ -130,7 +121,7 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
           </div>
           <div className="flex flex-col gap-1.5">
             <label className={labelClass} htmlFor="excerpt">
-              Ringkasan
+              Ringkasan/Meta Description
             </label>
             <textarea
               id="excerpt"
@@ -151,65 +142,6 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
             aria-label="Konten artikel"
             savedSignal={state.ok ? state.ts : 0}
           />
-        </div>
-
-        {/* References */}
-        <div className={cardClass}>
-          <div className="flex items-center justify-between">
-            <span className={labelClass}>Referensi</span>
-            <button
-              type="button"
-              onClick={() => setReferences((p) => [...p, { title: "", url: "", accessed_at: "" }])}
-              className="inline-flex items-center gap-1 text-[13px] font-semibold text-sume-blue hover:text-sume-blue-hover"
-            >
-              <PlusIcon className="size-3.5" /> Tambah
-            </button>
-          </div>
-          {references.length === 0 ? (
-            <p className="text-[13px] text-sume-muted">Belum ada referensi.</p>
-          ) : (
-            references.map((ref, i) => (
-              <div key={i} className="grid gap-2 sm:grid-cols-[1fr_1fr_150px_auto]">
-                <input
-                  aria-label="Judul referensi"
-                  value={ref.title}
-                  onChange={(e) =>
-                    setReferences((p) => p.map((r, idx) => (idx === i ? { ...r, title: e.target.value } : r)))
-                  }
-                  placeholder="Judul"
-                  className={fieldClass}
-                />
-                <input
-                  aria-label="URL referensi"
-                  value={ref.url}
-                  onChange={(e) =>
-                    setReferences((p) => p.map((r, idx) => (idx === i ? { ...r, url: e.target.value } : r)))
-                  }
-                  placeholder="https://…"
-                  className={fieldClass}
-                />
-                <input
-                  aria-label="Tanggal akses"
-                  type="date"
-                  value={ref.accessed_at}
-                  onChange={(e) =>
-                    setReferences((p) =>
-                      p.map((r, idx) => (idx === i ? { ...r, accessed_at: e.target.value } : r)),
-                    )
-                  }
-                  className={fieldClass}
-                />
-                <button
-                  type="button"
-                  onClick={() => setReferences((p) => p.filter((_, idx) => idx !== i))}
-                  aria-label="Hapus referensi"
-                  className="flex h-9 w-9 items-center justify-center rounded-[2px] text-sume-muted hover:bg-red-50 hover:text-red-600"
-                >
-                  <Trash2Icon className="size-4" />
-                </button>
-              </div>
-            ))
-          )}
         </div>
 
         {/* Internal links */}
@@ -303,6 +235,15 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
             {pending ? <Spinner className="size-4" /> : <SaveIcon className="size-4" />}
             Simpan
           </button>
+          {post ? (
+            <Link
+              href={`/blog/${post.slug}`}
+              target="_blank"
+              className="text-center text-[13px] font-semibold text-sume-blue hover:underline"
+            >
+              Lihat di situs ↗
+            </Link>
+          ) : null}
         </div>
 
         <div className={cardClass}>
@@ -407,43 +348,6 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
             </div>
           </div>
         </div>
-
-        <div className={cardClass}>
-          <span className={labelClass}>SEO</span>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] text-sume-muted" htmlFor="metaTitle">
-              Meta title
-            </label>
-            <input
-              id="metaTitle"
-              name="metaTitle"
-              defaultValue={post?.meta_title ?? ""}
-              className={fieldClass}
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] text-sume-muted" htmlFor="metaDescription">
-              Meta description
-            </label>
-            <textarea
-              id="metaDescription"
-              name="metaDescription"
-              rows={3}
-              defaultValue={post?.meta_description ?? ""}
-              className={cn(fieldClass, "field-sizing-content")}
-            />
-          </div>
-        </div>
-
-        {post ? (
-          <Link
-            href={`/blog/${post.slug}`}
-            target="_blank"
-            className="text-center text-[13px] font-semibold text-sume-blue hover:underline"
-          >
-            Lihat di situs ↗
-          </Link>
-        ) : null}
       </div>
     </form>
   );

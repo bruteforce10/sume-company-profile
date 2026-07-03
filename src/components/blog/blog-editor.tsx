@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
-import Image from "@tiptap/extension-image";
+import { ResizableImage } from "./resizable-image";
 import { TableKit } from "@tiptap/extension-table";
 import { Placeholder } from "@tiptap/extensions";
 import {
@@ -13,9 +13,11 @@ import {
   AlignLeft,
   AlignRight,
   BoldIcon,
+  Captions,
   CodeIcon,
   Heading2,
   Heading3,
+  Heading4,
   ImageIcon,
   ItalicIcon,
   LinkIcon,
@@ -92,7 +94,6 @@ export function BlogEditor({
   "aria-label": ariaLabel,
   savedSignal,
 }: BlogEditorProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<Editor | null>(null);
   // Images uploaded during this editing session. If one is removed from the
@@ -103,13 +104,19 @@ export function BlogEditor({
   // Distraction-free full-viewport writing mode. A CSS overlay (not the native
   // Fullscreen API) so it stays styleable and Escape-dismissable.
   const [fullscreen, setFullscreen] = useState(false);
+  // The editor HTML, mirrored into a *controlled* hidden input so the form always
+  // posts the current content. An uncontrolled input set imperatively gets reset
+  // by React on re-render (now frequent) and after a form action — which silently
+  // submitted blank content.
+  const [html, setHtml] = useState(defaultValue);
 
   const insertImage = useCallback(async (file: File) => {
     setUploading(true);
     try {
       const url = await uploadBlogImage(file, "posts");
       sessionUploads.current.add(url);
-      editorRef.current?.chain().focus().setImage({ src: url, alt: file.name }).run();
+      // Insert with empty alt; the author adds a meaningful one via the toolbar.
+      editorRef.current?.chain().focus().setImage({ src: url, alt: "" }).run();
     } catch (error) {
       toast.error(
         `Gagal mengunggah gambar: ${error instanceof Error ? error.message : "kesalahan tak terduga"}`,
@@ -121,6 +128,10 @@ export function BlogEditor({
 
   const editor = useEditor({
     immediatelyRender: false,
+    // Re-render the toolbar on every transaction so the active-state highlights
+    // (bold, headings, alignment, …) track the current selection. @tiptap/react
+    // v3 otherwise only re-renders on mount, leaving the highlights stale.
+    shouldRerenderOnTransaction: true,
     extensions: [
       StarterKit.configure({
         // Link is bundled in StarterKit 3.x — configure it here rather than
@@ -132,7 +143,8 @@ export function BlogEditor({
         },
       }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
-      Image.configure({ HTMLAttributes: { class: "rich-editor-image" } }),
+      // Custom node view adds a drag-to-resize handle; see resizable-image.tsx.
+      ResizableImage.configure({ HTMLAttributes: { class: "rich-editor-image" } }),
       TableKit.configure({ table: { resizable: true } }),
       Placeholder.configure({
         placeholder: placeholder ?? "Tulis konten artikel di sini…",
@@ -166,15 +178,12 @@ export function BlogEditor({
       },
     },
     onUpdate({ editor }) {
-      const html = editor.getHTML();
-      if (inputRef.current) {
-        inputRef.current.value = html;
-        inputRef.current.dispatchEvent(new Event("input", { bubbles: true }));
-      }
+      const next = editor.getHTML();
+      setHtml(next);
       // Free any session-uploaded image that has just been removed from the
       // content. Only touches uploads made this session (draft churn).
       if (sessionUploads.current.size > 0) {
-        const present = new Set(contentImageUrls(html));
+        const present = new Set(contentImageUrls(next));
         for (const url of [...sessionUploads.current]) {
           if (!present.has(url)) {
             sessionUploads.current.delete(url);
@@ -223,6 +232,15 @@ export function BlogEditor({
     editor.chain().focus().extendMarkRange("link").setLink({ href: url.trim() }).run();
   }, [editor]);
 
+  // Edit the alt text of the currently selected image (click an image first).
+  const editAlt = useCallback(() => {
+    if (!editor) return;
+    const current = (editor.getAttributes("image").alt as string | undefined) ?? "";
+    const next = window.prompt("Teks alternatif (alt) untuk gambar:", current);
+    if (next === null) return; // cancelled
+    editor.chain().focus().updateAttributes("image", { alt: next.trim() }).run();
+  }, [editor]);
+
   if (!editor) return null;
 
   return (
@@ -232,7 +250,7 @@ export function BlogEditor({
         fullscreen && "fixed inset-0 z-50 bg-white p-3 sm:p-5",
       )}
     >
-      <input type="hidden" name={name} ref={inputRef} defaultValue={defaultValue} />
+      <input type="hidden" name={name} value={html} readOnly />
       <input
         ref={fileInputRef}
         type="file"
@@ -297,6 +315,13 @@ export function BlogEditor({
           active={editor.isActive("heading", { level: 3 })}
         >
           <Heading3 className="size-3.5" />
+        </ToolbarButton>
+        <ToolbarButton
+          title="Judul 4"
+          onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+          active={editor.isActive("heading", { level: 4 })}
+        >
+          <Heading4 className="size-3.5" />
         </ToolbarButton>
 
         <ToolbarDivider />
@@ -372,6 +397,14 @@ export function BlogEditor({
           disabled={uploading}
         >
           {uploading ? <Spinner className="size-3.5" /> : <ImageIcon className="size-3.5" />}
+        </ToolbarButton>
+        <ToolbarButton
+          title="Teks alternatif (alt) gambar — pilih gambar dulu"
+          onClick={editAlt}
+          active={editor.isActive("image")}
+          disabled={!editor.isActive("image")}
+        >
+          <Captions className="size-3.5" />
         </ToolbarButton>
         <ToolbarButton
           title="Sisipkan tabel"

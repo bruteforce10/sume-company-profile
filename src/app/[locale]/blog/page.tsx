@@ -135,6 +135,7 @@ export default async function BlogIndexPage({
           categories={categories}
           popular={popular}
           latest={latest}
+          categoryPlacement="hidden"
         />
       </div>
     </main>

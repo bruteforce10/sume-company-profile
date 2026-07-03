@@ -484,6 +484,7 @@ textarea {
 .rich-content p:last-child { margin-bottom: 0; }
 .rich-content h2 { font-size: 1.25em; font-weight: 600; margin-bottom: 0.6em; }
 .rich-content h3 { font-size: 1.1em; font-weight: 600; margin-bottom: 0.5em; }
+.rich-content h4 { font-size: 1em; font-weight: 600; margin-bottom: 0.5em; }
 .rich-content ul { list-style: disc; padding-left: 1.4em; margin-bottom: 1em; }
 .rich-content ol { list-style: decimal; padding-left: 1.4em; margin-bottom: 1em; }
 .rich-content li { margin-bottom: 0.25em; }
@@ -496,6 +497,7 @@ textarea {
 .rich-editor-content p:last-child { margin-bottom: 0; }
 .rich-editor-content h2 { font-size: 1.1em; font-weight: 600; margin-bottom: 0.4em; }
 .rich-editor-content h3 { font-size: 1em; font-weight: 600; margin-bottom: 0.4em; }
+.rich-editor-content h4 { font-size: 0.95em; font-weight: 600; margin-bottom: 0.4em; }
 .rich-editor-content ul { list-style: disc; padding-left: 1.2em; margin-bottom: 0.6em; }
 .rich-editor-content ol { list-style: decimal; padding-left: 1.2em; margin-bottom: 0.6em; }
 .rich-editor-content li { margin-bottom: 0.2em; }
@@ -530,6 +532,52 @@ textarea {
   height: auto;
   border-radius: 4px;
   margin: 1em 0;
+}
+
+/* Resizable images (blog editor only). A custom React node view renders each
+   image inside .resizable-image and shows a drag handle at the bottom-right
+   corner while the image is selected. Public pages render a plain <img> with no
+   wrapper, so these rules are scoped to the editor surface. */
+.rich-editor-content .resizable-image {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1em 0;
+}
+.rich-editor-content .resizable-image img {
+  display: block;
+  margin: 0;
+}
+.rich-editor-content .resizable-image[data-selected] img {
+  outline: 2px solid var(--sume-blue);
+  outline-offset: 2px;
+}
+.rich-editor-content .resizable-image__handle {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  z-index: 2;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+  background: var(--sume-blue);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+  cursor: nwse-resize;
+  touch-action: none;
+}
+.rich-editor-content .resizable-image__badge {
+  position: absolute;
+  right: 0;
+  top: -1.75rem;
+  z-index: 2;
+  border-radius: 2px;
+  background: var(--sume-ink);
+  padding: 0.1rem 0.4rem;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #fff;
 }
 .rich-content blockquote,
 .rich-editor-content blockquote {

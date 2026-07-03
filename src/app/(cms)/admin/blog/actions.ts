@@ -83,8 +83,6 @@ function parsePost(formData: FormData): ParsedPost | { error: string } {
   const categoryId = String(formData.get("categoryId") ?? "").trim();
   const thumbnail = String(formData.get("thumbnail") ?? "").trim();
   const excerpt = String(formData.get("excerpt") ?? "").trim();
-  const metaTitle = String(formData.get("metaTitle") ?? "").trim();
-  const metaDescription = String(formData.get("metaDescription") ?? "").trim();
 
   return {
     tagIds,
@@ -96,8 +94,9 @@ function parsePost(formData: FormData): ParsedPost | { error: string } {
       thumbnail: thumbnail || null,
       content,
       excerpt: excerpt || null,
-      meta_title: metaTitle || null,
-      meta_description: metaDescription || null,
+      // SEO metadata mirrors the article's own title/summary — no separate fields.
+      meta_title: title,
+      meta_description: excerpt || null,
       author_id: authorId || null,
       category_id: categoryId || null,
       reading_time: calcReadingTime(content),
