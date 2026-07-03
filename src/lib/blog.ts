@@ -107,6 +107,32 @@ export function getPostsByCategory(
   return getPublishedPosts({ categorySlug: slug, page, pageSize });
 }
 
+export type CategoryWithPosts = { category: BlogCategory; posts: BlogPostSummary[] };
+
+// Front-page grouping: every category paired with its most recent posts (empty
+// categories dropped). N+1 queries, but cached as one unit — fine for the handful
+// of blog categories this site has.
+async function fetchPostsGroupedByCategory(perCategory = 3): Promise<CategoryWithPosts[]> {
+  const categories = await fetchCategories();
+  const groups = await Promise.all(
+    categories.map(async (category) => {
+      const { posts } = await fetchPublishedPosts({
+        categorySlug: category.slug,
+        page: 1,
+        pageSize: perCategory,
+      });
+      return { category, posts };
+    }),
+  );
+  return groups.filter((group) => group.posts.length > 0);
+}
+
+export const getPostsGroupedByCategory = unstable_cache(
+  fetchPostsGroupedByCategory,
+  ["blog:grouped"],
+  { tags: [BLOG_CACHE_TAG], revalidate: BLOG_REVALIDATE },
+);
+
 async function fetchPostsByTag(
   slug: string,
   page = 1,

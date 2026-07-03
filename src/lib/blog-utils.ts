@@ -81,6 +81,24 @@ export function formatDate(date: string | Date, locale: Locale = "id"): string {
 }
 
 /**
+ * Relative time in Indonesian ("22 jam yang lalu"), falling back to an absolute
+ * date once a post is older than a week. Rendered on cached pages, so it only
+ * refreshes each revalidate window — fine at hour/day granularity.
+ */
+export function formatRelativeTime(date: string | Date, locale: Locale = "id"): string {
+  const value = typeof date === "string" ? new Date(date) : date;
+  if (Number.isNaN(value.getTime())) return "";
+  const min = Math.floor((Date.now() - value.getTime()) / 60000);
+  const hour = Math.floor(min / 60);
+  const day = Math.floor(hour / 24);
+  if (day >= 7) return formatDate(value, locale);
+  if (day >= 1) return `${day} hari yang lalu`;
+  if (hour >= 1) return `${hour} jam yang lalu`;
+  if (min >= 1) return `${min} menit yang lalu`;
+  return "Baru saja";
+}
+
+/**
  * True when `updated` lands on a *later calendar day* than `published`. Same-day
  * saves aren't a meaningful update, so they're not surfaced on the article (the
  * "Diperbarui" line) or in SEO metadata (OpenGraph modifiedTime / JSON-LD

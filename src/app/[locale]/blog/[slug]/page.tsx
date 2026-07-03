@@ -318,7 +318,7 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
       {related.length > 0 ? (
         <section className="mt-14 border-t border-sume-line pt-10">
           <h2 className="mb-6 font-display text-2xl font-extrabold tracking-tight text-sume-ink">
-            Artikel Terkait
+            Berita Lainnya
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((item) => (
