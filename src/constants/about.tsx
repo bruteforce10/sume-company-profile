@@ -6,7 +6,6 @@ export const milestoneYears: string[] = [
   "2015",
   "2017",
   "2025",
-  "2025",
   "2026",
 ];
 

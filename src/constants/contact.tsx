@@ -98,7 +98,7 @@ export const contactInfoItems: Record<Locale, ContactInfoItem[]> = {
       icon: addressIcon,
     },
     {
-      label: "Offices",
+      label: "Branch Offices",
       value: <OfficesValue offices={regionalOfficesEn} />,
       icon: officesIcon,
     },
@@ -112,7 +112,7 @@ export const contactInfoItems: Record<Locale, ContactInfoItem[]> = {
       icon: addressIcon,
     },
     {
-      label: "Kantor",
+      label: "Kantor Cabang",
       value: <OfficesValue offices={regionalOfficesId} />,
       icon: officesIcon,
     },
