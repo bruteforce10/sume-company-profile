@@ -73,7 +73,6 @@ export const siteUrl = "https://www.sumeid.com";
 export const company = {
   name: "PT. Solusi Utama Mekanikal Elektrikal",
   brand: "SUME Group",
-  // legalName: "PT. SUME (Solusi Utama Mekanikal Elektrikal)",
   // shortName: "PT. SUME",
   tagline: "Modern Buildings Solution is Our Focus",
   description:

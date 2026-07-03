@@ -76,7 +76,7 @@ export function Footer() {
             {t("copyright", {
               year: String(year),
               brand: company.brand,
-              legal: company.legalName,
+              legal: "",
             })}
           </p>
           <div className="flex gap-6">
