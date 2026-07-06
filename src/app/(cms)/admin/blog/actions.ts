@@ -2,7 +2,6 @@
 
 import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import DOMPurify from "isomorphic-dompurify";
 import { requireAdmin } from "@/lib/auth";
 import { BLOG_CACHE_TAG } from "@/lib/blog";
 import { calcReadingTime, slugify } from "@/lib/blog-utils";
@@ -12,15 +11,12 @@ import {
   contentImageUrls,
   orphanedAssetPaths,
 } from "@/lib/blog-storage";
+import { sanitizeRichHtml } from "@/lib/sanitize";
 import { createClient } from "@/lib/supabase/server";
 
 export type PostActionState = { ok: boolean; error: string | null; ts: number };
 
 type ServerClient = Awaited<ReturnType<typeof createClient>>;
-
-// Keep the sanitize profile in sync with SafeHtml's "article" profile: article
-// bodies are sanitized here on save AND again on render (defense in depth).
-const SANITIZE_CONFIG = { ADD_ATTR: ["target", "rel", "loading"] };
 
 function fail(error: string): PostActionState {
   return { ok: false, error, ts: Date.now() };
@@ -53,7 +49,8 @@ function parsePost(formData: FormData): ParsedPost | { error: string } {
   const slug = slugInput ? slugify(slugInput) : slugify(title);
   if (!slug) return { error: "Slug tidak valid." };
 
-  const content = DOMPurify.sanitize(String(formData.get("content") ?? ""), SANITIZE_CONFIG);
+  // Sanitized here on save AND again on render (SafeHtml) — defense in depth.
+  const content = sanitizeRichHtml(String(formData.get("content") ?? ""));
   const isDraft = formData.get("isDraft") === "on";
   const featured = formData.get("featured") === "on";
 

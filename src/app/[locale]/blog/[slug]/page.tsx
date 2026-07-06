@@ -250,20 +250,18 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
           {splitAt ? (
             <>
               <SafeHtml
-                profile="article"
                 html={contentBlocks.slice(0, splitAt).join("")}
                 className={contentClass}
               />
               {readAlso}
               <SafeHtml
-                profile="article"
                 html={contentBlocks.slice(splitAt).join("")}
                 className={contentClass}
               />
             </>
           ) : (
             <>
-              <SafeHtml profile="article" html={post.content} className={contentClass} />
+              <SafeHtml html={post.content} className={contentClass} />
               {readAlso}
             </>
           )}

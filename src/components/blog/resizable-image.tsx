@@ -13,7 +13,7 @@ const MIN_WIDTH = 100;
 /**
  * React node view that renders an article image with a drag-to-resize handle.
  * The chosen width is committed to the node's `width` attribute (serialized as
- * `<img width="…">`, which survives DOMPurify); `height` is cleared so the
+ * `<img width="…">`, which survives sanitization); `height` is cleared so the
  * shared `height: auto` rule keeps the aspect ratio on both the editor and the
  * public page. The handle only appears while the image node is selected.
  */
