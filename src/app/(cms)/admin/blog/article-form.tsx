@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { Spinner } from "@/components/ui/spinner";
 import { deleteBlogImage, uploadBlogImage } from "@/lib/blog-upload";
+import { formatSlugInput } from "@/lib/blog-utils";
 import type { BlogAuthor, BlogCategory, BlogPostDetail, BlogTag } from "@/lib/blog-types";
 import { cn } from "@/lib/utils";
 import { createPost, updatePost, type PostActionState } from "./actions";
@@ -59,6 +60,28 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
   }
   const [links, setLinks] = useState<LinkRow[]>(post?.internal_links ?? []);
   const selectedTagIds = new Set((post?.tags ?? []).map((t) => t.id));
+
+  // Slug is auto-formatted as the user types or pastes: lowercased, accents
+  // stripped, spaces/punctuation → hyphens. Controlled so the value can be
+  // rewritten; the caret is restored afterwards so mid-string edits don't jump.
+  const [slug, setSlug] = useState(post?.slug ?? "");
+  const slugRef = useRef<HTMLInputElement>(null);
+  const slugCaret = useRef<number | null>(null);
+
+  function onSlugChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value, selectionStart } = e.target;
+    const caret = selectionStart ?? value.length;
+    // The formatted length of the text *before* the caret is where it should land.
+    slugCaret.current = formatSlugInput(value.slice(0, caret)).length;
+    setSlug(formatSlugInput(value));
+  }
+
+  useEffect(() => {
+    if (slugCaret.current != null && slugRef.current) {
+      slugRef.current.setSelectionRange(slugCaret.current, slugCaret.current);
+      slugCaret.current = null;
+    }
+  }, [slug]);
 
   useEffect(() => {
     if (!state.ts) return;
@@ -114,7 +137,13 @@ export function ArticleForm({ authors, categories, tags, post }: ArticleFormProp
             <input
               id="slug"
               name="slug"
-              defaultValue={post?.slug ?? ""}
+              ref={slugRef}
+              value={slug}
+              onChange={onSlugChange}
+              inputMode="url"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
               placeholder="otomatis dibuat dari judul"
               className={cn(fieldClass, "font-mono text-[13px]")}
             />

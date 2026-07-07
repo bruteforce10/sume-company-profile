@@ -17,6 +17,23 @@ export function slugify(input: string): string {
 }
 
 /**
+ * Live slug formatter for text inputs. Same rules as `slugify` (strip accents,
+ * lowercase, non-alphanumerics → hyphen) but keeps a single *trailing* hyphen so
+ * a word separator survives while the user is still typing (e.g. "Judul Baru " →
+ * "judul-baru-", then the next character continues the slug). Only leading
+ * hyphens are dropped; the canonical `slugify` runs server-side on save and trims
+ * any leftover trailing hyphen.
+ */
+export function formatSlugInput(input: string): string {
+  return input
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "") // strip combining accents
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+/, ""); // keep trailing hyphen while typing; drop leading only
+}
+
+/**
  * Estimates reading time in minutes from rendered HTML (~200 words/minute).
  * Always at least 1. Tags are stripped before counting words.
  */
