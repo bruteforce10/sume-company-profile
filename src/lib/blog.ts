@@ -7,6 +7,7 @@ import {
   SUMMARY_SELECT,
   type RawPostRow,
 } from "@/lib/blog-query";
+import { isMeaningfulUpdate } from "@/lib/blog-utils";
 import type {
   BlogAuthor,
   BlogCategory,
@@ -386,20 +387,82 @@ export const getTagBySlug = unstable_cache(fetchTagBySlug, ["blog:tag"], {
 // Sitemap support
 // ---------------------------------------------------------------------------
 
-export type PublishedSlug = { slug: string; updated_at: string };
+export type SitemapEntry = { slug: string; lastModified: string };
 
-async function fetchAllPublishedSlugs(): Promise<PublishedSlug[]> {
+export type SitemapData = {
+  posts: SitemapEntry[];
+  categories: SitemapEntry[];
+  tags: SitemapEntry[];
+  authors: SitemapEntry[];
+};
+
+type RawSitemapRow = {
+  slug: string;
+  published_at: string | null;
+  updated_at: string;
+  category: { slug: string } | null;
+  author: { slug: string } | null;
+  tags: { tag: { slug: string } | null }[] | null;
+};
+
+// One query feeds the whole sitemap: post slugs plus the category/tag/author
+// slugs those posts reference. Basing everything on blog_posts keeps RLS the
+// gatekeeper (drafts and future-scheduled posts never leak), and taxonomies
+// with zero published posts — empty listing pages — stay out of the sitemap.
+async function fetchSitemapData(): Promise<SitemapData> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("blog_posts")
-    .select("slug, updated_at")
+    .select(
+      "slug, published_at, updated_at, category:blog_categories(slug), author:blog_authors(slug), tags:blog_post_tags(tag:blog_tags(slug))",
+    )
     .order("published_at", { ascending: false });
-  if (error || !data) return [];
-  return data as unknown as PublishedSlug[];
+
+  if (error || !data) {
+    if (error) console.error(`[blog] getSitemapData failed: ${error.message}`);
+    return { posts: [], categories: [], tags: [], authors: [] };
+  }
+
+  const rows = data as unknown as RawSitemapRow[];
+
+  // Same-day saves aren't a meaningful update (mirrors the article page and its
+  // JSON-LD), so lastModified only advances past publish for a later-day edit.
+  const posts: SitemapEntry[] = rows.map((row) => ({
+    slug: row.slug,
+    lastModified: isMeaningfulUpdate(row.published_at, row.updated_at)
+      ? row.updated_at
+      : (row.published_at ?? row.updated_at),
+  }));
+
+  // A listing page effectively changed when its newest member post did.
+  const newest = (map: Map<string, string>, slug: string | undefined, candidate: string) => {
+    if (!slug) return;
+    const current = map.get(slug);
+    if (!current || new Date(candidate) > new Date(current)) map.set(slug, candidate);
+  };
+
+  const categories = new Map<string, string>();
+  const tags = new Map<string, string>();
+  const authors = new Map<string, string>();
+  rows.forEach((row, i) => {
+    const { lastModified } = posts[i];
+    newest(categories, row.category?.slug, lastModified);
+    newest(authors, row.author?.slug, lastModified);
+    for (const t of row.tags ?? []) newest(tags, t.tag?.slug, lastModified);
+  });
+
+  const toEntries = (map: Map<string, string>): SitemapEntry[] =>
+    [...map.entries()].map(([slug, lastModified]) => ({ slug, lastModified }));
+
+  return {
+    posts,
+    categories: toEntries(categories),
+    tags: toEntries(tags),
+    authors: toEntries(authors),
+  };
 }
 
-export const getAllPublishedSlugs = unstable_cache(
-  fetchAllPublishedSlugs,
-  ["blog:all-slugs"],
-  { tags: [BLOG_CACHE_TAG], revalidate: BLOG_REVALIDATE },
-);
+export const getSitemapData = unstable_cache(fetchSitemapData, ["blog:sitemap"], {
+  tags: [BLOG_CACHE_TAG],
+  revalidate: BLOG_REVALIDATE,
+});
