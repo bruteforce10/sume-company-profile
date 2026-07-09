@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import { company, siteUrl } from "@/constants/site";
+import { siteUrl } from "@/constants/site";
+import { JsonLd, ORGANIZATION_ID } from "@/lib/json-ld";
 import { routing, type Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import {
@@ -105,14 +106,19 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
     ...(post.thumbnail ? { image: [post.thumbnail] } : {}),
     datePublished: post.published_at ?? undefined,
     dateModified: showUpdated ? post.updated_at : (post.published_at ?? undefined),
-    ...(post.author ? { author: { "@type": "Person", name: post.author.name } } : {}),
-    publisher: {
-      "@type": "Organization",
-      name: company.brand,
-      logo: { "@type": "ImageObject", url: `${siteUrl}/images/brand/logo-sume.webp` },
-    },
+    ...(post.author
+      ? {
+          author: {
+            "@type": "Person",
+            name: post.author.name,
+            url: `${siteUrl}/blog/author/${post.author.slug}`,
+          },
+        }
+      : {}),
+    publisher: { "@id": ORGANIZATION_ID },
     mainEntityOfPage: { "@type": "WebPage", "@id": shareUrl },
     url: shareUrl,
+    inLanguage: "id",
   };
 
   const contentClass =
@@ -159,14 +165,7 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-8 lg:px-8 lg:py-12">
-      {!isPreview ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(articleJsonLd).replace(/</g, "\\u003c"),
-          }}
-        />
-      ) : null}
+      {!isPreview ? <JsonLd data={articleJsonLd} /> : null}
       {isPreview ? (
         <div className="mb-6 flex flex-wrap items-center justify-between gap-2 rounded-[4px] border border-amber-300 bg-amber-50 px-4 py-2.5 text-[13px] text-amber-900">
           <span className="font-semibold">

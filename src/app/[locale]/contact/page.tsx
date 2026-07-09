@@ -3,8 +3,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ContactDetailForm } from "@/components/contact-detail-form";
 import { PageHeader } from "@/components/sections/page-header";
 import { contactInfoItems, mapSrc } from "@/constants/contact";
-import { company } from "@/constants/site";
+import { company, siteUrl } from "@/constants/site";
 import { languageAlternates } from "@/i18n/metadata";
+import { JsonLd, ORGANIZATION_ID } from "@/lib/json-ld";
 import type { Locale } from "@/i18n/routing";
 
 type PageProps = {
@@ -35,8 +36,19 @@ export default async function ContactPage({ params }: PageProps) {
   setRequestLocale(loc);
   const t = await getTranslations("ContactPage");
 
+  const contactJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: t("metaTitle"),
+    description: t("metaDescription"),
+    url: `${siteUrl}${languageAlternates("/contact")[loc]}`,
+    inLanguage: loc,
+    mainEntity: { "@id": ORGANIZATION_ID },
+  };
+
   return (
     <main>
+      <JsonLd data={contactJsonLd} />
       <PageHeader
         eyebrow={t("headerEyebrow")}
         title={t("headerTitle")}

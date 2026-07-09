@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { siteUrl } from "@/constants/site";
+import { JsonLd, ORGANIZATION_ID } from "@/lib/json-ld";
 import { routing, type Locale } from "@/i18n/routing";
 import {
   DEFAULT_PAGE_SIZE,
@@ -62,8 +63,25 @@ export default async function AuthorPage({ params, searchParams }: PageProps) {
     getRecentPosts(6),
   ]);
 
+  const profileJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    url: `${siteUrl}/blog/author/${author.slug}`,
+    inLanguage: "id",
+    mainEntity: {
+      "@type": "Person",
+      name: author.name,
+      url: `${siteUrl}/blog/author/${author.slug}`,
+      ...(author.bio ? { description: author.bio } : {}),
+      ...(author.photo ? { image: author.photo } : {}),
+      ...(author.linkedin ? { sameAs: [author.linkedin] } : {}),
+      worksFor: { "@id": ORGANIZATION_ID },
+    },
+  };
+
   return (
     <main className="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
+      <JsonLd data={profileJsonLd} />
       <Breadcrumb
         items={[
           { label: "Beranda", href: "/" },

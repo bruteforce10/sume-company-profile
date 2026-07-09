@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { siteUrl } from "@/constants/site";
+import { JsonLd } from "@/lib/json-ld";
 import { routing, type Locale } from "@/i18n/routing";
 import {
   DEFAULT_PAGE_SIZE,
@@ -60,8 +61,19 @@ export default async function TagPage({ params, searchParams }: PageProps) {
     getRecentPosts(6),
   ]);
 
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `#${tag.name} — Blog SUME`,
+    description: `Kumpulan artikel dengan tag ${tag.name}.`,
+    url: `${siteUrl}/blog/tag/${tag.slug}`,
+    inLanguage: "id",
+    isPartOf: { "@id": `${siteUrl}/blog#blog` },
+  };
+
   return (
     <main className="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
+      <JsonLd data={collectionJsonLd} />
       <Breadcrumb
         items={[
           { label: "Beranda", href: "/" },

@@ -14,6 +14,7 @@ import { Header } from "@/components/layout/header";
 import { siteUrl } from "@/constants/site";
 import { type Locale, routing } from "@/i18n/routing";
 import { languageAlternates } from "@/i18n/metadata";
+import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/json-ld";
 import "../globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -167,6 +168,8 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
+        {/* Site-wide structured data; page-level schema references these @ids. */}
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd(locale)]} />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
           {children}

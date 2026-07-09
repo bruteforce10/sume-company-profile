@@ -7,7 +7,9 @@ import { PageHeader } from "@/components/sections/page-header";
 import { SafeHtml } from "@/lib/safe-html";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import { certificationIcons, milestoneYears } from "@/constants/about";
+import { siteUrl } from "@/constants/site";
 import { languageAlternates } from "@/i18n/metadata";
+import { JsonLd, ORGANIZATION_ID } from "@/lib/json-ld";
 import type { Locale } from "@/i18n/routing";
 
 const MILESTONE_EVENT_KEYS = [
@@ -61,8 +63,19 @@ export default async function AboutPage({ params }: PageProps) {
   setRequestLocale(loc);
   const t = await getTranslations("AboutPage");
 
+  const aboutJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: t("metaTitle"),
+    description: t("metaDescription"),
+    url: `${siteUrl}${languageAlternates("/about")[loc]}`,
+    inLanguage: loc,
+    mainEntity: { "@id": ORGANIZATION_ID },
+  };
+
   return (
     <main>
+      <JsonLd data={aboutJsonLd} />
       <PageHeader
         eyebrow={t("headerEyebrow")}
         title={t("headerTitle")}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteUrl } from "@/constants/site";
+import { JsonLd, ORGANIZATION_ID } from "@/lib/json-ld";
 import { routing } from "@/i18n/routing";
 import {
   DEFAULT_PAGE_SIZE,
@@ -71,8 +72,20 @@ export default async function BlogIndexPage({
       : Promise.resolve(null),
   ]);
 
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${siteUrl}/blog#blog`,
+    name: "Blog SUME",
+    description: DESCRIPTION,
+    url: `${siteUrl}/blog`,
+    inLanguage: "id",
+    publisher: { "@id": ORGANIZATION_ID },
+  };
+
   return (
     <main className="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
+      <JsonLd data={blogJsonLd} />
       <header className="mb-8 flex flex-col gap-3">
         <span className="font-head text-[12px] font-semibold uppercase tracking-[0.18em] text-sume-blue">
           Blog SUME

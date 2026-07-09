@@ -9,7 +9,9 @@ import { SafeHtml } from "@/lib/safe-html";
 import { OverlaySection } from "@/components/ui/overlay-section";
 import { YouTubeEmbed } from "@/components/ui/youtube-embed";
 import { partnerBrands, solutionPillars } from "@/constants/solutions";
+import { siteUrl } from "@/constants/site";
 import { languageAlternates } from "@/i18n/metadata";
+import { JsonLd, ORGANIZATION_ID } from "@/lib/json-ld";
 import type { Locale } from "@/i18n/routing";
 
 // Each pillar renders one or more capability groups. Most pillars have a single
@@ -121,8 +123,30 @@ export default async function SolutionsPage({ params }: PageProps) {
   setRequestLocale(loc);
   const t = await getTranslations("SolutionsPage");
 
+  // One Service node per solution pillar, provided by the site-wide Organization.
+  const servicesJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: t("metaTitle"),
+    url: `${siteUrl}${languageAlternates("/solutions")[loc]}`,
+    itemListElement: PILLAR_KEYS.map((keys, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        // Eyebrow is the service name ("Kelistrikan & Energi"); title is a headline.
+        name: t(keys.eyebrow),
+        description: t(keys.lead),
+        url: `${siteUrl}${languageAlternates("/solutions")[loc]}#${solutionPillars[index].id}`,
+        provider: { "@id": ORGANIZATION_ID },
+        areaServed: "Indonesia",
+      },
+    })),
+  };
+
   return (
     <main>
+      <JsonLd data={servicesJsonLd} />
       <PageHeader
         eyebrow={t("headerEyebrow")}
         title={t("headerTitle")}
