@@ -5,7 +5,13 @@ import { cn } from "@/lib/utils";
 
 export function PositioningStrip() {
   const t = useTranslations("Home");
-  const stats = trustStats;
+  const stats = trustStats
+    .map((stat) => ({
+      ...stat,
+      value: t(stat.valueKey),
+      label: t(stat.labelKey),
+    }))
+    .filter((stat) => stat.value.trim() || stat.label.trim());
 
   return (
     <section id="about" className="border-b border-sume-line py-24">
@@ -35,12 +41,12 @@ export function PositioningStrip() {
                       "font-medium text-sume-line inline-block",
                   )}
                 >
-                  {t(stat.valueKey)}
+                  {stat.value}
                 </h3>
                 {stat.suffix}
               </div>
               <div className="mt-2 text-sm tracking-[0.02em] text-sume-muted">
-                {t(stat.labelKey)}
+                {stat.label}
               </div>
             </div>
           ))}

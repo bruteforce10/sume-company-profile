@@ -23,7 +23,7 @@ const APART_CARD_KEYS = [
   { title: "apart1Title", body: "apart1Body" },
   { title: "apart2Title", body: "apart2Body" },
   { title: "apart3Title", body: "apart3Body" },
-  { title: "apart4Title", body: "apart4Body" },
+  // { title: "apart4Title", body: "apart4Body" },
 ] as const;
 
 const CERT_KEYS = [
@@ -137,7 +137,7 @@ export default async function AboutPage({ params }: PageProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 border-l border-t border-sume-line sm:grid-cols-2 lg:grid-cols-3">
             {APART_CARD_KEYS.map((card, index) => (
               <div
                 key={card.title}

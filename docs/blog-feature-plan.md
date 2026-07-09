@@ -320,12 +320,14 @@ window; popular list reflects recent views.
 - [ ] Table of Contents: `buildTableOfContents(html)` in `src/lib/blog-utils.ts` — inject
   `id`s into `h2/h3` and return `{ html, toc[] }`; render a TOC component on the detail
   page (sanitize before render).
-- [x] `src/app/sitemap.ts` — make async; append `/blog`, all published post slugs, and
-  category/tag/author slugs. ID-only URLs (no `/en`). ✅ one `getSitemapData()` read
-  (replaces the unused `getAllPublishedSlugs`): RLS-gated on `blog_posts` so drafts/
-  scheduled posts never leak; taxonomies emitted only when they hold ≥1 published post;
-  `lastmod` follows the `isMeaningfulUpdate` rule (matches JSON-LD/OG dates); cached
-  under `BLOG_CACHE_TAG` (fresh ≤5 min or instantly on CMS revalidate).
+- [x] Sitemap — `/blog`, all published post slugs, and category/tag/author slugs.
+  ID-only URLs (no `/en`). ✅ dedicated **`src/app/blog/sitemap.ts` → `/blog/sitemap.xml`**
+  (nested-sitemap convention; proxy matcher already skips dotted paths) so the article
+  list scales separately from the static-page `/sitemap.xml`; both listed in `robots.txt`.
+  One `getSitemapData()` read (replaces the unused `getAllPublishedSlugs`): RLS-gated on
+  `blog_posts` so drafts/scheduled posts never leak; taxonomies emitted only when they
+  hold ≥1 published post; `lastmod` follows the `isMeaningfulUpdate` rule (matches
+  JSON-LD/OG dates); cached under `BLOG_CACHE_TAG` (fresh ≤5 min or on CMS revalidate).
 - [ ] Optional: dynamic OG image via `src/app/[locale]/blog/[slug]/opengraph-image.tsx`
   (`next/og`); otherwise thumbnail URL in metadata is sufficient.
 

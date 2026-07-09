@@ -9,7 +9,8 @@ export default function robots(): MetadataRoute.Robots {
       // API routes hold no indexable content.
       disallow: "/api/",
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    // Static pages + the dedicated blog sitemap (src/app/blog/sitemap.ts).
+    sitemap: [`${siteUrl}/sitemap.xml`, `${siteUrl}/blog/sitemap.xml`],
     host: siteUrl,
   };
 }
