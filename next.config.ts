@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
         hostname: "egrneczouptvozcytfia.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        // Self-hosted Supabase instance (HTTP, non-standard port). Serves the
+        // same `blog-assets` public objects as the hosted project above.
+        protocol: "http",
+        hostname: "202.159.30.243",
+        port: "18000",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
 };
