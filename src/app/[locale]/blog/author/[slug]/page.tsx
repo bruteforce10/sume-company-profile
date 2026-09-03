@@ -73,7 +73,9 @@ export default async function AuthorPage({ params, searchParams }: PageProps) {
       name: author.name,
       url: `${siteUrl}/blog/author/${author.slug}`,
       ...(author.bio ? { description: author.bio } : {}),
-      ...(author.photo ? { image: author.photo } : {}),
+      ...(author.photo
+        ? { image: author.photo.startsWith("http") ? author.photo : `${siteUrl}${author.photo}` }
+        : {}),
       ...(author.linkedin ? { sameAs: [author.linkedin] } : {}),
       worksFor: { "@id": ORGANIZATION_ID },
     },

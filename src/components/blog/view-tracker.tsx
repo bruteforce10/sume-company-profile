@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { createClient } from "@/lib/supabase/client";
 
 /**
- * Records a single page view for a published article. Calls the security-definer
- * `record_post_view` RPC once per mount (guarded against React's dev double-invoke)
- * using the anon browser client — the RPC is the only public write surface and it
- * safely no-ops for drafts/unpublished slugs. Failures are ignored (best-effort).
+ * Records a single page view for a published article by POSTing to the
+ * `/api/blog/view` route once per mount (guarded against React's dev
+ * double-invoke). The write happens server-side because the self-hosted Supabase
+ * is HTTP-only — calling it straight from the browser is blocked as mixed content
+ * on the deployed HTTPS site. Failures are ignored (best-effort).
  */
 export function ViewTracker({ slug }: { slug: string }) {
   const recorded = useRef(false);
@@ -15,8 +15,11 @@ export function ViewTracker({ slug }: { slug: string }) {
   useEffect(() => {
     if (recorded.current) return;
     recorded.current = true;
-    const supabase = createClient();
-    void supabase.rpc("record_post_view", { p_slug: slug });
+    void fetch("/api/blog/view", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ slug }),
+    }).catch(() => {});
   }, [slug]);
 
   return null;

@@ -103,7 +103,9 @@ export default async function ArticleDetailPage({ params }: DetailPageProps) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt || post.meta_description || DESCRIPTION_FALLBACK,
-    ...(post.thumbnail ? { image: [post.thumbnail] } : {}),
+    ...(post.thumbnail
+      ? { image: [post.thumbnail.startsWith("http") ? post.thumbnail : `${siteUrl}${post.thumbnail}`] }
+      : {}),
     datePublished: post.published_at ?? undefined,
     dateModified: showUpdated ? post.updated_at : (post.published_at ?? undefined),
     ...(post.author
